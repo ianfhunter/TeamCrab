@@ -1,8 +1,11 @@
-cs4098
+Software Engineering Simulator
 ======
 
-Group Project for CS4098
+Group Project for CS4098 - Team Crab
 
-python 2.7
-sudo apt-get install python-pygame
+In which you are a production manager in charge of various global software teams and you must try to complete your product with maximal cost efficiency.
+
+Requirements:
+* python 2.7
+*  python-pygame
 
