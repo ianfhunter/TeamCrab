@@ -17,6 +17,8 @@ install:
 	mkdir -p /opt/SESimulator
 	cp bin/* /opt/SESimulator/
 	cp src/SESimulator.sh /usr/local/bin/SESimulator
+	chmod +x /usr/local/bin/SESimulator
+	cp src/SESimulator.desktop /usr/share/applications/
 	@echo Installation complete!
 
 clean:
