@@ -29,4 +29,5 @@ uninstall:
 	rm /opt/SESimulator/*
 	rmdir /opt/SESimulator
 	rm /usr/local/bin/SESimulator
+	rm /usr/share/applications/SESimulator.desktop
 	@echo SESimulator has been uninstalled!
