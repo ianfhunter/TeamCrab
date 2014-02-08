@@ -9,7 +9,7 @@ def zero_velocity_test():
     pygame.init()
 
     # set up the window
-    windowSurface = pygame.display.set_mode((gc["screenX"], gc["screenY"]), 0, 32)
+    windowSurface = pygame.display.set_mode((640, 480), 0, 32)
     pygame.display.set_caption('Crab SWENG Simulator')  #Title of screen
 
     # set up the colors
