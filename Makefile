@@ -12,7 +12,7 @@ build:
 all:
 test:
 	$(MAKE) build
-	@nosetests -w test engine; if [ $$? -eq 0 ] ; \
+	@nosetests -I ^notunit_ -w test engine; if [ $$? -eq 0 ] ; \
 	then echo "All tests passed!" ; else echo "Tests failed"; fi
 
 install:
