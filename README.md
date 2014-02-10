@@ -8,6 +8,7 @@ In which you are a production manager in charge of various global software teams
 ## Requirements:
 * python 2.7
 * python-pygame
+* python-nose
 
 ## Building, installing and everything in-between
 

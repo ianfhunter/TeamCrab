@@ -1,3 +1,5 @@
+.PHONY: all test clean install uninstall
+
 build:
 	python -m compileall src
 	mkdir -p bin
@@ -7,12 +9,11 @@ build:
 	chmod a+x bin/SESimulator.pyc
 	@echo Build successful!
 
-# There are no test files for the zero velocity release. This will need to be changed all subsequent releases
 all:
 test:
 	$(MAKE) build
-	# Run tests here
-	@echo All tests passed!
+	@nosetests -w test engine; if [ $$? -eq 0 ] ; \
+	then echo "All tests passed!" ; else echo "Tests failed"; fi
 
 install:
 	$(MAKE) build
