@@ -1,9 +1,9 @@
 build:
 	python -m compileall src
 	mkdir -p bin
-	mkdir -p bin/engine
-	mv src/*.pyc bin/
-	mv src/engine/*.pyc bin/engine/
+	cd src; find . ! -path . -type d | cpio -pdumv ../bin
+	cd src; find . -name '*.pyc' | xargs cp --parents -t ../bin/
+	find src -name *.pyc -delete
 	chmod a+x bin/SESimulator.pyc
 	@echo Build successful!
 
