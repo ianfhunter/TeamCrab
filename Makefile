@@ -17,7 +17,7 @@ test:
 install:
 	$(MAKE) build
 	mkdir -p /opt/SESimulator
-	cp bin/* /opt/SESimulator/
+	cp -R bin/* /opt/SESimulator/
 	cp src/SESimulator.sh /usr/local/bin/SESimulator
 	chmod +x /usr/local/bin/SESimulator
 	cp src/SESimulator.desktop /usr/share/applications/
@@ -28,7 +28,7 @@ clean:
 	@echo Build cleaned!
 
 uninstall:
-	rm /opt/SESimulator/*
+	rm -rf /opt/SESimulator/*
 	rmdir /opt/SESimulator
 	rm /usr/local/bin/SESimulator
 	rm /usr/share/applications/SESimulator.desktop
