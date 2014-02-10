@@ -1,7 +1,9 @@
 build:
 	python -m compileall src
 	mkdir -p bin
+	mkdir -p bin/engine
 	mv src/*.pyc bin/
+	mv src/engine/*.pyc bin/engine/
 	chmod a+x bin/SESimulator.pyc
 	@echo Build successful!
 
