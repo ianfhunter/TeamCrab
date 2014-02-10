@@ -8,6 +8,3 @@ class Task(object):
         self.progress = 0
         self.completed = False
         self.problems = list()
-
-	
-

@@ -9,8 +9,9 @@ class Team(object):
         self.task = None
 
     def calc_progress(self, mod):
-        self.task.progress += self.effiency * mod
-        if self.task.progress >= self.task.cost:
-            self.task.completed = True
+        if not self.task.completed:
+            self.task.progress += self.effiency * mod
+            if self.task.progress >= self.task.cost:
+                self.task.completed = True
         
 
