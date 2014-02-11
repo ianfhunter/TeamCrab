@@ -7,5 +7,13 @@ class Module(object):
         self.base_cost = cost
         self.modules = list()
         self.tasks = list()
-        #Task init needed
+
+        self.tasks.append(Task('design', self.base_cost/100*15))
+        self.tasks.append(Task('implementation', self.base_cost/100*15))
+        self.tasks.append(Task('unit_test', self.base_cost/100*10))
+        self.tasks.append(Task('integration', self.base_cost/100*15))
+        self.tasks.append(Task('system_test', self.base_cost/100*15))
+        self.tasks.append(Task('deployment', self.base_cost/100*15))
+        self.tasks.append(Task('acceptance_test ', self.base_cost/100*15))
+
 
