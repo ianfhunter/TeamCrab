@@ -1,5 +1,6 @@
 import pygame, os
 from pgu import gui
+from time import sleep
 
 glob_game = None
 
@@ -28,6 +29,7 @@ class Game:
     def run(self):    
         self.draw()
         while True:
+            sleep(0.05)
             #handle events
             for event in pygame.event.get():
                 #tell PGU  about all events.

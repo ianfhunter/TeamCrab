@@ -2,6 +2,7 @@ from Project import Project
 from Team import Team
 from Location import Location
 import threading
+from time import sleep
 from Repeated_Timer import Repeated_Timer
 
 from UI import game     #frontend 
@@ -23,8 +24,6 @@ def calc_progress(gmt_time):
                 print 'Task: '+ team.task.name + ' - Progress: ' + str(team.task.progress)
 
 def progress_time():
-
-  
     gmt_time[0] += 1
     if gmt_time[0] == 24:
         gmt_time[0] = 0
@@ -50,7 +49,7 @@ def run_engine(game,proj):
     timer = Repeated_Timer(0.5, progress_time)
 
     while not finished:
+        sleep(10)
         # Main logic of the simulator will go here
-        pass
 
     
