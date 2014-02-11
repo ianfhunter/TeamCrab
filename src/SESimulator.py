@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import pygame
+import pygame,sys
 from pgu import gui
 
 import threading
@@ -8,6 +8,19 @@ import threading
 from UI import game     #frontend mainscreen.
 from engine import Simulation_Engine as simeng
 import test_game as populate
+
+def enable_vsync():
+    if sys.platform != 'darwin':
+        return
+    try:
+        import ctypes
+        import ctypes.util
+        ogl = ctypes.cdll.LoadLibrary(ctypes.util.find_library("OpenGL"))
+        # set v to 1 to enable vsync, 0 to disable vsync
+        v = ctypes.c_int(1)
+        ogl.CGLSetParameter(ogl.CGLGetCurrentContext(), ctypes.c_int(222), ctypes.pointer(v))
+    except:
+        print "Unable to set vsync mode, using driver defaults"
 
 class FrontEndThread(threading.Thread):
     def __init__(self,game,proj):
@@ -29,6 +42,9 @@ class BackEndThread(threading.Thread):
 
 
 def main():
+
+    enable_vsync()
+
     pygame.init()
 
     project = populate.load_test_game()

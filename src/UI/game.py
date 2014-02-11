@@ -7,7 +7,7 @@ glob_game = None
 def pauseClick(self):
     #to bring up menu & pause clock
     print("Pause Clicked!")
-    os._exit(1)
+#    os._exit(1)
 
 
 
@@ -15,7 +15,8 @@ class Game:
     def __init__(self, gamedata):
         glob_game = self
         self.gamedata = gamedata
-        
+        self.firstDraw = True
+
         #surface setup
         self.screen = pygame.display.set_mode((850, 480))
         self.app = gui.App()
@@ -43,7 +44,7 @@ class Game:
  
     def draw(self):
         # draw map
-
+    
         worldMap = pygame.image.load("../media/map.png")
         self.screen.blit(worldMap, (0, 0))
         
@@ -97,7 +98,12 @@ class Game:
         self.app.init(self.contain)       
         self.app.paint(self.screen)
 
-        pygame.display.flip()
-       
+        #update the screen - but only the updated portion of it so we save on refreshing the entire screen
+        if self.firstDraw:
+            pygame.display.flip()
+            self.firstDraw = False
+        else:
+            pygame.display.update((0, 460, 850, 20))    #bottom bar
+            pygame.display.update((0, 320, 200, 140))    #grey box
 # if __name__ == "__main__":
 #     g = Game(None)
