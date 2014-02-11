@@ -37,3 +37,10 @@ bin directory into /opt/SESimulator. Then the script SESimulator.sh in the src d
 access is required to add files to opt/ and /usr/local/bin.
 
 The uninstall target simply removes all SESimulator files from /opt and /usr/local/bin.
+
+##Attributions:
+* Map Image - TBA
+* Man Icon - http://thenounproject.com/term/man/12173/
+
+
+
