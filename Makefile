@@ -12,13 +12,16 @@ build:
 all:
 test:
 	$(MAKE) build
-	@nosetests -I ^notunit_ -w test engine; if [ $$? -eq 0 ] ; \
+	@nosetests -I ^notunit_ -I importme.py -w test engine; if [ $$? -eq 0 ] ; \
 	then echo "All tests passed!" ; else echo "Tests failed"; fi
 
 install:
 	$(MAKE) build
 	mkdir -p /opt/SESimulator
-	cp -R bin/* /opt/SESimulator/
+	mkdir -p /opt/SESimulator/bin
+	mkdir -p /opt/SESimulator/media
+	cp -R bin/* /opt/SESimulator/bin
+	cp -R media/* /opt/SESimulator/media
 	cp src/SESimulator.sh /usr/local/bin/SESimulator
 	chmod +x /usr/local/bin/SESimulator
 	cp src/SESimulator.desktop /usr/share/applications/
