@@ -9,7 +9,7 @@ class Location(object):
         self.culture = culture
         self.capacity = cap
         self.teams = list()
-        self.salery = cost
+        self.salary = cost
         self.specialists = list()
 
     def add_team(self,team):

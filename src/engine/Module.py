@@ -17,4 +17,5 @@ class Module(object):
         self.tasks.append(Task('deployment', self.base_cost/100*15, self))
         self.tasks.append(Task('acceptance_test ', self.base_cost/100*15, self))
 
-
+    def get_task(self, name):
+        return [task for task in self.tasks if task.name == name][0]
