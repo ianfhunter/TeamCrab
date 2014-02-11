@@ -14,6 +14,9 @@ The project uses python 2.7 to run. The following packages are required and can 
 The following can be installed using pip:
 * pgu
 
+While it is not required for running the game, installing "timidity" through apt will remove the "No sound card" message 
+that some players receive at the start of the game.
+
 ## Building, installing and everything in-between
 
 The Makefile in the root of the project provides all functionality for building, testing and installing the project.
