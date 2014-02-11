@@ -37,3 +37,30 @@ bin directory into /opt/SESimulator. Then the script SESimulator.sh in the src d
 access is required to add files to opt/ and /usr/local/bin.
 
 The uninstall target simply removes all SESimulator files from /opt and /usr/local/bin.
+
+## Writing unit tests
+The following is a simple example of the form a unit test should take in the test directory
+
+```python
+import importme
+import unittest
+
+class TestEngine(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def test_method(self):
+        pass
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+Each test directory contains an importme.py file. This must be imported at the start of each unit test. This allows
+the test to see the modules contained in the bin directory at the root of the project.
+
+Each file must contain a class which inherits from unittest.TestCase as shown. This provides a whole bunch of features
+provided by the Python unittest framework. The setUp function must be provided to initialize any values required by each
+test in this class. Every method that is a unittest must begin with "test_"
+
