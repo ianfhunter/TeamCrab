@@ -1,5 +1,5 @@
 #! /bin/sh
-exec python /opt/SESimulator/SESimulator.pyc "$@"
+exec python /opt/SESimulator/bin/SESimulator.pyc "$@"
 
 # This script is placed in /usr/local/bin when "make install" is run
 # and is used to call SESimulator which is actually installed to /opt
