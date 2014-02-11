@@ -1,30 +1,46 @@
-import pygame
+import pygame,os
 from pgu import gui
 
 
 def pauseClick():
     #to bring up menu & pause clock
     print("Pause Clicked!")
+    os._exit(1)
+
+def close():
+    print "no"
+    os._exit(1)
 
 
 class Game:
     def __init__(self, gamedata):
         self.gamedata = gamedata
-        pygame.init()
         
         #surface setup
         self.screen = pygame.display.set_mode((850, 480))
-        self.app = gui.App()
+        self.app = gui.Desktop()
+        self.app.connect(gui.QUIT,self.app.quit,None)
+        
         self.contain = gui.Container(width = 850,height = 480)
         
         self.draw()
         while True:
             pass
-
+ #           print "HI"
+            #handle events
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT:
+            #         print "hi1"
+            #         os._exit(1)
+            #     elif event.type == KEYDOWN:
+            #         if event.key == K_ESCAPE:
+            #             print "hi2"
+            #             os._exit(1)
+ 
     def draw(self):
         # draw map
 
-        worldMap = pygame.image.load("../../media/map.png")
+        worldMap = pygame.image.load("../media/map.png")
         self.screen.blit(worldMap, (0, 0))
         
         # draw bottom bar
@@ -49,22 +65,22 @@ class Game:
         pygame.draw.rect(self.screen, 0xdedede, (0, y, 200, 140))
 
         #Icons and accompanying text
-        workerIcon = pygame.image.load("../../media/man.png")
+        workerIcon = pygame.image.load("../media/man.png")
         self.screen.blit(workerIcon, (1, 325))
         label = myfont.render("2 Teams", 1, (0,0,0))
         self.screen.blit(label, (40, y + 15))
 
-        cogIcon = pygame.image.load("../../media/cog.png")
+        cogIcon = pygame.image.load("../media/cog.png")
         self.screen.blit(cogIcon, (1, 360))
         label = myfont.render("75% Efficiency", 1, (0,0,0))
         self.screen.blit(label, (40, y + 50))
 
-        clockIcon = pygame.image.load("../../media/clock.png")
+        clockIcon = pygame.image.load("../media/clock.png")
         self.screen.blit(clockIcon, (1, 395))
         label = myfont.render("127 Days", 1, (0,0,0))
         self.screen.blit(label, (40, y + 85))
 
-        targetIcon = pygame.image.load("../../media/target.png")
+        targetIcon = pygame.image.load("../media/target.png")
         self.screen.blit(targetIcon, (1, 430))
         label = myfont.render("On Schedule", 1, (0,0,0))
         self.screen.blit(label, (40, y + 115))
@@ -73,8 +89,11 @@ class Game:
         btn = gui.Button("Menu")
         btn.connect(gui.CLICK, pauseClick)
         self.contain.add(btn,780,460)
-        self.app.run(self.contain)
+        
+        self.screen.blit(btn.image,(btn.rect.x,btn.rect.y))
+#        self.app.run(self.contain)
+        #self.app.init(self.contain)
         pygame.display.flip()
        
-if __name__ == "__main__":
-    g = Game(None)
+# if __name__ == "__main__":
+#     g = Game(None)
