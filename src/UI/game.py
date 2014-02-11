@@ -1,8 +1,10 @@
-import pygame,os
+import pygame, os
 from pgu import gui
 
 glob_game = None
 
+this_dir = os.path.dirname(__file__)
+root_dir = os.path.join(this_dir, '../..')
 
 def pauseClick(self):
     #to bring up menu & pause clock
@@ -45,7 +47,7 @@ class Game:
     def draw(self):
         # draw map
     
-        worldMap = pygame.image.load("../media/map.png")
+        worldMap = pygame.image.load(os.path.join(root_dir, "media/map.png"))
         self.screen.blit(worldMap, (0, 0))
         
         # draw bottom bar
@@ -70,22 +72,22 @@ class Game:
         pygame.draw.rect(self.screen, 0xdedede, (0, y, 200, 140))
 
         #Icons and accompanying text
-        workerIcon = pygame.image.load("../media/man.png")
+        workerIcon = pygame.image.load(os.path.join(root_dir, "media/man.png"))
         self.screen.blit(workerIcon, (1, 325))
         label = myfont.render("2 Teams", 1, (0,0,0))
         self.screen.blit(label, (40, y + 15))
 
-        cogIcon = pygame.image.load("../media/cog.png")
+        cogIcon = pygame.image.load(os.path.join(root_dir, "media/cog.png"))
         self.screen.blit(cogIcon, (1, 360))
         label = myfont.render("75% Efficiency", 1, (0,0,0))
         self.screen.blit(label, (40, y + 50))
 
-        clockIcon = pygame.image.load("../media/clock.png")
+        clockIcon = pygame.image.load(os.path.join(root_dir, "media/clock.png"))
         self.screen.blit(clockIcon, (1, 395))
         label = myfont.render("127 Days", 1, (0,0,0))
         self.screen.blit(label, (40, y + 85))
 
-        targetIcon = pygame.image.load("../media/target.png")
+        targetIcon = pygame.image.load(os.path.join(root_dir, "media/target.png"))
         self.screen.blit(targetIcon, (1, 430))
         label = myfont.render("On Schedule", 1, (0,0,0))
         self.screen.blit(label, (40, y + 115))
