@@ -7,7 +7,7 @@ import threading
 
 from UI import game     #frontend mainscreen.
 from engine import Simulation_Engine as simeng
-
+import test_game as populate
 
 class FrontEndThread(threading.Thread):
     def __init__(self):
@@ -21,7 +21,7 @@ class BackEndThread(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        simeng.run_engine(None)
+        simeng.run_engine(populate.load_test_game())
 
 
 def main():

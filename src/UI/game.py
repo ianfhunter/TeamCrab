@@ -2,7 +2,7 @@ import pygame,os
 from pgu import gui
 
 
-def pauseClick():
+def pauseClick(self):
     #to bring up menu & pause clock
     print("Pause Clicked!")
     os._exit(1)
@@ -18,17 +18,19 @@ class Game:
         
         #surface setup
         self.screen = pygame.display.set_mode((850, 480))
-        self.app = gui.Desktop()
+        self.app = gui.App()
         self.app.connect(gui.QUIT,self.app.quit,None)
         
         self.contain = gui.Container(width = 850,height = 480)
         
         self.draw()
         while True:
-            pass
+            #pass
  #           print "HI"
             #handle events
-            # for event in pygame.event.get():
+            for event in pygame.event.get():
+                self.app.event(event)
+            
             #     if event.type == pygame.QUIT:
             #         print "hi1"
             #         os._exit(1)
@@ -87,10 +89,11 @@ class Game:
 
         # draw pause button
         btn = gui.Button("Menu")
-        btn.connect(gui.CLICK, pauseClick)
+        btn.connect(gui.CLICK, pauseClick,None)
         self.contain.add(btn,780,460)
-        
-        self.screen.blit(btn.image,(btn.rect.x,btn.rect.y))
+        self.app.init(self.contain)       
+        self.app.paint(self.screen)
+#        self.screen.blit(btn.image,(btn.rect.x,btn.rect.y))
 #        self.app.run(self.contain)
         #self.app.init(self.contain)
         pygame.display.flip()
