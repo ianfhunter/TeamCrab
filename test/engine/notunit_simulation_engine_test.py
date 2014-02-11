@@ -9,17 +9,15 @@ from time import sleep
 
 def main():
     project = Project('test_project', 'Agile', 0)    
-    module = Module('test_module', 30)
-    task = Task('test_task', 30)
+    module = Module('test_module', 300.0)
     team = Team('test_team', 2, 0, 0)
     culture = Culture('test_culture', 1.5, 0)
     location = Location('test_location', 0, culture, 0, 0)
-    module.tasks.append(task)
-    team.task = task
+    team.task = module.tasks[0]
     location.teams.append(team)
     project.locations.append(location)
     project.modules.append(module)
-    
+
     run_engine(project)
 
 

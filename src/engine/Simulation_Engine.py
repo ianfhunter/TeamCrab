@@ -9,32 +9,34 @@ gmt_time = [0, 0]
 finished = False
 project = None
 
-def calc_progress():
+def calc_progress(gmt_time):
     global project
     for location in project.locations:
-        for team in location.teams:
-            team.calc_progress(location.calc_mod())
+        local_time = (gmt_time[0] + location.time_zone) % 24
+        if local_time >= 9 and local_time <= 17 :
+            for team in location.teams:
+                team.calc_progress(location.calc_mod())             
+                print 'Task: '+ team.task.name + ' - Progress: ' + str(team.task.progress)
 
 def progress_time():
-    update_progress = threading.Thread(target = calc_progress)
-    update_progress.start()
 
-    gmt_time[1] += 1
-    if gmt_time[1] == 60:
-        gmt_time[1] = 0
-        gmt_time[0] += 1
+  
+    gmt_time[0] += 1
     if gmt_time[0] == 24:
         gmt_time[0] = 0
 
-    update_progress.join()
     print gmt_time
+
+    calc_progress(gmt_time)
+
+
 
 
 def run_engine(proj):
     global project
     project = proj
     thread_time = (0, 0)
-    timer = Repeated_Timer(1.0, progress_time)
+    timer = Repeated_Timer(0.5, progress_time)
 
     while not finished:
         # Main logic of the simulator will go here

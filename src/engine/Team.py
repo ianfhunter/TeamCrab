@@ -12,6 +12,8 @@ class Team(object):
         if not self.task.completed:
             self.task.progress += self.effiency * mod
             if self.task.progress >= self.task.cost:
+                print self.name + '\'s task has completed!'
+                self.task.module.completed_tasks.append(self.task.module.tasks.pop())
                 self.task.completed = True
         
 
