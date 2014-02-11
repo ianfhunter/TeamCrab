@@ -9,6 +9,7 @@ In which you are a production manager in charge of various global software teams
 * python 2.7
 * python-pygame
 * python-nose
+* pgu
 
 ## Building, installing and everything in-between
 
