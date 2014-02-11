@@ -1,43 +1,45 @@
 import pygame,os
 from pgu import gui
 
+glob_game = None
+
 
 def pauseClick(self):
     #to bring up menu & pause clock
     print("Pause Clicked!")
     os._exit(1)
 
-def close():
-    print "no"
-    os._exit(1)
 
 
 class Game:
     def __init__(self, gamedata):
+        glob_game = self
         self.gamedata = gamedata
         
         #surface setup
         self.screen = pygame.display.set_mode((850, 480))
         self.app = gui.App()
-        self.app.connect(gui.QUIT,self.app.quit,None)
-        
+        self.app.connect(gui.QUIT,self.app.quit,None)        
         self.contain = gui.Container(width = 850,height = 480)
-        
+       
+    def run(self):    
         self.draw()
         while True:
-            #pass
- #           print "HI"
             #handle events
             for event in pygame.event.get():
+                #tell PGU  about all events.
                 self.app.event(event)
-            
-            #     if event.type == pygame.QUIT:
-            #         print "hi1"
-            #         os._exit(1)
-            #     elif event.type == KEYDOWN:
-            #         if event.key == K_ESCAPE:
-            #             print "hi2"
-            #             os._exit(1)
+                #handle quitting
+                if event.type == pygame.QUIT:
+                    os._exit(1)
+                #escape to exit
+                # elif event.type == pygame.KEYDOWN:
+                #     if event.key == pygame.K_ESCAPE:
+                #         os._exit(1)
+
+    def update(self,project):
+        self.gamedata = project
+        self.draw()
  
     def draw(self):
         # draw map
@@ -50,7 +52,7 @@ class Game:
 
         # Balance & Statistics
         myfont = pygame.font.SysFont("Helvetica", 15)
-        label = myfont.render("-$500", 1, (255,0,0))
+        label = myfont.render("-$" + str(int(self.gamedata.locations[0].teams[0].task.progress)), 1, (255,0,0))
         self.screen.blit(label, (20, 460))
         label = myfont.render("Jul 21st 14:00 GMT", 1, (0,0,0))
         self.screen.blit(label, (200, 460))
@@ -90,12 +92,11 @@ class Game:
         # draw pause button
         btn = gui.Button("Menu")
         btn.connect(gui.CLICK, pauseClick,None)
+
         self.contain.add(btn,780,460)
         self.app.init(self.contain)       
         self.app.paint(self.screen)
-#        self.screen.blit(btn.image,(btn.rect.x,btn.rect.y))
-#        self.app.run(self.contain)
-        #self.app.init(self.contain)
+
         pygame.display.flip()
        
 # if __name__ == "__main__":

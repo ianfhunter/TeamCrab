@@ -4,10 +4,14 @@ from Location import Location
 import threading
 from Repeated_Timer import Repeated_Timer
 
+from UI import game     #frontend 
+
+
 # gmt_time is represented as a tuple (hours, minutes)
 gmt_time = [0, 0]
 finished = False
 project = None
+game_obj = None
 
 def calc_progress(gmt_time):
     global project
@@ -29,12 +33,19 @@ def progress_time():
 
     calc_progress(gmt_time)
 
+    global project
+    global game_obj
+    game_obj.update(project)    #tell UI to update
 
 
 
-def run_engine(proj):
+def run_engine(game,proj):
     global project
     project = proj
+
+    global game_obj
+    game_obj = game
+
     thread_time = (0, 0)
     timer = Repeated_Timer(0.5, progress_time)
 
