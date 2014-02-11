@@ -6,9 +6,12 @@ Software Engineering Simulator
 In which you are a production manager in charge of various global software teams and you must try to complete your product with maximal cost efficiency.
 
 ## Requirements:
-* python 2.7
+The project uses python 2.7 to run. The following packages are required and can be installed via apt:
 * python-pygame
 * python-nose
+* python-pip
+
+The following can be installed using pip:
 * pgu
 
 ## Building, installing and everything in-between
