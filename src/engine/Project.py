@@ -9,5 +9,3 @@ class Project(object):
         self.delivery_date = date
         self.modules = list()
         self.locations = list()
-	
-
