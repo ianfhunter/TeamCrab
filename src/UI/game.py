@@ -41,22 +41,20 @@ class Game:
                 if event.type == pygame.QUIT:
                     os._exit(1)
 
-    ''' Retrieves updated information from the backend and redraws the screen.
-    '''
     def update(self,project):
+        """ Retrieves updated information from the backend and redraws the screen. """
         self.project_data = project
         self.draw()
 
-    ''' Draws the world map onscreen.
-    '''
     def draw_world_map(self):
+        """ Draws the world map onscreen."""
         worldMap = pygame.image.load(self.config["map_path"])
         self.screen.blit(worldMap, (0, 0))
 
-    ''' Draws bottom bar, taking screen geometry from global config file.
-    Draws statistics about progress, balance, etc on the bottom bar.
-    '''
     def draw_bottom_bar(self, font):
+        """Draws bottom bar, taking screen geometry from global config file.
+        Draws statistics about progress, balance, etc on the bottom bar.
+        """
         # TODO: Info to be retrieved from backend, currently dummy data.
         bar_height = self.config["bottom_bar_height"]
         x = self.config["screenX"]
@@ -75,18 +73,17 @@ class Game:
         label = font.render("10 Items Needing Review", 1, (238, 255, 53))
         self.screen.blit(label, (400, label_pos))
 
-    ''' Draws dots showing sites around the world map.
-    '''
+
     def draw_sites(self):
-        # TODO: Info to be retrieved from backend, currently dummy data.
+        ''' Draws dots showing sites around the world map.
+        '''        # TODO: Info to be retrieved from backend, currently dummy data.
         for x in range (5):
             pygame.draw.circle(self.screen, self.config["site_colour"],
                     (x*10, x*10), 7)
 
-    ''' Draws detailed info about the currently selected site.
-    '''
     def draw_detailed_site_info(self, font):
-        # TODO: Info to b retrieved from backend, currently dummy data.
+        ''' Draws detailed info about the currently selected site.
+        '''        # TODO: Info to b retrieved from backend, currently dummy data.
         y = 320
 
         # Draw plain background.
@@ -114,9 +111,10 @@ class Game:
         label = font.render("On Schedule", 1, (0,0,0))
         self.screen.blit(label, (40, y + 115))
 
-    ''' Draws the "menu" pause button over the bottom bar.
-    '''
+    
     def draw_pause_button(self):
+        ''' Draws the "menu" pause button over the bottom bar.
+        '''
         # TODO: Real implementation for button action, currently dummy action.
         button = gui.Button("Menu")
         button.connect(gui.CLICK, pauseClick, None)
@@ -125,10 +123,11 @@ class Game:
         self.app.init(self.contain)
         self.app.paint(self.screen)
 
-    ''' Updates the screen - but only the updated portion of it so we save on
-    refreshing the entire screen.
-    '''
+    
     def refresh_screen(self):
+        ''' Updates the screen - but only the updated portion of it so we save on
+        refreshing the entire screen.
+        '''
         if self.firstDraw:
             pygame.display.flip()
             self.firstDraw = False
@@ -136,9 +135,9 @@ class Game:
             pygame.display.update((0, 460, 850, 20))    #bottom bar
             pygame.display.update((0, 320, 200, 140))    #grey box
 
-    ''' Redraws all of the map screen.
-    '''
+
     def draw(self):
+        ''' Redraws all of the map screen.    '''
         font = pygame.font.SysFont("Helvetica", 15)
         self.draw_world_map()
         self.draw_bottom_bar(font)
