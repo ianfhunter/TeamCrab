@@ -8,106 +8,141 @@ this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
 
 def pauseClick(self):
-    #to bring up menu & pause clock
     print("Pause Clicked!")
-#    os._exit(1)
-
-
 
 class Game:
-    def __init__(self, gamedata):
+    def __init__(self, project_data, game_config):
         glob_game = self
-        self.gamedata = gamedata
+        self.project_data = project_data
+        self.config = game_config
         self.firstDraw = True
 
-        #surface setup
-        self.screen = pygame.display.set_mode((850, 480))
+        # Screen setup.
+        # TODO: This should be passed in the constructor rather than
+        # being created in here.
+        self.screen = pygame.display.set_mode((self.config["screenX"],
+            self.config["screenY"]))
         self.app = gui.App()
-        self.app.connect(gui.QUIT,self.app.quit,None)        
-        self.contain = gui.Container(width = 850,height = 480)
-       
-    def run(self):    
+        self.app.connect(gui.QUIT,self.app.quit,None)
+        self.contain = gui.Container(width = self.config["screenX"],
+            height = self.config["screenY"])
+
+    ''' Handles all input events and goes to sleep.
+    '''
+    def run(self):
         self.draw()
         while True:
-            sleep(0.05)
-            #handle events
+            sleep(self.config["sleep_duration"])
+            # Handle all events.
             for event in pygame.event.get():
-                #tell PGU  about all events.
+                # Tell PGU about all events.
                 self.app.event(event)
-                #handle quitting
+                # Handle quitting.
                 if event.type == pygame.QUIT:
                     os._exit(1)
-                #escape to exit
-                # elif event.type == pygame.KEYDOWN:
-                #     if event.key == pygame.K_ESCAPE:
-                #         os._exit(1)
 
+    ''' Retrieves updated information from the backend and redraws the screen.
+    '''
     def update(self,project):
-        self.gamedata = project
+        self.project_data = project
         self.draw()
- 
-    def draw(self):
-        # draw map
-    
-        worldMap = pygame.image.load(os.path.join(root_dir, "media/map.png"))
+
+    ''' Draws the world map onscreen.
+    '''
+    def draw_world_map(self):
+        worldMap = pygame.image.load(self.config["map_path"])
         self.screen.blit(worldMap, (0, 0))
-        
-        # draw bottom bar
-        pygame.draw.rect(self.screen, 0x9b9b9b, (0, 460, 850, 20))
 
-        # Balance & Statistics
-        myfont = pygame.font.SysFont("Helvetica", 15)
-        label = myfont.render("-$" + str(int(self.gamedata.locations[0].teams[0].task.progress)), 1, (255,0,0))
-        self.screen.blit(label, (20, 460))
-        label = myfont.render("Jul 21st 14:00 GMT", 1, (0,0,0))
-        self.screen.blit(label, (200, 460))
-        label = myfont.render("10 Items Needing Review", 1, (238,255,53))
-        self.screen.blit(label, (400, 460))
+    ''' Draws bottom bar, taking screen geometry from global config file.
+    Draws statistics about progress, balance, etc on the bottom bar.
+    '''
+    def draw_bottom_bar(self, font):
+        # TODO: Info to be retrieved from backend, currently dummy data.
+        bar_height = self.config["bottom_bar_height"]
+        x = self.config["screenX"]
+        y = self.config["screenY"]
 
-        # draw locations - To be retrieved from backend
+        # Draw empty bottom bar.
+        pygame.draw.rect(self.screen, self.config["bar_colour"],
+                (0, y - bar_height, 850, bar_height))
+
+        # Overlay balance & statistics on bottom bar.
+        label_pos = y - bar_height
+        label = font.render("-$" + str(int(self.project_data.locations[0].teams[0].task.progress)), 1, (255, 0, 0))
+        self.screen.blit(label, (20, label_pos))
+        label = font.render("Jul 21st 14:00 GMT", 1, (0, 0, 0))
+        self.screen.blit(label, (200, label_pos))
+        label = font.render("10 Items Needing Review", 1, (238, 255, 53))
+        self.screen.blit(label, (400, label_pos))
+
+    ''' Draws dots showing sites around the world map.
+    '''
+    def draw_sites(self):
+        # TODO: Info to be retrieved from backend, currently dummy data.
         for x in range (5):
-            pygame.draw.circle(self.screen, 0x44FFFF, (x*10,x*10), 7)
-        # draw currently selected location - Info retrieved from backend
+            pygame.draw.circle(self.screen, self.config["site_colour"],
+                    (x*10, x*10), 7)
 
+    ''' Draws detailed info about the currently selected site.
+    '''
+    def draw_detailed_site_info(self, font):
+        # TODO: Info to b retrieved from backend, currently dummy data.
         y = 320
-        #background rect
-        pygame.draw.rect(self.screen, 0xdedede, (0, y, 200, 140))
 
-        #Icons and accompanying text
-        workerIcon = pygame.image.load(os.path.join(root_dir, "media/man.png"))
+        # Draw plain background.
+        pygame.draw.rect(self.screen, self.config["background_colour"],
+                (0, y, 200, 140))
+
+        # Draw icons and accompanying text.
+        workerIcon = pygame.image.load(self.config["man_icon_path"])
         self.screen.blit(workerIcon, (1, 325))
-        label = myfont.render("2 Teams", 1, (0,0,0))
+        label = font.render("2 Teams", 1, (0, 0, 0))
         self.screen.blit(label, (40, y + 15))
 
-        cogIcon = pygame.image.load(os.path.join(root_dir, "media/cog.png"))
+        cogIcon = pygame.image.load(self.config["cog_icon_path"])
         self.screen.blit(cogIcon, (1, 360))
-        label = myfont.render("75% Efficiency", 1, (0,0,0))
+        label = font.render("75% Efficiency", 1, (0, 0, 0))
         self.screen.blit(label, (40, y + 50))
 
-        clockIcon = pygame.image.load(os.path.join(root_dir, "media/clock.png"))
+        clockIcon = pygame.image.load(self.config["clock_icon_path"])
         self.screen.blit(clockIcon, (1, 395))
-        label = myfont.render("127 Days", 1, (0,0,0))
+        label = font.render("127 Days", 1, (0, 0, 0))
         self.screen.blit(label, (40, y + 85))
 
-        targetIcon = pygame.image.load(os.path.join(root_dir, "media/target.png"))
+        targetIcon = pygame.image.load(self.config["target_icon_path"])
         self.screen.blit(targetIcon, (1, 430))
-        label = myfont.render("On Schedule", 1, (0,0,0))
+        label = font.render("On Schedule", 1, (0,0,0))
         self.screen.blit(label, (40, y + 115))
 
-        # draw pause button
-        btn = gui.Button("Menu")
-        btn.connect(gui.CLICK, pauseClick,None)
+    ''' Draws the "menu" pause button over the bottom bar.
+    '''
+    def draw_pause_button(self):
+        # TODO: Real implementation for button action, currently dummy action.
+        button = gui.Button("Menu")
+        button.connect(gui.CLICK, pauseClick, None)
 
-        self.contain.add(btn,780,460)
-        self.app.init(self.contain)       
+        self.contain.add(button, self.config["menuX"], self.config["menuY"])
+        self.app.init(self.contain)
         self.app.paint(self.screen)
 
-        #update the screen - but only the updated portion of it so we save on refreshing the entire screen
+    ''' Updates the screen - but only the updated portion of it so we save on
+    refreshing the entire screen.
+    '''
+    def refresh_screen(self):
         if self.firstDraw:
             pygame.display.flip()
             self.firstDraw = False
         else:
             pygame.display.update((0, 460, 850, 20))    #bottom bar
             pygame.display.update((0, 320, 200, 140))    #grey box
-# if __name__ == "__main__":
-#     g = Game(None)
+
+    ''' Redraws all of the map screen.
+    '''
+    def draw(self):
+        font = pygame.font.SysFont("Helvetica", 15)
+        self.draw_world_map()
+        self.draw_bottom_bar(font)
+        self.draw_sites()
+        self.draw_detailed_site_info(font)
+        self.draw_pause_button()
+        self.refresh_screen()
