@@ -9,6 +9,8 @@ from UI import game     #frontend mainscreen.
 from engine import Simulation_Engine as simeng
 import test_game as populate
 
+from global_config import config
+
 def enable_vsync():
     if sys.platform != 'darwin':
         return
@@ -48,7 +50,7 @@ def main():
     pygame.init()
 
     project = populate.load_test_game()
-    glob_game = game.Game(project)
+    glob_game = game.Game(project, config)
 
 
     frontend = FrontEndThread(glob_game,project)
