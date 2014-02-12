@@ -1,2 +1,4 @@
 python-pygame
 python-nose
+python-pip
+pgu
