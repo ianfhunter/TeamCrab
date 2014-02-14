@@ -78,8 +78,16 @@ class Game:
         ''' Draws dots showing sites around the world map.
         '''        # TODO: Info to be retrieved from backend, currently dummy data.
         for x in self.project_data.locations:
-            pygame.draw.circle(self.screen, self.config["site_colour"],
-                    (x.coordinates[0], x.coordinates[1]), 7)
+            button = gui.Button(" ")
+            #Note: Styling buttons via images requires that a _surface_ be passed in. 
+            button.style.background = pygame.image.load(self.config["green_button_path"])
+
+            button.connect(gui.CLICK, pauseClick, None)
+            self.contain.add(button, x.coordinates[0], x.coordinates[1])
+            self.app.init(self.contain)
+            self.app.paint(self.screen)
+#            pygame.draw.circle(self.screen, self.config["site_colour"],
+#                    (x.coordinates[0], x.coordinates[1]), 7)
 
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.

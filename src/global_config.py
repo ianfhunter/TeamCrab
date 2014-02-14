@@ -23,5 +23,8 @@ config = {
         "man_icon_path" : os.path.join(root_dir, "media/man.png"),
         "cog_icon_path" : os.path.join(root_dir, "media/cog.png"),
         "clock_icon_path" : os.path.join(root_dir, "media/clock.png"),
-        "target_icon_path" : os.path.join(root_dir, "media/target.png")
+        "target_icon_path" : os.path.join(root_dir, "media/target.png"),
+        "green_button_path" : os.path.join(root_dir, "media/green_button.png"),
+        "yellow_button_path" : os.path.join(root_dir, "media/yellow_button.png"),
+        "red_button_path" : os.path.join(root_dir, "media/red_button.png"),
 }

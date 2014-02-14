@@ -17,4 +17,3 @@ class Team(object):
                 self.task.module.tasks.remove(self.task)
                 self.task.completed = True
         
-
