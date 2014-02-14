@@ -3,7 +3,7 @@ from Culture import Culture
 
 class Location(object):
 
-    def __init__(self, name, time, culture, cap, cost):
+    def __init__(self, name, time, culture, cap, cost,coordinates):
         self.name = name
         self.time_zone = time
         self.culture = culture
@@ -12,6 +12,7 @@ class Location(object):
         self.teams = list()
         self.salary = cost
         self.specialists = list()
+        self.coordinates = coordinates
 
     def add_team(self,team):
         if team.size + self.current_size > self.capacity:

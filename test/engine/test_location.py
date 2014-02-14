@@ -11,13 +11,13 @@ class TestLocation(unittest.TestCase):
 
     def test_constructor(self):
         culture = Culture('Ireland', 0.8, 0.7)
-        location = Location('Dublin', 0, culture, 30, 25)
+        location = Location('Dublin', 0, culture, 30, 25,(375,148))
         self.assertTrue(location.name == 'Dublin' and location.time_zone == 0 and location.culture == culture
             and location.capacity == 30 and location.salary == 25 and not location.teams and not location.specialists)
 
     def test_add_team(self):
         culture = Culture('Ireland', 0.8, 0.7)
-        location = Location('Dublin', 0, culture, 30, 25)
+        location = Location('Dublin', 0, culture, 30, 25,(375,148))
 
         team1 = Team('test_team1', 0.9, 25, 10)
         self.assertTrue(location.add_team(team1))
@@ -32,7 +32,7 @@ class TestLocation(unittest.TestCase):
 
     def test_calc_mod(self):
         culture = Culture('Ireland', 0.8, 0.7)
-        location = Location('Dublin', 0, culture, 30, 25)
+        location = Location('Dublin', 0, culture, 30, 25,(375,148))
 
         self.assertTrue(location.calc_mod() == 0.8)
 

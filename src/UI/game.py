@@ -66,7 +66,7 @@ class Game:
 
         # Overlay balance & statistics on bottom bar.
         label_pos = y - bar_height
-        label = font.render("-$" + str(int(self.project_data.locations[0].teams[0].task.progress)), 1, (255, 0, 0))
+        label = font.render("-$500", 1, (255, 0, 0))
         self.screen.blit(label, (20, label_pos))
         label = font.render("Jul 21st 14:00 GMT", 1, (0, 0, 0))
         self.screen.blit(label, (200, label_pos))
@@ -103,7 +103,7 @@ class Game:
 
         clockIcon = pygame.image.load(self.config["clock_icon_path"])
         self.screen.blit(clockIcon, (1, 395))
-        label = font.render("127 Days", 1, (0, 0, 0))
+        label = font.render(str(int(self.project_data.locations[0].teams[0].task.progress)) +" Hours", 1, (0, 0, 0))
         self.screen.blit(label, (40, y + 85))
 
         targetIcon = pygame.image.load(self.config["target_icon_path"])
