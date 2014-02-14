@@ -21,9 +21,18 @@ def load_test_game():
 
     project.locations.append(location_b)
 
+    culture_c = Culture('India', 0.35, 0.35)
+    location_c = Location('New Dehli', -11, culture_c, 30, 35,(570,264))
+    team_c = Team('', 0.7, 15, 5)
+    location_c.add_team(team_c)
+
+    project.locations.append(location_c)
+
+
     module = Module('Sample Module', 600)
     project.locations[0].teams[0].task = module.get_task('design')
     project.locations[1].teams[0].task = module.get_task('implementation')
+    project.locations[2].teams[0].task = module.get_task('unit_test')
 
     project.modules.append(module)
 

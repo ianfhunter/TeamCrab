@@ -14,7 +14,7 @@ config = {
         "menuY" : 460,
         "bottom_bar_height" : 20,
         # UI colours
-        "site_colour" : 0x44FFFF,
+        "site_colour" : 0x2C8718,
         "bar_colour" : 0x9b9b9b,
         "background_colour" : 0xdedede,
         # File paths

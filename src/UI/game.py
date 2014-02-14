@@ -77,9 +77,9 @@ class Game:
     def draw_sites(self):
         ''' Draws dots showing sites around the world map.
         '''        # TODO: Info to be retrieved from backend, currently dummy data.
-        for x in range (5):
+        for x in self.project_data.locations:
             pygame.draw.circle(self.screen, self.config["site_colour"],
-                    (x*10, x*10), 7)
+                    (x.coordinates[0], x.coordinates[1]), 7)
 
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
