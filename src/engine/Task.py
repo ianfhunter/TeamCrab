@@ -6,6 +6,9 @@ class Task(object):
         self.name = name
         self.cost = cost
         self.progress = 0
+        self.expected_progress = 0
         self.completed = False
         self.problems = list()
         self.module = module
+
+		

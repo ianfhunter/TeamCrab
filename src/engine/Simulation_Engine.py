@@ -21,7 +21,7 @@ def calc_progress(gmt_time):
         if local_time >= 9 and local_time <= 17 :
             for team in location.teams:
                 team.calc_progress(location.calc_mod())             
-                print 'Task: '+ team.task.name + ' - Progress: ' + str(team.task.progress)
+                print 'Module: ' + team.task.module.name + ' Task: '+ team.task.name + ' - Actual Progress: ' + str(team.task.progress) + ' - expected Progress: ' + str(team.task.expected_progress)
 
 def progress_time():
     gmt_time[0] += 1
