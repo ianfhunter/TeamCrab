@@ -15,7 +15,7 @@ class Game:
         self.project_data = project_data
         self.config = game_config
         self.firstDraw = True
-        self.paused = False
+        self.endscreen = None
 
         # Screen setup.
         # TODO: This should be passed in the constructor rather than
@@ -28,7 +28,7 @@ class Game:
             height = self.config["screenY"])
 
     def locationClick(self):
-        if(not self.paused):
+        if(not self.endscreen):
             print("Site Clicked!")
 
 
@@ -36,10 +36,10 @@ class Game:
         ''' Menu button to bring up new dialog, changes variables for next update().'''
 
         print("Pause Clicked!")
-        if not self.paused :
-            self.paused = True
+        if not self.endscreen:
+            self.endscreen = endgame.EndGame(self.screen,self.config)
         else:
-            self.paused = False
+            self.endscreen = None
             self.firstDraw = True #redraw main screen fully once we exit.
 
     
@@ -59,8 +59,8 @@ class Game:
     def update(self,project):
         """ Retrieves updated information from the backend and redraws the screen. """
         self.project_data = project
-        if self.paused:
-            endgame.draw(self.screen,self.config)        #draw the endgame screen when pause pressed
+        if self.endscreen:
+            self.endscreen.draw()        #draw the endgame screen when pause pressed
         else:
             self.draw()
 
