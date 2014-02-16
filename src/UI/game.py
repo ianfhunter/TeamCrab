@@ -1,14 +1,13 @@
 import pygame, os
 from pgu import gui
 from time import sleep
+import endgame
 
 glob_game = None
 
 this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
 
-def pauseClick(self):
-    print("Pause Clicked!")
 
 class Game:
     def __init__(self, project_data, game_config):
@@ -16,6 +15,7 @@ class Game:
         self.project_data = project_data
         self.config = game_config
         self.firstDraw = True
+        self.paused = False
 
         # Screen setup.
         # TODO: This should be passed in the constructor rather than
@@ -27,9 +27,24 @@ class Game:
         self.contain = gui.Container(width = self.config["screenX"],
             height = self.config["screenY"])
 
-    ''' Handles all input events and goes to sleep.
-    '''
+    def locationClick(self):
+        if(not self.paused):
+            print("Site Clicked!")
+
+
+    def pauseClick(self):
+        ''' Menu button to bring up new dialog, changes variables for next update().'''
+
+        print("Pause Clicked!")
+        if not self.paused :
+            self.paused = True
+        else:
+            self.paused = False
+            self.firstDraw = True #redraw main screen fully once we exit.
+
+    
     def run(self):
+        ''' Handles all input events and goes to sleep.'''
         self.draw()
         while True:
             sleep(self.config["sleep_duration"])
@@ -38,13 +53,16 @@ class Game:
                 # Tell PGU about all events.
                 self.app.event(event)
                 # Handle quitting.
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
 
     def update(self,project):
         """ Retrieves updated information from the backend and redraws the screen. """
         self.project_data = project
-        self.draw()
+        if self.paused:
+            endgame.draw(self.screen,self.config)        #draw the endgame screen when pause pressed
+        else:
+            self.draw()
 
     def draw_world_map(self):
         """ Draws the world map onscreen."""
@@ -82,7 +100,7 @@ class Game:
             #Note: Styling buttons via images requires that a _surface_ be passed in. 
             button.style.background = pygame.image.load(self.config["green_button_path"])
 
-            button.connect(gui.CLICK, pauseClick, None)
+            button.connect(gui.CLICK, self.locationClick)
             self.contain.add(button, x.coordinates[0], x.coordinates[1])
             self.app.init(self.contain)
             self.app.paint(self.screen)
@@ -125,7 +143,7 @@ class Game:
         '''
         # TODO: Real implementation for button action, currently dummy action.
         button = gui.Button("Menu")
-        button.connect(gui.CLICK, pauseClick, None)
+        button.connect(gui.CLICK, self.pauseClick)
 
         self.contain.add(button, self.config["menuX"], self.config["menuY"])
         self.app.init(self.contain)
