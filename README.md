@@ -82,6 +82,13 @@ to generate html documentation use
 ``` pydoc -w Module.file ```
 
 
+## Inspection of Features
+* Process Simulator
+  * How to
+* Clickable Map Interface 
+  * How to
+
+
 ##Attributions:
 * Map Image - TBA
 * Man Icon - Man by Tamiko Young from The Noun Project http://thenounproject.com/term/man/12173/
