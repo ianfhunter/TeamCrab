@@ -99,6 +99,9 @@ class Game:
             button = gui.Button(" ")
             #Note: Styling buttons via images requires that a _surface_ be passed in. 
             button.style.background = pygame.image.load(self.config["green_button_path"])
+            for t in x.teams:
+                if t.task.progress < t.task.expected_progress:
+                     button.style.background = pygame.image.load(self.config["red_button_path"])
 
             button.connect(gui.CLICK, self.locationClick)
             self.contain.add(button, x.coordinates[0], x.coordinates[1])
@@ -160,7 +163,7 @@ class Game:
         else:
             pygame.display.update((0, 460, 850, 20))    #bottom bar
             pygame.display.update((0, 320, 200, 140))    #grey box
-
+            pygame.display.update((0, 0, 850, 480))
 
     def draw(self):
         ''' Redraws all of the map screen.    '''

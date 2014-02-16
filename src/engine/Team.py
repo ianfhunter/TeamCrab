@@ -9,15 +9,15 @@ class Team(object):
         self.size = size
         self.task = None
         
-     """ 
-     expected_progress is 1 point per hour per person on the team - so each hour + size of team.
+    """ 
+    expected_progress is 1 point per hour per person on the team - so each hour + size of team.
 
     Actual progress (Left name as just progress) - 
-     Effected by -
-        efficiency of team - 1 is standard - no modifier - less then 1 is a poor team, greater then 1 is a good team
-        Cultural modifier - 1 is standard - no modifier  - less then 1 is a poor culture , greater then 1 is a good culture
-        Size of team - basic advancement per hour
-        random element - + or - 0 to 25% of the progress made in that hour
+    Effected by -
+    efficiency of team - 1 is standard - no modifier - less then 1 is a poor team, greater then 1 is a good team
+    Cultural modifier - 1 is standard - no modifier  - less then 1 is a poor culture , greater then 1 is a good culture
+    Size of team - basic advancement per hour
+    random element - + or - 0 to 25% of the progress made in that hour
 
     formula - team efficiency * cultural efficiency * size of team + random element
     random element = +/-  up to 25% of (team efficiency * cultural efficiency * size of team)
