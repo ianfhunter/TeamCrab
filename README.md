@@ -90,7 +90,7 @@ to generate html documentation use
 
 
 ##Attributions:
-* Map Image - TBA
+* Map Image - http://dezignus.com/vector-world-map/#more-912
 * Man Icon - Man by Tamiko Young from The Noun Project http://thenounproject.com/term/man/12173/
 * Gear Icon - Gear by Reed Enger from The Noun Project
 * Clock Icon - Clock by Nicholas Burroughs from The Noun Project
