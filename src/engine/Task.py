@@ -10,5 +10,4 @@ class Task(object):
         self.completed = False
         self.problems = list()
         self.module = module
-
-		
+        self.stalled = False

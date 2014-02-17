@@ -99,16 +99,22 @@ class Game:
             button = gui.Button(" ")
             #Note: Styling buttons via images requires that a _surface_ be passed in. 
             button.style.background = pygame.image.load(self.config["green_button_path"])
+
+            failing = False
             for t in x.teams:
-                if t.task.progress < t.task.expected_progress:
-                     button.style.background = pygame.image.load(self.config["red_button_path"])
+                if not failing:
+                    #locations with issues causing a time delay
+                    if t.task.progress < t.task.expected_progress:
+                        button.style.background = pygame.image.load(self.config["yellow_button_path"])
+                    #location that needs an intervention before it can progress any further
+                    if t.task.stalled:
+                        button.style.background = pygame.image.load(self.config["red_button_path"])
+                        failing = True
 
             button.connect(gui.CLICK, self.locationClick)
             self.contain.add(button, x.coordinates[0], x.coordinates[1])
             self.app.init(self.contain)
             self.app.paint(self.screen)
-#            pygame.draw.circle(self.screen, self.config["site_colour"],
-#                    (x.coordinates[0], x.coordinates[1]), 7)
 
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
