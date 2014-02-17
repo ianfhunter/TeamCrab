@@ -17,6 +17,8 @@ class Game:
         self.firstDraw = True
         self.endscreen = None
 
+        self.selected_site = None
+
         # Screen setup.
         # TODO: This should be passed in the constructor rather than
         # being created in here.
@@ -30,6 +32,7 @@ class Game:
     def locationClick(self):
         if(not self.endscreen):
             print("Site Clicked!")
+            self.selected_site = self.project_data.locations[0]
 
 
     def pauseClick(self):
@@ -119,32 +122,34 @@ class Game:
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
         '''        # TODO: Info to b retrieved from backend, currently dummy data.
+
         y = 320
 
         # Draw plain background.
-        pygame.draw.rect(self.screen, self.config["background_colour"],
-                (0, y, 200, 140))
+        pygame.draw.rect(self.screen, self.config["background_colour"],(0, y, 200, 140))
 
-        # Draw icons and accompanying text.
-        workerIcon = pygame.image.load(self.config["man_icon_path"])
-        self.screen.blit(workerIcon, (1, 325))
-        label = font.render("2 Teams", 1, (0, 0, 0))
-        self.screen.blit(label, (40, y + 15))
+        if self.selected_site is not None:
 
-        cogIcon = pygame.image.load(self.config["cog_icon_path"])
-        self.screen.blit(cogIcon, (1, 360))
-        label = font.render("75% Efficiency", 1, (0, 0, 0))
-        self.screen.blit(label, (40, y + 50))
+            # Draw icons and accompanying text.
+            workerIcon = pygame.image.load(self.config["man_icon_path"])
+            self.screen.blit(workerIcon, (1, 325))
+            label = font.render(str(len(self.selected_site.teams)) + " Team(s)", 1, (0, 0, 0))
+            self.screen.blit(label, (40, y + 15))
 
-        clockIcon = pygame.image.load(self.config["clock_icon_path"])
-        self.screen.blit(clockIcon, (1, 395))
-        label = font.render(str(int(self.project_data.locations[0].teams[0].task.progress)) +" Hours", 1, (0, 0, 0))
-        self.screen.blit(label, (40, y + 85))
+            cogIcon = pygame.image.load(self.config["cog_icon_path"])
+            self.screen.blit(cogIcon, (1, 360))
+            label = font.render("75% Efficiency", 1, (0, 0, 0))
+            self.screen.blit(label, (40, y + 50))
 
-        targetIcon = pygame.image.load(self.config["target_icon_path"])
-        self.screen.blit(targetIcon, (1, 430))
-        label = font.render("On Schedule", 1, (0,0,0))
-        self.screen.blit(label, (40, y + 115))
+            clockIcon = pygame.image.load(self.config["clock_icon_path"])
+            self.screen.blit(clockIcon, (1, 395))
+            label = font.render(str(int(self.project_data.locations[0].teams[0].task.progress)) +" Hours", 1, (0, 0, 0))
+            self.screen.blit(label, (40, y + 85))
+
+            targetIcon = pygame.image.load(self.config["target_icon_path"])
+            self.screen.blit(targetIcon, (1, 430))
+            label = font.render("On Schedule", 1, (0,0,0))
+            self.screen.blit(label, (40, y + 115))
 
     
     def draw_pause_button(self):
