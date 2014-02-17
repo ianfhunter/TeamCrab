@@ -25,14 +25,24 @@ class Location(object):
     def calc_mod(self):
         return self.culture.efficiency_mod
 
-    def get_average_efficiency(self):
+    def num_teams(self):
+        return len(self.teams)
+
+    def average_efficiency(self):
         total = 0.0
         for team in self.teams:
             total += team.efficiency
-        return total/len(self.teams)
+        return int(total/len(self.teams) * 100)
 
-    def get_total_task_progress(self):
+    def total_task_progress(self):
         total = 0
         for team in self.teams:
             total += team.task.progress
+        return total
+
+    def num_tasks_on_schedule(self):
+        total = 0
+        for team in self.teams:
+            if team.task.is_on_time():
+                total += 1
         return total

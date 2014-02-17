@@ -32,8 +32,7 @@ class Game:
     def locationClick(self, site):
         if(not self.endscreen):
             print "Site Clicked!", site.coordinates
-            self.selected_site = self.project_data.locations[0]
-
+            self.selected_site = site
 
     def pauseClick(self):
         ''' Menu button to bring up new dialog, changes variables for next update().'''
@@ -94,13 +93,12 @@ class Game:
         label = font.render("10 Items Needing Review", 1, (238, 255, 53))
         self.screen.blit(label, (400, label_pos))
 
-
     def draw_sites(self):
         ''' Draws dots showing sites around the world map.
-        '''        # TODO: Info to be retrieved from backend, currently dummy data.
+        '''      
         for site in self.project_data.locations:
             button = gui.Button(" ")
-            #Note: Styling buttons via images requires that a _surface_ be passed in. 
+            # Note: Styling buttons via images requires that a _surface_ be passed in. 
             button.style.background = pygame.image.load(self.config["green_button_path"])
 
             failing = False
@@ -121,7 +119,7 @@ class Game:
 
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
-        '''        # TODO: Info to b retrieved from backend, currently dummy data.
+        '''
 
         y = 320
 
@@ -129,6 +127,7 @@ class Game:
         pygame.draw.rect(self.screen, self.config["background_colour"],(0, y, 200, 140))
 
         if self.selected_site is not None:
+            site = self.selected_site
 
             # Draw icons and accompanying text.
             workerIcon = pygame.image.load(self.config["man_icon_path"])
@@ -138,20 +137,24 @@ class Game:
 
             cogIcon = pygame.image.load(self.config["cog_icon_path"])
             self.screen.blit(cogIcon, (1, 360))
-            label = font.render("75% Efficiency", 1, (0, 0, 0))
+            efficiency = site.average_efficiency()
+            label = font.render(str(efficiency) + "% Efficiency (Avg)", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 50))
 
             clockIcon = pygame.image.load(self.config["clock_icon_path"])
             self.screen.blit(clockIcon, (1, 395))
-            label = font.render(str(int(self.project_data.locations[0].teams[0].task.progress)) +" Hours", 1, (0, 0, 0))
+            progress = int(site.total_task_progress())
+            label = font.render(str(progress) + " Hours (Total)", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 85))
 
             targetIcon = pygame.image.load(self.config["target_icon_path"])
             self.screen.blit(targetIcon, (1, 430))
-            label = font.render("On Schedule", 1, (0,0,0))
+            num_on_time = site.num_tasks_on_schedule()
+            num_teams = site.num_teams()
+            label = font.render(str(num_on_time) + "/" + str(num_teams) +
+                    " Tasks On Schedule", 1, (0,0,0))
             self.screen.blit(label, (40, y + 115))
 
-    
     def draw_pause_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
         '''

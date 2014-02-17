@@ -11,3 +11,6 @@ class Task(object):
         self.problems = list()
         self.module = module
         self.stalled = False
+
+    def is_on_time(self):
+        return self.progress >= self.expected_progress
