@@ -5,8 +5,7 @@ import threading
 from time import sleep
 from Repeated_Timer import Repeated_Timer
 
-from UI import game     #frontend 
-
+from UI import game
 
 # gmt_time is represented as a tuple (hours, minutes)
 gmt_time = [0, 0]
@@ -20,7 +19,7 @@ def calc_progress(gmt_time):
         local_time = (gmt_time[0] + location.time_zone) % 24
         if local_time >= 9 and local_time <= 17 :
             for team in location.teams:
-                team.calc_progress(location.calc_mod())             
+                team.calc_progress(location.calc_mod())
                 print 'Module: ' + team.task.module.name + ' Task: '+ team.task.name + ' - Actual Progress: ' + str(team.task.progress) + ' - expected Progress: ' + str(team.task.expected_progress)
 
 def progress_time():
@@ -34,9 +33,7 @@ def progress_time():
 
     global project
     global game_obj
-    game_obj.update(project)    #tell UI to update
-
-
+    game_obj.update(project) # Tell UI to update
 
 def run_engine(game,proj):
     global project
@@ -51,5 +48,3 @@ def run_engine(game,proj):
     while not finished:
         sleep(10)
         # Main logic of the simulator will go here
-
-    

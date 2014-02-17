@@ -24,7 +24,15 @@ class Location(object):
 
     def calc_mod(self):
         return self.culture.efficiency_mod
-	
 
+    def get_average_efficiency(self):
+        total = 0.0
+        for team in self.teams:
+            total += team.efficiency
+        return total/len(self.teams)
 
-	
+    def get_total_task_progress(self):
+        total = 0
+        for team in self.teams:
+            total += team.task.progress
+        return total
