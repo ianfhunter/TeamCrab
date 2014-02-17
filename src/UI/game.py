@@ -29,9 +29,9 @@ class Game:
         self.contain = gui.Container(width = self.config["screenX"],
             height = self.config["screenY"])
 
-    def locationClick(self):
+    def locationClick(self, site):
         if(not self.endscreen):
-            print("Site Clicked!")
+            print "Site Clicked!", site.coordinates
             self.selected_site = self.project_data.locations[0]
 
 
@@ -98,24 +98,24 @@ class Game:
     def draw_sites(self):
         ''' Draws dots showing sites around the world map.
         '''        # TODO: Info to be retrieved from backend, currently dummy data.
-        for x in self.project_data.locations:
+        for site in self.project_data.locations:
             button = gui.Button(" ")
             #Note: Styling buttons via images requires that a _surface_ be passed in. 
             button.style.background = pygame.image.load(self.config["green_button_path"])
 
             failing = False
-            for t in x.teams:
+            for team in site.teams:
                 if not failing:
                     #locations with issues causing a time delay
-                    if t.task.progress < t.task.expected_progress:
+                    if team.task.progress < team.task.expected_progress:
                         button.style.background = pygame.image.load(self.config["yellow_button_path"])
                     #location that needs an intervention before it can progress any further
-                    if t.task.stalled:
+                    if team.task.stalled:
                         button.style.background = pygame.image.load(self.config["red_button_path"])
                         failing = True
 
-            button.connect(gui.CLICK, self.locationClick)
-            self.contain.add(button, x.coordinates[0], x.coordinates[1])
+            button.connect(gui.CLICK, self.locationClick, site)
+            self.contain.add(button, site.coordinates[0], site.coordinates[1])
             self.app.init(self.contain)
             self.app.paint(self.screen)
 
