@@ -9,7 +9,7 @@ def load_test_game():
 
     culture_a = Culture('Ireland', 0.9, 0.9)
     location_a = Location('Dublin', 0, culture_a, 20, 25,(375,148))
-    team_a = Team('', 1.2, 30, 10)
+    team_a = Team('', 0.9, 30, 10)
     location_a.add_team(team_a)
 
     project.locations.append(location_a)
