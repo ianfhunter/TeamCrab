@@ -60,7 +60,7 @@ class Game:
                 # Handle quitting.
 
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-
+                    os._exit(1)
 
     def update(self, project):
         """ Retrieves updated information from the backend and redraws the
