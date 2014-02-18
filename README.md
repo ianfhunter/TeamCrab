@@ -83,11 +83,19 @@ to generate html documentation use
 
 
 ## Inspection of Features
-* Process Simulator
+1. Feature #17 - Master configuration file
   * How to
-* Clickable Map Interface 
+2. Feature #9 - Process simulator
+  * Simply start the game with the sample game file (this happens automatically at the moment).
+  * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
+  * This output is of the form "Module: module\_name Task: task\_name - Actual Progress: x - expected Progress: y" where x and y are floating point values.
+  * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
+3. Feature #6 - Status display
   * How to
-
+4. Feature #20 - Default scenarios
+  * How to
+5. Feature #14 - End of game report 
+  * How to
 
 ##Attributions:
 * Map Image - http://dezignus.com/vector-world-map/#more-912
