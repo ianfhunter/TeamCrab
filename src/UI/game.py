@@ -8,7 +8,6 @@ glob_game = None
 this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
 
-
 class Game:
     def __init__(self, project_data, game_config):
         glob_game = self
@@ -28,11 +27,13 @@ class Game:
         self.app.connect(gui.QUIT,self.app.quit,None)
         self.contain = gui.Container(width = self.config["screenX"],
             height = self.config["screenY"])
+        self.font = pygame.font.SysFont("Helvetica", 15)
 
     def locationClick(self, site):
-        if(not self.endscreen):
+        if not self.endscreen:
             print "Site Clicked!", site.coordinates
             self.selected_site = site
+            self.draw_detailed_site_info(self.font)
 
     def pauseClick(self):
         ''' Menu button to bring up new dialog, changes variables for next update().'''
@@ -44,7 +45,6 @@ class Game:
             self.endscreen = None
             self.firstDraw = True #redraw main screen fully once we exit.
 
-    
     def run(self):
         ''' Handles all input events and goes to sleep.'''
         self.draw()
@@ -186,10 +186,9 @@ class Game:
 
     def draw(self):
         ''' Redraws all of the map screen.    '''
-        font = pygame.font.SysFont("Helvetica", 15)
         self.draw_world_map()
-        self.draw_bottom_bar(font)
+        self.draw_bottom_bar(self.font)
         self.draw_sites()
-        self.draw_detailed_site_info(font)
+        self.draw_detailed_site_info(self.font)
         self.draw_pause_button()
         self.refresh_screen()
