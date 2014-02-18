@@ -16,6 +16,9 @@ class Location(object):
         self.coordinates = coordinates
 
     def add_team(self, team):
+        ''' Adds a team to this location if there is enough space for them.
+        Returns true if the team was added, false otherwise.
+        '''
         if team.size + self.current_size > self.capacity:
             return False
         else:
@@ -24,24 +27,35 @@ class Location(object):
             return True
 
     def calc_mod(self):
+        ''' Returns the efficiency modification for this location's culture.
+        '''
         return self.culture.efficiency_mod
 
     def num_teams(self):
+        ''' Returns the number of teams at this location.
+        '''
         return len(self.teams)
 
     def average_efficiency(self):
+        ''' Returns the average efficiency of all teams at this location.
+        The result is returned as an integer value and may be prone to rounding errors.
+        '''
         total = 0.0
         for team in self.teams:
             total += team.efficiency*self.culture.efficiency_mod
         return int(total/len(self.teams) * 100)
 
     def total_task_progress(self):
+        ''' Returns the total progress of all tasks assigned to teams in this location.
+        '''
         total = 0
         for team in self.teams:
             total += team.task.progress
         return total
 
     def num_tasks_on_schedule(self):
+        ''' Returns the number of tasks being performed by teams at this location that are "on time".
+        '''
         total = 0
         for team in self.teams:
             if team.task.is_on_time():

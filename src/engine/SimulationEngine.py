@@ -7,7 +7,7 @@ from Repeated_Timer import Repeated_Timer
 
 from UI import game
 
-# gmt_time is represented as a tuple (hours, minutes)
+# gmt_time is represented as a list [hours, minutes]
 gmt_time = [0, 0]
 finished = False
 project = None
@@ -15,6 +15,10 @@ game_obj = None
 
 
 def calc_progress(gmt_time):
+    ''' This function calculates the progress of each task assigned to each team 
+    if the team is currently working. A team is considered to be working between 
+    9:00 and 17:00 local time.
+    '''
     global project
     for location in project.locations:
         local_time = (gmt_time[0] + location.time_zone) % 24
@@ -28,6 +32,8 @@ def calc_progress(gmt_time):
 
 
 def progress_time():
+    ''' This function is called every x seconds to "progress" the game by 1 hour.
+    '''
     gmt_time[0] += 1
     if gmt_time[0] == 24:
         gmt_time[0] = 0
@@ -42,6 +48,8 @@ def progress_time():
 
 
 def run_engine(game, proj):
+    ''' Runs the backend engine for the game.
+    '''
     global project
     project = proj
 

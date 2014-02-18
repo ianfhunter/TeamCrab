@@ -22,6 +22,8 @@ class Module(object):
     # Doing a linear search through the list here will be slow and a dict
     # would be preferable.
     def get_task(self, name):
+        ''' Returns the task object which matches the name specified if it exists, None otherwise.
+        '''
         tasks = [task for task in self.tasks if task.name == name]
         if tasks:
             return tasks[0]
