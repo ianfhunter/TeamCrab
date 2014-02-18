@@ -18,17 +18,8 @@ class TestTask(unittest.TestCase):
         module = Module('test_module', 800)
         team.task = module.get_task('design')
 
-        team.calc_progress(1)
-        self.assertFalse(team.task.completed)
-
-        team.calc_progress(1)
-        self.assertFalse(team.task.completed)
-
-        team.calc_progress(1)
-        self.assertFalse(team.task.completed)
-
-        team.calc_progress(1)
-        self.assertTrue(team.task.completed)
+	while not team.task.completed:
+            team.calc_progress(1)
 
         self.assertTrue(module.completed_tasks and module.completed_tasks[0] == team.task)
 
