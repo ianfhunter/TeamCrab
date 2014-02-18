@@ -168,7 +168,6 @@ class Game:
         self.app.init(self.contain)
         self.app.paint(self.screen)
 
-    
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save on
         refreshing the entire screen.
@@ -180,11 +179,8 @@ class Game:
             pygame.display.update((0, 460, 850, 20))    #bottom bar
             pygame.display.update((0, 320, 200, 140))    #grey box
 
-
             for x in self.project_data.locations:
                 pygame.display.update((x.coordinates[0] -5, x.coordinates[1]-5, x.coordinates[0]+5, x.coordinates[1]+5))
-
-            
 
     def draw(self):
         ''' Redraws all of the map screen.    '''
