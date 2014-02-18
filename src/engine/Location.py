@@ -1,6 +1,5 @@
 from Team import Team
-from Culture import Culture
-
+from global_config import cultures
 
 class Location(object):
 
@@ -24,7 +23,7 @@ class Location(object):
             return True
 
     def calc_mod(self):
-        return self.culture.efficiency_mod
+        return cultures[self.culture][0]
 
     def num_teams(self):
         return len(self.teams)
@@ -32,7 +31,7 @@ class Location(object):
     def average_efficiency(self):
         total = 0.0
         for team in self.teams:
-            total += team.efficiency*self.culture.efficiency_mod
+            total += team.efficiency*cultures[self.culture][0]
         return int(total/len(self.teams) * 100)
 
     def total_task_progress(self):

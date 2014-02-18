@@ -28,3 +28,11 @@ config = {
         "yellow_button_path" : os.path.join(root_dir, "media/yellow_button.png"),
         "red_button_path" : os.path.join(root_dir, "media/red_button.png"),
 }
+
+cultures = {
+    # Name : (Effiency mod, honesty Mod)
+    "culture1" : (1.0, 1.0),
+    "culture2" : (1.25, 1.0),
+    "culture3" : (0.75, 1.0),
+
+}
