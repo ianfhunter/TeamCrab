@@ -30,6 +30,7 @@ class Game:
             height = self.config["screenY"])
 
     def locationClick(self, site):
+
         if(not self.endscreen):
             print "Site Clicked!", site.coordinates
             self.selected_site = site
@@ -95,8 +96,8 @@ class Game:
 
     def draw_sites(self):
         ''' Draws dots showing sites around the world map.
-        '''      
-        for site in self.project_data.locations:
+        '''  
+        for index,site in enumerate(self.project_data.locations):
             button = gui.Button(" ")
             # Note: Styling buttons via images requires that a _surface_ be passed in. 
             button.style.background = pygame.image.load(self.config["green_button_path"])
@@ -114,9 +115,11 @@ class Game:
 
             button.connect(gui.CLICK, self.locationClick, site)
             self.contain.add(button, site.coordinates[0], site.coordinates[1])
+
             self.app.init(self.contain)
             self.app.paint(self.screen)
 
+#            print self.contain.widgets[0].click
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
         '''
@@ -187,6 +190,9 @@ class Game:
     def draw(self):
         ''' Redraws all of the map screen.    '''
         font = pygame.font.SysFont("Helvetica", 15)
+
+        self.contain.widgets = []    #empty widget container - Fix to Memory Leak (I tried to update the objects rather than recreating them, but it seems like we'd have trouble maintaining it)
+
         self.draw_world_map()
         self.draw_bottom_bar(font)
         self.draw_sites()
