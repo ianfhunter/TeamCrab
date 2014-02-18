@@ -32,7 +32,7 @@ class Location(object):
     def average_efficiency(self):
         total = 0.0
         for team in self.teams:
-            total += team.efficiency
+            total += team.efficiency*self.culture.efficiency_mod
         return int(total/len(self.teams) * 100)
 
     def total_task_progress(self):
