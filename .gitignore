@@ -4,6 +4,9 @@
 # The build directory
 bin
 
+# Pydocs generated files
+*.html
+
 # OS generated files 
 .DS_Store
 .DS_Store?

@@ -9,30 +9,30 @@ class Team(object):
         self.size = size
         self.task = None
 
-    """
-    expected_progress is 1 point per hour per person on the team -
-    so each hour + size of team.
-
-    Actual progress (Left name as just progress) -
-    Affected by -
-        Efficiency of team:
-            - 1 is standard, no modifier.
-            - Less than 1 is a poor team.
-            - Greater than 1 is a good team.
-        Cultural modifier:
-            - 1 is standard, no modifier.
-            - Less than 1 is a poor culture.
-            - 1 is a good culture.
-        Size of team:
-            Basic advancement per hour
-        Random element:
-            + or - 0 to 25% of the progress made in that hour
-
-    formula: team efficiency * cultural efficiency * team size + random element
-    random element = +/- up to 25% of
-        (team efficiency * cultural efficiency * team size)
-    """
     def calc_progress(self, mod):
+        ''' Calculates the progress of the taks currently assigned to this team.
+        Expected_progress is 1 point per hour per person on the team -
+        so each hour + size of team.
+
+        Actual progress (Left name as just progress) -
+        Affected by -
+            Efficiency of team:
+                - 1 is standard, no modifier.
+                - Less than 1 is a poor team.
+                - Greater than 1 is a good team.
+            Cultural modifier:
+                - 1 is standard, no modifier.
+                - Less than 1 is a poor culture.
+                - 1 is a good culture.
+            Size of team:
+                Basic advancement per hour
+            Random element:
+                + or - 0 to 25% of the progress made in that hour
+
+        formula: team efficiency * cultural efficiency * team size + random element
+        random element = +/- up to 25% of
+            (team efficiency * cultural efficiency * team size)
+        '''
         tmp_prog = self.task.progress
         self.task.stalled = False
         if not self.task.completed:
@@ -52,6 +52,8 @@ class Team(object):
             self.task.stalled = True
 
     def random_element(self, prog):
+        ''' Generates a random value between -25 and 25 used as a percentage in calc_progress.
+        '''
         amount = random.randint(0, 25)
         direction = random.choice([-1, 1])
         return direction * prog / 100 * amount
