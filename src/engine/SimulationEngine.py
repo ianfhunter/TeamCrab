@@ -13,6 +13,14 @@ finished = False
 project = None
 game_obj = None
 
+def all_finished():
+    ''' Returns True when all tasks in all modules have completed, False otherwise
+    '''
+    global project
+    for module in project.modules:
+        if module.tasks:
+            return False
+    return True
 
 def calc_progress(gmt_time):
     ''' This function calculates the progress of each task assigned to each team 
@@ -25,10 +33,13 @@ def calc_progress(gmt_time):
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
                 team.calc_progress(location.calc_mod())
-                print 'Module:', team.task.module.name, 'Task:', \
-                    team.task.name, '- Actual Progress:', \
-                    str(team.task.progress), '- expected Progress:', \
-                    str(team.task.expected_progress)
+                if team.task:
+                    print 'Module:', team.task.module.name, 'Task:', \
+                        team.task.name, '- Actual Progress:', \
+                        str(team.task.progress), '- expected Progress:', \
+                        str(team.task.expected_progress)
+                else:
+                    print 'Warning: Team ' + team.name + ' has no task assigned.'
 
 
 def progress_time():
@@ -46,6 +57,9 @@ def progress_time():
     global game_obj
     game_obj.update(project)  # Tell UI to update
 
+    global finished
+    finished = all_finished()
+
 
 def run_engine(game, proj):
     ''' Runs the backend engine for the game.
@@ -62,3 +76,5 @@ def run_engine(game, proj):
     while not finished:
         sleep(10)
         # Main logic of the simulator will go here
+
+    timer.stop()

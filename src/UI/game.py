@@ -17,6 +17,7 @@ class Game:
         self.config = game_config
         self.firstDraw = True
         self.endscreen = None
+        self.gameover = False
 
         self.selected_site = None
 
@@ -31,6 +32,11 @@ class Game:
                                      height=self.config["screenY"])
         self.font = pygame.font.SysFont("Helvetica", 15)
 
+    def endgame(self):
+        self.gameover = True
+        if not self.endscreen:
+            self.endscreen = endgame.EndGame(self.screen, self.config)
+
     def locationClick(self, site):
         if not self.endscreen:
             print "Site Clicked!", site.coordinates
@@ -44,7 +50,7 @@ class Game:
         print("Pause Clicked!")
         if not self.endscreen:
             self.endscreen = endgame.EndGame(self.screen, self.config)
-        else:
+        elif not self.gameover:
             self.endscreen = None
             self.firstDraw = True  # Redraw main screen fully once we exit.
 
@@ -111,16 +117,17 @@ class Game:
             failing = False
             for team in site.teams:
                 if not failing:
-                    # Locations with issues causing a time delay
-                    if team.task.progress < team.task.expected_progress:
-                        button.style.background = pygame.image.load(
-                            self.config["yellow_button_path"])
-                    # Location that needs an intervention before it can
-                    # progress any further
-                    if team.task.stalled:
-                        button.style.background = \
-                            pygame.image.load(self.config["red_button_path"])
-                        failing = True
+                    if team.task:
+                        # Locations with issues causing a time delay
+                        if team.task.progress < team.task.expected_progress:
+                            button.style.background = pygame.image.load(
+                                self.config["yellow_button_path"])
+                        # Location that needs an intervention before it can
+                        # progress any further
+                        if team.task.stalled:
+                            button.style.background = \
+                                pygame.image.load(self.config["red_button_path"])
+                            failing = True
 
             button.connect(gui.CLICK, self.locationClick, site)
             self.contain.add(button, site.coordinates[0], site.coordinates[1])

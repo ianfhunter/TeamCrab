@@ -5,10 +5,12 @@ import sys
 from pgu import gui
 
 import threading
+from time import sleep
 
 from UI import game     #frontend mainscreen.
 from engine import SimulationEngine as simeng
 import test_game as populate
+from UI import endgame
 
 from global_config import config
 
@@ -53,8 +55,10 @@ def main():
     backend = BackEndThread(glob_game,project)
     frontend.start()
     backend.start()
-    frontend.join()
     backend.join()
+    glob_game.endgame()
+    glob_game.update(project)
+    frontend.join()
 
 if __name__ == "__main__":
     main()

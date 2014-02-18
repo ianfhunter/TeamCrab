@@ -8,6 +8,7 @@ class Team(object):
         self.efficiency = efficiency
         self.size = size
         self.task = None
+        self.tasks = list()
 
     def calc_progress(self, mod):
         ''' Calculates the progress of the taks currently assigned to this team.
@@ -33,6 +34,13 @@ class Team(object):
         random element = +/- up to 25% of
             (team efficiency * cultural efficiency * team size)
         '''
+        if not self.task or self.task.completed:
+            if self.tasks:
+                self.task = self.tasks[0]
+                self.tasks.pop(0)
+            else:
+                return
+
         tmp_prog = self.task.progress
         self.task.stalled = False
         if not self.task.completed:
