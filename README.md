@@ -95,7 +95,9 @@ to generate html documentation use
 4. Feature #20 - Default scenarios
   * How to
 5. Feature #14 - End of game report 
-  * How to
+  * Start the game with the sample game file (this happens automatically at the moment).
+  * Wait until the end of the game.
+  * A summary of the report will be displayed on the screen, with the full report written to report.csv in the game's working directory.
 
 ##Attributions:
 * Map Image - http://dezignus.com/vector-world-map/#more-912
