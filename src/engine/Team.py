@@ -1,5 +1,6 @@
 import random
 
+
 class Team(object):
     def __init__(self, name, efficiency, salary, size):
         self.name = name
@@ -9,26 +10,35 @@ class Team(object):
         self.task = None
 
     """
-    expected_progress is 1 point per hour per person on the team - so each hour + size of team.
+    expected_progress is 1 point per hour per person on the team -
+    so each hour + size of team.
 
-    Actual progress (Left name as just progress) - 
-    Effected by -
-    efficiency of team - 1 is standard - no modifier - less then 1 is a poor team, greater then 1 is a good team
-    Cultural modifier - 1 is standard - no modifier  - less then 1 is a poor culture , greater then 1 is a good culture
-    Size of team - basic advancement per hour
-    random element - + or - 0 to 25% of the progress made in that hour
+    Actual progress (Left name as just progress) -
+    Affected by -
+        Efficiency of team:
+            - 1 is standard, no modifier.
+            - Less than 1 is a poor team.
+            - Greater than 1 is a good team.
+        Cultural modifier:
+            - 1 is standard, no modifier.
+            - Less than 1 is a poor culture.
+            - 1 is a good culture.
+        Size of team:
+            Basic advancement per hour
+        Random element:
+            + or - 0 to 25% of the progress made in that hour
 
-    formula - team efficiency * cultural efficiency * size of team + random element
-    random element = +/-  up to 25% of (team efficiency * cultural efficiency * size of team)
+    formula: team efficiency * cultural efficiency * team size + random element
+    random element = +/- up to 25% of
+        (team efficiency * cultural efficiency * team size)
     """
     def calc_progress(self, mod):
         if not self.task.completed:
-
-            prog = self.efficiency * mod * self.size 
+            prog = self.efficiency * mod * self.size
             self.task.progress += prog + self.random_element(prog)
 
             if self.task.expected_progress < self.task.cost:
-                self.task.expected_progress += self.size 
+                self.task.expected_progress += self.size
             if self.task.progress >= self.task.cost:
                 print self.name + '\'s task has completed!'
                 self.task.module.completed_tasks.append(self.task)
@@ -39,4 +49,3 @@ class Team(object):
         amount = random.randint(0, 25)
         direction = random.choice([-1, 1])
         return direction * prog / 100 * amount
-

@@ -1,12 +1,12 @@
 import pygame
 
-class EndGame:
 
-    def __init__(self,screen,config):
+class EndGame:
+    def __init__(self, screen, config):
         self.screen = screen
         self.config = config
 
-    def refresh_screen(self,):
+    def refresh_screen(self):
         pygame.display.flip()
 
     def draw_endgame(self):
@@ -26,8 +26,10 @@ class EndGame:
         self.screen.blit(label, (250, 300))
 
     def draw(self):
-        #draw background
-        pygame.draw.rect(self.screen, 0x2DABFE,(10, 10, self.config["screenX"] - 20, self.config["screenY"] - 40))
-        #draw endgame stats
+        # Draw background
+        pygame.draw.rect(self.screen, 0x2DABFE, (10, 10,
+                                                 self.config["screenX"] - 20,
+                                                 self.config["screenY"] - 40))
+        # Draw endgame stats
         self.draw_endgame()
         self.refresh_screen()

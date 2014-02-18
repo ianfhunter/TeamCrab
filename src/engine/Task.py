@@ -1,7 +1,7 @@
 from Problem import Problem
 
-class Task(object):
 
+class Task(object):
     def __init__(self, name, cost, module):
         self.name = name
         self.cost = cost

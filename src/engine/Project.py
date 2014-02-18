@@ -1,8 +1,8 @@
 from Module import Module
 from Location import Location
 
-class Project(object):
 
+class Project():
     def __init__(self, name, method, date):
         self.name = name
         self.development_method = method

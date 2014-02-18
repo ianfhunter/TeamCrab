@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
-import pygame,sys
+import pygame
+import sys
 from pgu import gui
 
 import threading
 
 from UI import game     #frontend mainscreen.
-from engine import Simulation_Engine as simeng
+from engine import SimulationEngine as simeng
 import test_game as populate
 
 from global_config import config
@@ -25,33 +26,28 @@ def enable_vsync():
         print "Unable to set vsync mode, using driver defaults"
 
 class FrontEndThread(threading.Thread):
-    def __init__(self,game,proj):
+    def __init__(self, game, proj):
         threading.Thread.__init__(self)
         self.proj = proj
         self.game = game
 
     def run(self):
         self.game.run()
-        
+
 class BackEndThread(threading.Thread):
-    def __init__(self,game,proj):
+    def __init__(self, game, proj):
         threading.Thread.__init__(self)
         self.proj = proj
         self.game = game
 
     def run(self):
-        simeng.run_engine(self.game,self.proj)
-
+        simeng.run_engine(self.game, self.proj)
 
 def main():
-
     enable_vsync()
-
     pygame.init()
-
     project = populate.load_test_game()
     glob_game = game.Game(project, config)
-
 
     frontend = FrontEndThread(glob_game,project)
     backend = BackEndThread(glob_game,project)

@@ -13,14 +13,19 @@ finished = False
 project = None
 game_obj = None
 
+
 def calc_progress(gmt_time):
     global project
     for location in project.locations:
         local_time = (gmt_time[0] + location.time_zone) % 24
-        if local_time >= 9 and local_time <= 17 :
+        if local_time >= 9 and local_time <= 17:
             for team in location.teams:
                 team.calc_progress(location.calc_mod())
-                print 'Module: ' + team.task.module.name + ' Task: '+ team.task.name + ' - Actual Progress: ' + str(team.task.progress) + ' - expected Progress: ' + str(team.task.expected_progress)
+                print 'Module:', team.task.module.name, 'Task:', \
+                    team.task.name, '- Actual Progress:', \
+                    str(team.task.progress), '- expected Progress:', \
+                    str(team.task.expected_progress)
+
 
 def progress_time():
     gmt_time[0] += 1
@@ -33,9 +38,10 @@ def progress_time():
 
     global project
     global game_obj
-    game_obj.update(project) # Tell UI to update
+    game_obj.update(project)  # Tell UI to update
 
-def run_engine(game,proj):
+
+def run_engine(game, proj):
     global project
     project = proj
 
