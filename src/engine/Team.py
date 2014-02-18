@@ -67,6 +67,6 @@ class Team(object):
     def random_element(self, prog):
         ''' Generates a random value between -25 and 25 used as a percentage to offset prog.
         '''
-        amount = random.randint(0, 25)
+        amount = float(random.randint(0, 25))
         direction = random.choice([-1, 1])
-        return direction * prog / 100 * amount
+        return prog * (1 + (direction * amount / 100.0))

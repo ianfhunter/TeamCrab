@@ -18,10 +18,17 @@ class TestTask(unittest.TestCase):
         module = Module('test_module', 800)
         team.task = module.get_task('design')
 
-	while not team.task.completed:
+        while not team.task.completed:
             team.calc_progress(1)
 
         self.assertTrue(module.completed_tasks and module.completed_tasks[0] == team.task)
+
+    def test_random_element(self):
+        team = Team('test_team', 30, 25, 10)
+        
+        for i in range(30):
+            val = team.random_element(i)
+            self.assertTrue(val >= i*0.75 and val <= i*1.25)
 
 if __name__ == '__main__':
     unittest.main()
