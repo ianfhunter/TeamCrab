@@ -3,7 +3,7 @@
 from threading import Timer
 
 
-class RepeatedTimer():
+class Repeated_Timer():
     def __init__(self, interval, function, *args, **kwargs):
         self._timer = None
         self.interval = interval
