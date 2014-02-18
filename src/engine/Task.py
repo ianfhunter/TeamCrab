@@ -12,5 +12,6 @@ class Task(object):
         self.module = module
         self.stalled = False
 
+
     def is_on_time(self):
         return self.progress >= self.expected_progress

@@ -58,9 +58,7 @@ class Game:
                 # Tell PGU about all events.
                 self.app.event(event)
                 # Handle quitting.
-                if event.type == pygame.QUIT
-                or (event.type == pygame.KEYDOWN
-                        and event.key == pygame.K_ESCAPE):
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
 
     def update(self, project):

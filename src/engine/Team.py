@@ -33,17 +33,23 @@ class Team(object):
         (team efficiency * cultural efficiency * team size)
     """
     def calc_progress(self, mod):
+        tmp_prog = self.task.progress
+        self.task.stalled = False
         if not self.task.completed:
-            prog = self.efficiency * mod * self.size
-            self.task.progress += prog + self.random_element(prog)
+            if self.task.module.tasks[0] == self.task:
+                prog = self.efficiency * mod * self.size
+                self.task.progress += prog + self.random_element(prog)
 
-            if self.task.expected_progress < self.task.cost:
-                self.task.expected_progress += self.size
-            if self.task.progress >= self.task.cost:
-                print self.name + '\'s task has completed!'
-                self.task.module.completed_tasks.append(self.task)
-                self.task.module.tasks.remove(self.task)
-                self.task.completed = True
+                if self.task.expected_progress < self.task.cost:
+                    self.task.expected_progress += self.size
+                if self.task.progress >= self.task.cost:
+                    print self.name + '\'s task has completed!'
+                    self.task.module.completed_tasks.append(self.task)
+                    self.task.module.tasks.remove(self.task)
+                    self.task.completed = True
+
+        if tmp_prog >= self.task.progress:
+            self.task.stalled = True
 
     def random_element(self, prog):
         amount = random.randint(0, 25)
