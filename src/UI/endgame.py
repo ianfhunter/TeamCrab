@@ -1,15 +1,32 @@
 import pygame
-
+import csv
 
 class EndGame:
-    def __init__(self, screen, config):
+    def __init__(self, screen, config, project):
         self.screen = screen
         self.config = config
+        self.project = project
+
+    def generate_report(self):
+        report = list()
+        report.append(['Team', 'Module', 'Task', 'Estimated Time', 'Actual Time'])
+        for location in self.project.locations:
+            for team in location.teams:
+                for task in team.completed_tasks:
+                    estimated_hours = task.cost / team.size
+                    report.append([team.name, task.module.name, task.name, estimated_hours, task.hours_taken])
+        return report
 
     def refresh_screen(self):
         pygame.display.flip()
 
     def draw_endgame(self):
+        report = self.generate_report()
+        with open('report.csv', 'w') as reportcsv:
+            writer = csv.writer(reportcsv)
+            for row in report:
+                writer.writerow(row)
+
         font = pygame.font.SysFont("Helvetica", 15)
         font_large = pygame.font.SysFont("Helvetica", 56)
 

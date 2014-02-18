@@ -32,10 +32,9 @@ class Game:
                                      height=self.config["screenY"])
         self.font = pygame.font.SysFont("Helvetica", 15)
 
-    def endgame(self):
+    def endgame(self, project):
         self.gameover = True
-        if not self.endscreen:
-            self.endscreen = endgame.EndGame(self.screen, self.config)
+        self.endscreen = endgame.EndGame(self.screen, self.config, project)
 
     def locationClick(self, site):
         if not self.endscreen:
@@ -49,7 +48,7 @@ class Game:
 
         print("Pause Clicked!")
         if not self.endscreen:
-            self.endscreen = endgame.EndGame(self.screen, self.config)
+            self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
         elif not self.gameover:
             self.endscreen = None
             self.firstDraw = True  # Redraw main screen fully once we exit.

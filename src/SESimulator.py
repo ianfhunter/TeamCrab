@@ -56,7 +56,7 @@ def main():
     frontend.start()
     backend.start()
     backend.join()
-    glob_game.endgame()
+    glob_game.endgame(project)
     glob_game.update(project)
     frontend.join()
 

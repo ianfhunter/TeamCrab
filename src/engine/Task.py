@@ -11,6 +11,7 @@ class Task(object):
         self.problems = list()
         self.module = module
         self.stalled = False
+        self.hours_taken = 0
 
 
     def is_on_time(self):

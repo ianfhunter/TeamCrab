@@ -9,6 +9,7 @@ class Team(object):
         self.size = size
         self.task = None
         self.tasks = list()
+        self.completed_tasks = list()
 
     def calc_progress(self, mod):
         ''' Calculates the progress of the taks currently assigned to this team.
@@ -34,6 +35,9 @@ class Team(object):
         random element = +/- up to 25% of
             (team efficiency * cultural efficiency * team size)
         '''
+        if self.task and self.task.completed and self.task not in self.completed_tasks:
+            self.completed_tasks.append(self.task)
+
         if not self.task or self.task.completed:
             if self.tasks:
                 self.task = self.tasks[0]
@@ -45,6 +49,7 @@ class Team(object):
         self.task.stalled = False
         if not self.task.completed:
             if self.task.module.tasks[0] == self.task:
+                self.task.hours_taken += 1
                 prog = self.efficiency * mod * self.size
                 self.task.progress += prog + self.random_element(prog)
 
@@ -60,7 +65,7 @@ class Team(object):
             self.task.stalled = True
 
     def random_element(self, prog):
-        ''' Generates a random value between -25 and 25 used as a percentage in calc_progress.
+        ''' Generates a random value between -25 and 25 used as a percentage to offset prog.
         '''
         amount = random.randint(0, 25)
         direction = random.choice([-1, 1])
