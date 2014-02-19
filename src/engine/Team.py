@@ -58,9 +58,11 @@ class Team(object):
                     self.task.module.tasks.remove(self.task)
                     self.task.completed = True
                     self.completed_tasks.append(self.task)
+                    self.task = None
 
-        if tmp_prog >= self.task.progress:
+        if self.task and tmp_prog >= self.task.progress:
             self.task.stalled = True
+
 
     def random_element(self, prog):
         ''' Generates a random value between -25 and 25 used as a percentage to offset prog.
