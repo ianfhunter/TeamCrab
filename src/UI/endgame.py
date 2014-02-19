@@ -8,6 +8,7 @@ class EndGame:
         self.project = project
 
     def generate_report(self):
+        ''' Generate table with information about the end of the game '''
         report = list()
         report.append(['Team', 'Module', 'Task', 'Estimated Time', 'Actual Time'])
         for location in self.project.locations:
@@ -21,6 +22,7 @@ class EndGame:
         pygame.display.flip()
 
     def draw_endgame(self):
+        ''' Shows the user the end game stats and generates a report.'''
         report = self.generate_report()
         with open('report.csv', 'w') as reportcsv:
             writer = csv.writer(reportcsv)
@@ -43,10 +45,15 @@ class EndGame:
         self.screen.blit(label, (250, 300))
 
     def draw(self):
+        ''' The parent draw function of the end game screen .'''
         # Draw background
-        pygame.draw.rect(self.screen, 0x2DABFE, (10, 10,
-                                                 self.config["screenX"] - 20,
-                                                 self.config["screenY"] - 40))
+        padding = 20
+        pygame.draw.rect(self.screen, 0x2DABFE, (padding , padding,
+                                                 self.config["screenX"] - 20 - padding,
+                                                 self.config["screenY"] - 40 - padding))
         # Draw endgame stats
         self.draw_endgame()
+
+        for module in self.project.modules
+
         self.refresh_screen()

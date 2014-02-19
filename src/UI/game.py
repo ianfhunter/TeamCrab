@@ -35,6 +35,7 @@ class Game:
         self.font = pygame.font.SysFont("Helvetica", 15)
 
     def endgame(self, project):
+        ''' Bring up the game over screen on the next draw().'''
         self.gameover = True
         self.endscreen = endgame.EndGame(self.screen, self.config, project)
 
