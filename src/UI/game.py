@@ -4,6 +4,8 @@ from pgu import gui
 from time import sleep
 import endgame
 
+#from engine import SimulationEngine
+
 glob_game = None
 
 this_dir = os.path.dirname(__file__)
@@ -98,10 +100,11 @@ class Game:
         label_pos = y - bar_height
         label = font.render("-$500", 1, (255, 0, 0))
         self.screen.blit(label, (20, label_pos))
-        label = font.render("Jul 21st 14:00 GMT", 1, (0, 0, 0))
+        cur_time =self.project_data.current_time
+        label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
         self.screen.blit(label, (200, label_pos))
         label = font.render("10 Items Needing Review", 1, (238, 255, 53))
-        self.screen.blit(label, (400, label_pos))
+        self.screen.blit(label, (500, label_pos))
 
     def draw_sites(self):
         ''' Draws dots showing sites around the world map.

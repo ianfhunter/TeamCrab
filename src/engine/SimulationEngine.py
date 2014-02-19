@@ -2,6 +2,7 @@ from Project import Project
 from Team import Team
 from Location import Location
 import threading
+import datetime
 from time import sleep
 from Repeated_Timer import Repeated_Timer
 
@@ -46,6 +47,8 @@ def progress_time():
     ''' This function is called every x seconds to "progress" the game by 1 hour.
     '''
     gmt_time[0] += 1
+    global gmt_overall
+
     if gmt_time[0] == 24:
         gmt_time[0] = 0
 
@@ -55,6 +58,9 @@ def progress_time():
 
     global project
     global game_obj
+
+    project.current_time += datetime.timedelta(hours=1)    #add to overall
+
     game_obj.update(project)  # Tell UI to update
 
     global finished

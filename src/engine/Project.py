@@ -1,6 +1,6 @@
 from Module import Module
 from Location import Location
-
+import datetime
 
 class Project():
     def __init__(self, name, method, date):
@@ -9,3 +9,4 @@ class Project():
         self.delivery_date = date
         self.modules = list()
         self.locations = list()
+        self.current_time = datetime.datetime(2014,1,1,0,0,0)
