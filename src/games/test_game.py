@@ -6,7 +6,6 @@ from engine.Team import Team
 def load_game():
     project = Project('Sample Project', 'Agile', (12,3,2014))
 
-    culture_a = Culture('Ireland', 0.9, 1.0)
     location_a = Location('Dublin', 0, "culture1", 20, 25, (375,148))
     team_a = Team('Team A', 1.1, 30, 10)
 
@@ -14,7 +13,6 @@ def load_game():
 
     project.locations.append(location_a)
 
-    culture_b = Culture('America', 1.25, 0.7)
     location_b = Location('Florida', -8, "culture2", 30, 5, (192,207))
     team_b = Team('Team B', 0.9, 35, 25)
 
@@ -22,7 +20,6 @@ def load_game():
 
     project.locations.append(location_b)
 
-    culture_c = Culture('India', 0.75, 0.35)
     location_c = Location('New Dehli', -11, "culture3", 30, 35, (570,264))
     team_c = Team('Team C', 1.1, 15, 5)
 
