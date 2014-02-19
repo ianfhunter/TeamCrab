@@ -35,9 +35,6 @@ class Team(object):
         random element = +/- up to 25% of
             (team efficiency * cultural efficiency * team size)
         '''
-        if self.task and self.task.completed and self.task not in self.completed_tasks:
-            self.completed_tasks.append(self.task)
-
         if not self.task or self.task.completed:
             if self.tasks:
                 self.task = self.tasks[0]
@@ -51,7 +48,7 @@ class Team(object):
             if self.task.module.tasks[0] == self.task:
                 self.task.hours_taken += 1
                 prog = self.efficiency * mod * self.size
-                self.task.progress += prog + self.random_element(prog)
+                self.task.progress += self.random_element(prog)
 
                 if self.task.expected_progress < self.task.cost:
                     self.task.expected_progress += self.size
@@ -60,6 +57,7 @@ class Team(object):
                     self.task.module.completed_tasks.append(self.task)
                     self.task.module.tasks.remove(self.task)
                     self.task.completed = True
+                    self.completed_tasks.append(self.task)
 
         if tmp_prog >= self.task.progress:
             self.task.stalled = True
