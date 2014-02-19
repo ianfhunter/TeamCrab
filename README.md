@@ -105,6 +105,6 @@ to generate html documentation use
 * Gear Icon - Gear by Reed Enger from The Noun Project
 * Clock Icon - Clock by Nicholas Burroughs from The Noun Project
 * Target Icon - Target by Laurent Patain from The Noun Project 
-
+* Location Icon - Designed by Vladimir Dubinin from the Noun Project
 
 

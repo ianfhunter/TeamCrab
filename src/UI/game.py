@@ -164,8 +164,10 @@ class Game:
         else:
             site = self.selected_site
 
+            workerIcon = pygame.image.load(self.config["location_icon_path"])
+            self.screen.blit(workerIcon, (1, 290))
             label = font.render(site.name, 1, (0, 0, 0))
-            self.screen.blit(label, (40, y))
+            self.screen.blit(label, (40, y-5))
 
             # Draw icons and accompanying text.
             workerIcon = pygame.image.load(self.config["man_icon_path"])
@@ -215,7 +217,7 @@ class Game:
             self.firstDraw = False
         else:
             pygame.display.update((0, 460, 850, 20))  # Bottom bar
-            pygame.display.update((0, 300, 200, 175))  # Grey box
+            pygame.display.update((0, 290, 200, 175))  # Grey box
 
             for site in self.project_data.locations:
                 (xpos, ypos) = site.coordinates

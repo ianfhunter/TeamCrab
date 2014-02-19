@@ -49,7 +49,8 @@ class Location(object):
         '''
         total = 0
         for team in self.teams:
-            total += team.task.progress
+            if team.task:    #check
+                total += team.task.progress
         return total
 
     def num_tasks_on_schedule(self):
@@ -57,6 +58,7 @@ class Location(object):
         '''
         total = 0
         for team in self.teams:
-            if team.task.is_on_time():
-                total += 1
+            if team.task: 
+                if team.task.is_on_time():
+                    total += 1
         return total
