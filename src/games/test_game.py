@@ -1,5 +1,4 @@
 from engine.Project import Project
-from engine.Culture import Culture
 from engine.Location import Location
 from engine.Module import Module
 from engine.Team import Team
