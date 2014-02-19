@@ -27,6 +27,7 @@ config = {
         "green_button_path" : os.path.join(root_dir, "media/green_button.png"),
         "yellow_button_path" : os.path.join(root_dir, "media/yellow_button.png"),
         "red_button_path" : os.path.join(root_dir, "media/red_button.png"),
+        "grey_button_path" : os.path.join(root_dir, "media/grey_button.png"),
 }
 
 cultures = {

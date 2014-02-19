@@ -61,7 +61,8 @@ class Team(object):
                     self.task = None
 
         if self.task and tmp_prog >= self.task.progress:
-            self.task.stalled = True
+            pass
+#            self.task.stalled = True
 
 
     def random_element(self, prog):

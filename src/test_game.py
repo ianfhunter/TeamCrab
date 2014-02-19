@@ -16,7 +16,7 @@ def load_test_game():
     project.locations.append(location_a)
 
     culture_b = Culture('America', 1.25, 0.7)
-    location_b = Location('San Francisco', -8, "culture2", 30, 5, (192,207))
+    location_b = Location('Florida', -8, "culture2", 30, 5, (192,207))
     team_b = Team('Team B', 0.9, 35, 25)
 
     location_b.add_team(team_b)

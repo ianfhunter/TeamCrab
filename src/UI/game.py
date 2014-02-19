@@ -113,8 +113,16 @@ class Game:
             button.style.background = pygame.image.load(
                 self.config["green_button_path"])
 
+
+            inactive = True
             failing = False
             for team in site.teams:
+                 
+                #if a task is running, it is not stalled waiting on dependencies or waiting on another.
+                #print team.tasks[0] ,":",team.task
+                if team.task and team.task.module.tasks[0] == team.task:
+                    inactive = False
+
                 if not failing:
                     if team.task:
                         # Locations with issues causing a time delay
@@ -127,6 +135,12 @@ class Game:
                             button.style.background = \
                                 pygame.image.load(self.config["red_button_path"])
                             failing = True
+
+            #lowest priority display.
+            if inactive:
+                button.style.background = \
+                    pygame.image.load(self.config["grey_button_path"])
+
 
             button.connect(gui.CLICK, self.locationClick, site)
             self.contain.add(button, site.coordinates[0], site.coordinates[1])
