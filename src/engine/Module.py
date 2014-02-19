@@ -21,6 +21,8 @@ class Module(object):
     # by name.
     # Doing a linear search through the list here will be slow and a dict
     # would be preferable.
+
+    # Reason for list is so task have to be performed in order. 
     def get_task(self, name):
         ''' Returns the task object which matches the name specified if it exists, None otherwise.
         '''
