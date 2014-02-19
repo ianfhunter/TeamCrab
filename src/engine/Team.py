@@ -58,7 +58,12 @@ class Team(object):
                     self.task.module.tasks.remove(self.task)
                     self.task.completed = True
                     self.completed_tasks.append(self.task)
-                    self.task = None
+                    # Allocate a new task
+                    if self.tasks:
+                        self.task = self.tasks[0]
+                        self.tasks.pop(0)
+                    else:
+                        self.task = None
 
         if self.task and tmp_prog >= self.task.progress:
             pass
