@@ -9,4 +9,5 @@ class Project():
         self.delivery_date = date
         self.modules = list()
         self.locations = list()
+        self.start_time = datetime.datetime(2014,1,1,0,0,0)
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
