@@ -91,7 +91,12 @@ to generate html documentation use
   * This output is of the form "Module: module\_name Task: task\_name - Actual Progress: x - expected Progress: y" where x and y are floating point values.
   * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
 3. Feature #6 - Status display
-  * How to
+  * Once the program is launched with a selected senario, the status screen is shown.
+  * Green represents sites that are on schedule
+  * Yellow represents sites that have been delayed
+  * Red represents sites that have been stalled and need an intervention to progress any further
+  * Grey represents sites that are inactive - waiting on a dependency or completed.
+  * Sites are clickable to view more detailed information about a site.
 4. Feature #20 - Default scenarios
   * How to
 5. Feature #14 - End of game report 
