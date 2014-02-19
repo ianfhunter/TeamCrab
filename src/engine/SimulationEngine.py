@@ -35,10 +35,11 @@ def calc_progress(gmt_time):
             for team in location.teams:
                 team.calc_progress(location.calc_mod())
                 if team.task:
-                    print 'Module:', team.task.module.name, 'Task:', \
+                    print 'Module:', team.task.module.name, '- Task:', \
                         team.task.name, '- Actual Progress:', \
-                        str(team.task.progress), '- expected Progress:', \
-                        str(team.task.expected_progress)
+                        str(team.task.progress), '- Expected Progress:', \
+                        str(team.task.expected_progress), '- Target End Progress:', \
+                        str(team.task.cost)
                 else:
                     print 'Warning: Team ' + team.name + ' has no task assigned.'
 

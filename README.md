@@ -98,7 +98,9 @@ to generate html documentation use
   * Grey represents sites that are inactive - waiting on a dependency or completed.
   * Sites are clickable to view more detailed information about a site.
 4. Feature #20 - Default scenarios
-  * How to
+  * Scenarios can be loaded from the command line using the -l and --load flags. As it stands there are two default scenarios available.
+  * As an example, run 'SESimulator -l scenario2' to load scenario2.
+  * A list of available scenarios can be found by listing the contents of the src/games directory.
 5. Feature #14 - End of game report 
   * Start the game with the sample game file (this happens automatically at the moment).
   * Wait until the end of the game.
