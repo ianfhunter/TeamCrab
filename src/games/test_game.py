@@ -4,7 +4,7 @@ from engine.Location import Location
 from engine.Module import Module
 from engine.Team import Team
 
-def load_test_game():
+def load_game():
     project = Project('Sample Project', 'Agile', (12,3,2014))
 
     culture_a = Culture('Ireland', 0.9, 1.0)

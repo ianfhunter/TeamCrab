@@ -6,10 +6,11 @@ from pgu import gui
 
 import threading
 from time import sleep
+import argparse
 
 from UI import game     #frontend mainscreen.
 from engine import SimulationEngine as simeng
-import test_game as populate
+from games import test_game as populate
 from UI import endgame
 
 from global_config import config
@@ -46,9 +47,20 @@ class BackEndThread(threading.Thread):
         simeng.run_engine(self.game, self.proj)
 
 def main():
+    # Parse arguments passed to game
+    parser = argparse.ArgumentParser(description='Software Engineering Simulator')
+    parser.add_argument('-l','--load', help='Load a saved game or default scenario', metavar='game')
+    args = vars(parser.parse_args())
+
     enable_vsync()
     pygame.init()
-    project = populate.load_test_game()
+
+    if args['load']:
+        exec('from games import %s as chosen_game' % args['load'])
+        project = chosen_game.load_game()
+    else:
+        project = populate.load_game()
+
     glob_game = game.Game(project, config)
 
     frontend = FrontEndThread(glob_game,project)
