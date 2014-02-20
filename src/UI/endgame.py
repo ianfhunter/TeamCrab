@@ -54,6 +54,4 @@ class EndGame:
         # Draw endgame stats
         self.draw_endgame()
 
-        for module in self.project.modules
-
         self.refresh_screen()
