@@ -36,6 +36,8 @@ clean:
 uninstall:
 	rm -rf $(install_dir)/*
 	rmdir $(install_dir)
-	rm /usr/local/bin/SESimulator
 	rm /usr/share/applications/SESimulator.desktop
 	@echo SESimulator has been uninstalled!
+
+uninstall-script:
+	rm /usr/local/bin/SESimulator
