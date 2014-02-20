@@ -39,11 +39,19 @@ same function as build for the time being.
 The clean target deletes all the files in the bin directory.
 
 The install target will first build the project (using the build target). It will then copy all the .pyc files in the 
-bin directory into /opt/SESimulator. Then the script SESimulator.sh in the src directory will be copied into
+bin directory into /opt/SESimulator_$(version). The inclusion of the version in the directory will allow for multiple
+versions of the game to be installed alongside one another. So, for example release RC1_rc3 of the game will install
+to the directory /opt/SESimulator\_RC1\_rc3/. Next, the script SESimulator.sh in the src directory will be copied into
 /usr/local/bin/ so that users on the machine can start the simulator simply by using the command "SESimulator". Root
 access is required to add files to opt/ and /usr/local/bin.
 
-The uninstall target simply removes all SESimulator files from /opt and /usr/local/bin.
+Once the game has been installed, it can be run using the command "SESimulator" as mentioned above. This command
+can take an optional argument "--simv version" to specify which version of the game should be run (if there are
+multiple versions installed). If this flag is not specified then the script will load the newest version of the
+game to be installed.
+
+The uninstall target simply removes all SESimulator files from /opt and /usr/local/bin. It will only uninstall
+the version of the game that this source tree contains.
 
 ## Writing unit tests
 The following is a simple example of the form a unit test should take in the test directory
