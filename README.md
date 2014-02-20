@@ -5,6 +5,8 @@ Software Engineering Simulator
 
 In which you are a production manager in charge of various global software teams and you must try to complete your product with maximal cost efficiency.
 
+![Build Status](https://magnum.travis-ci.com/ianfhunter/TeamCrab.png?token=XVnqqNujPPiH7bQNyxKk&branch=master)
+
 ## Requirements:
 The project uses python 2.7 to run. The following packages are required and can be installed via apt:
 * python-pygame

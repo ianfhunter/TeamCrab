@@ -8,7 +8,7 @@ install:
   - "make build"
   - "sudo apt-get install python-pygame"
   - "sudo make install"
-  - "sudo pip install pgu"
+  - "sudo pip install --allow-external pgu"
 
 # command to run tests
 script: "make test"
