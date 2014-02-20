@@ -1,0 +1,14 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+install: 
+install:
+  - "make clean"
+  - "make build"
+  - "sudo apt-get install python-pygame"
+  - "sudo make install"
+  - "sudo pip install pgu"
+
+# command to run tests
+script: "make test"
