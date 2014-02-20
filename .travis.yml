@@ -6,6 +6,7 @@ install:
 install:
   - "make clean"
   - "make build"
+  - "sudo apt-get install python-pygame"
   - "sudo make install"
   - "sudo pip install -r requirements.txt"
 
