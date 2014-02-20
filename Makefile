@@ -1,4 +1,6 @@
 .PHONY: all test clean install uninstall
+version = RC1_rc3
+install_dir = /opt/SESimulator_v$(version)
 
 build:
 	python -m compileall src
@@ -17,11 +19,11 @@ test:
 
 install:
 	$(MAKE) build
-	mkdir -p /opt/SESimulator
-	mkdir -p /opt/SESimulator/bin
-	mkdir -p /opt/SESimulator/media
-	cp -R bin/* /opt/SESimulator/bin
-	cp -R media/* /opt/SESimulator/media
+	mkdir -p $(install_dir)
+	mkdir -p $(install_dir)/bin
+	mkdir -p $(install_dir)/media
+	cp -R bin/* $(install_dir)/bin
+	cp -R media/* $(install_dir)/media
 	cp src/SESimulator.sh /usr/local/bin/SESimulator
 	chmod +x /usr/local/bin/SESimulator
 	cp src/SESimulator.desktop /usr/share/applications/
@@ -32,8 +34,10 @@ clean:
 	@echo Build cleaned!
 
 uninstall:
-	rm -rf /opt/SESimulator/*
-	rmdir /opt/SESimulator
-	rm /usr/local/bin/SESimulator
+	rm -rf $(install_dir)/*
+	rmdir $(install_dir)
 	rm /usr/share/applications/SESimulator.desktop
 	@echo SESimulator has been uninstalled!
+
+uninstall-script:
+	rm /usr/local/bin/SESimulator
