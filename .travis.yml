@@ -6,8 +6,8 @@ install:
 install:
   - "make clean"
   - "make build"
-  - "make install"
-  - "pip install -r requirements.txt"
+  - "sudo make install"
+  - "sudo pip install -r requirements.txt"
 
 # command to run tests
 script: "make test"
