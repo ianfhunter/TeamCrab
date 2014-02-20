@@ -92,7 +92,7 @@ to generate html documentation use
 
 ## Inspection of Features
 1. Feature #17 - Master configuration file
-  * How to
+  * The master configuration file is just a Python file which is interpreted by the game, kept in global_config.py. It contains a dictionary of key/value pairs for configuration values.
 2. Feature #9 - Process simulator
   * Simply start the game with the sample game file (this happens automatically at the moment).
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
