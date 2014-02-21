@@ -20,6 +20,7 @@ config = {
         # File paths
         "root_dir" : root_dir,
         "map_path" : os.path.join(root_dir, "media/map.png"),
+        "sunlight_path" : os.path.join(root_dir, "media/sunlight.png"),
         "man_icon_path" : os.path.join(root_dir, "media/man.png"),
         "cog_icon_path" : os.path.join(root_dir, "media/cog.png"),
         "clock_icon_path" : os.path.join(root_dir, "media/clock.png"),

@@ -84,6 +84,12 @@ class Game:
         worldMap = pygame.image.load(self.config["map_path"])
         self.screen.blit(worldMap, (0, 0))
 
+        x = (self.project_data.current_time.hour + 20)%24    #+19 as image is 5 hours behind
+
+        sunlightMap = pygame.image.load(self.config["sunlight_path"])
+        self.screen.blit(sunlightMap, (x*35, 0))
+        self.screen.blit(sunlightMap, ((x*35)-849, 0))
+        
     def draw_bottom_bar(self, font):
         """Draws bottom bar, taking screen geometry from global config file.
         Draws statistics about progress, balance, etc on the bottom bar.
@@ -216,16 +222,16 @@ class Game:
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
         '''
-        if self.firstDraw:
-            pygame.display.flip()
-            self.firstDraw = False
-        else:
-            pygame.display.update((0, 460, 850, 20))  # Bottom bar
-            pygame.display.update((0, 290, 200, 175))  # Grey box
+#        if self.firstDraw:
+        pygame.display.flip()
+        self.firstDraw = False
+        # else:
+        #     pygame.display.update((0, 460, 850, 20))  # Bottom bar
+        #     pygame.display.update((0, 290, 200, 175))  # Grey box
 
-            for site in self.project_data.locations:
-                (xpos, ypos) = site.coordinates
-                pygame.display.update((xpos - 5, ypos - 5, xpos + 5, ypos + 5))
+        #     for site in self.project_data.locations:
+        #         (xpos, ypos) = site.coordinates
+        #         pygame.display.update((xpos - 5, ypos - 5, xpos + 5, ypos + 5))
 
     def draw(self):
         ''' Redraws all of the map screen. '''
