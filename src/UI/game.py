@@ -50,23 +50,28 @@ class Game:
         update().'''
 
         print("Pause Clicked!")
-        if not self.endscreen:
-            self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
-        elif not self.gameover:
-            self.endscreen = None
-            self.firstDraw = True  # Redraw main screen fully once we exit.
+        # if not self.endscreen:
+        #     self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
+        # elif not self.gameover:
+        #     self.endscreen = None
+        #     self.firstDraw = True  # Redraw main screen fully once we exit.
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
+
         self.draw()
+
         while True:
             sleep(self.config["sleep_duration"])
             # Handle all events.
             for event in pygame.event.get():
                 # Tell PGU about all events.
-                self.app.event(event)
-                # Handle quitting.
+                if not self.endscreen:
+                    self.app.event(event)
+                else:
+                    self.endscreen.app.event(event)
 
+                # Handle quitting.
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
 
@@ -74,7 +79,9 @@ class Game:
         """ Retrieves updated information from the backend and redraws the
         screen. """
         self.project_data = project
+        print "update"
         if self.endscreen:
+            print "updateToScreen"
             self.endscreen.draw()  # Draw the endgame screen when pause pressed
         else:
             self.draw()
@@ -84,7 +91,7 @@ class Game:
         worldMap = pygame.image.load(self.config["map_path"])
         self.screen.blit(worldMap, (0, 0))
 
-        x = (self.project_data.current_time.hour + 20)%24    #+19 as image is 5 hours behind
+        x = (self.project_data.current_time.hour + 19)%24    #+19 as image is 5 hours behind
 
         sunlightMap = pygame.image.load(self.config["sunlight_path"])
         self.screen.blit(sunlightMap, (x*35, 0))
