@@ -30,35 +30,20 @@ def load_game():
 
     # Create three modules and assign each one to a single location
     cam_api = Module('Traffic camera API', 600)
-    project.locations[0].teams[0].tasks.append(cam_api.get_task('design'))
-    project.locations[0].teams[0].tasks.append(cam_api.get_task('implementation'))
-    project.locations[0].teams[0].tasks.append(cam_api.get_task('unit_test'))
-    project.locations[0].teams[0].tasks.append(cam_api.get_task('integration'))
-    project.locations[0].teams[0].tasks.append(cam_api.get_task('system_test'))
-    project.locations[0].teams[0].tasks.append(cam_api.get_task('deployment'))
-    project.locations[0].teams[0].tasks.append(cam_api.get_task('acceptance_test'))
+    project.locations[0].teams[0].modules.append(cam_api)
+
 
     project.modules.append(cam_api)
 
     infra = Module('Backend infrastructure', 1200)
-    project.locations[1].teams[0].tasks.append(infra.get_task('design'))
-    project.locations[1].teams[0].tasks.append(infra.get_task('implementation'))
-    project.locations[1].teams[0].tasks.append(infra.get_task('unit_test'))
-    project.locations[1].teams[0].tasks.append(infra.get_task('integration'))
-    project.locations[1].teams[0].tasks.append(infra.get_task('system_test'))
-    project.locations[1].teams[0].tasks.append(infra.get_task('deployment'))
-    project.locations[1].teams[0].tasks.append(infra.get_task('acceptance_test'))
+    project.locations[1].teams[0].modules.append(infra)
+
 
     project.modules.append(infra)
 
     ui = Module('UI', 800)
-    project.locations[2].teams[0].tasks.append(ui.get_task('design'))
-    project.locations[2].teams[0].tasks.append(ui.get_task('implementation'))
-    project.locations[2].teams[0].tasks.append(ui.get_task('unit_test'))
-    project.locations[2].teams[0].tasks.append(ui.get_task('integration'))
-    project.locations[2].teams[0].tasks.append(ui.get_task('system_test'))
-    project.locations[2].teams[0].tasks.append(ui.get_task('deployment'))
-    project.locations[2].teams[0].tasks.append(ui.get_task('acceptance_test'))
+    project.locations[2].teams[0].modules.append(ui)
+
 
     project.modules.append(ui)
 
