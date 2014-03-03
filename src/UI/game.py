@@ -121,21 +121,22 @@ class Game:
             inactive = True
             failing = False
             for team in site.teams:
-                 
-                #if a task is running, it is not stalled waiting on dependencies or waiting on another.
-                #print team.tasks[0] ,":",team.task
-                if team.task and team.task.module.tasks[0] == team.task:
+                
+                #Changed as modules now assigned to teams rather then tasks and modules do not have dependancies at this time.
+                #if a module is running, it is not stalled waiting on dependencies or waiting on another.
+                #print team.modules[0] ,":",team.module
+                if team.module:
                     inactive = False
 
                 if not failing:
-                    if team.task:
+                    if team.module:
                         # Locations with issues causing a time delay
-                        if team.task.progress < team.task.expected_progress:
+                        if not team.module.is_on_time():
                             button.style.background = pygame.image.load(
                                 self.config["yellow_button_path"])
                         # Location that needs an intervention before it can
                         # progress any further
-                        if team.task.stalled:
+                        if team.module.stalled:
                             button.style.background = \
                                 pygame.image.load(self.config["red_button_path"])
                             failing = True
@@ -189,16 +190,16 @@ class Game:
 
             clockIcon = pygame.image.load(self.config["clock_icon_path"])
             self.screen.blit(clockIcon, (1, 395))
-            progress = int(site.total_task_progress())
+            progress = int(site.total_module_progress())
             label = font.render(str(progress) + " Hours (Total)", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 100))
 
             targetIcon = pygame.image.load(self.config["target_icon_path"])
             self.screen.blit(targetIcon, (1, 430))
-            num_on_time = site.num_tasks_on_schedule()
+            num_on_time = site.num_modules_on_schedule()
             num_teams = site.num_teams()
             label = font.render(str(num_on_time) + "/" + str(num_teams) +
-                                " Tasks On Schedule", 1, (0, 0, 0))
+                                " Module On Schedule", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
     def draw_pause_button(self):

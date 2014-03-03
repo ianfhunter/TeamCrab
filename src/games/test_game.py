@@ -7,35 +7,45 @@ def load_game():
     project = Project('Sample Project', 'Agile', (12,3,2014))
 
     location_a = Location('Dublin', 0, "culture1", 20, 25, (375,148))
-    team_a = Team('Team A', 1.1, 30, 10)
+    team_a = Team('Team A', 1.0, 15, 10)
 
     location_a.add_team(team_a)
 
     project.locations.append(location_a)
 
     location_b = Location('Florida', -8, "culture2", 30, 5, (192,207))
-    team_b = Team('Team B', 0.9, 35, 25)
+    team_b = Team('Team B', 1.0, 20, 25)
 
     location_b.add_team(team_b)
 
     project.locations.append(location_b)
 
     location_c = Location('New Dehli', -11, "culture3", 30, 35, (570,264))
-    team_c = Team('Team C', 1.1, 15, 5)
+    team_c = Team('Team C', 1.0, 10, 5)
 
     location_c.add_team(team_c)
 
     project.locations.append(location_c)
 
-    module = Module('Sample Module', 600)
-    project.locations[0].teams[0].tasks.append(module.get_task('design'))
-    project.locations[1].teams[0].tasks.append(module.get_task('implementation'))
-    project.locations[2].teams[0].tasks.append(module.get_task('unit_test'))
-    project.locations[0].teams[0].tasks.append(module.get_task('integration'))
-    project.locations[1].teams[0].tasks.append(module.get_task('system_test'))
-    project.locations[2].teams[0].tasks.append(module.get_task('deployment'))
-    project.locations[2].teams[0].tasks.append(module.get_task('acceptance_test'))
+    module1 = Module('Sample Module 1', 50)
+    module2 = Module('Sample Module 2', 50)
+    module3 = Module('Sample Module 3', 50)
+    module4 = Module('Sample Module 4', 50)
+    module5 = Module('Sample Module 5', 50)
+    module6 = Module('Sample Module 6', 50)
 
-    project.modules.append(module)
+    project.locations[0].teams[0].modules.append(module1)
+    project.locations[1].teams[0].modules.append(module2)
+    project.locations[2].teams[0].modules.append(module3)
+    project.locations[0].teams[0].modules.append(module4)
+    project.locations[1].teams[0].modules.append(module5)
+    project.locations[2].teams[0].modules.append(module6)
+
+    project.modules.append(module1)
+    project.modules.append(module2)
+    project.modules.append(module3)
+    project.modules.append(module4)
+    project.modules.append(module5)
+    project.modules.append(module6)
 
     return project
