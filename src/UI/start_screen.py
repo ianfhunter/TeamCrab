@@ -63,9 +63,14 @@ class Start_Screen:
             button = gui.Button("Submit")
             button.connect(gui.CLICK, self.complete_setup)
 
-            self.contain.add(button, 400, 180)
-            self.contain.add(sel, 100, 180)
+            self.contain.add(button, 500, 180)
+            self.contain.add(sel, 200, 180)
             self.app.init(self.contain)
+
+
+        font = pygame.font.SysFont("Veranda", 40)
+        label = font.render("Scenario Choice", 1, (0, 0, 0))
+        self.screen.blit(label, (300, 0))
 
 
         self.app.paint(self.screen)
