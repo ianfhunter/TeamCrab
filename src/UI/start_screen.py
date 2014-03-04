@@ -21,23 +21,60 @@ class Start_Screen:
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
+        self.complete = False
         self.draw()
         while True:
             sleep(self.config["sleep_duration"])
             # Handle all events.
             for event in pygame.event.get():
-                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
-                    return
+                self.app.event(event)
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    os._exit(1)
+            if self.complete:
+                return
+            else:
+                self.draw()
 
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
         '''
         pygame.display.flip()
-        self.firstDraw = False
+
+    def update_scenario_choice(self,selection):
+        ''' Callback for changing scenarios with PGU select element'''
+        print selection.value
+
+    def complete_setup(self):
+        self.complete = True
+        return
+
+    def draw_choices(self):
+        ''' Takes different scenarios and puts them in the selection gui element '''
+        choices = ["Eastern European Teams", "Asia-Based Development", "Worldwide Development"]
+
+        if self.contain.widgets == []:
+            #selection
+            sel = gui.Select()
+            for itr,label in enumerate(choices):
+                sel.add(label,str(itr))
+            sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
+            #button
+            button = gui.Button("Submit")
+            button.connect(gui.CLICK, self.complete_setup)
+
+            self.contain.add(button, 400, 180)
+            self.contain.add(sel, 100, 180)
+            self.app.init(self.contain)
+
+
+        self.app.paint(self.screen)
+
+        #select APP
 
     def draw(self):
         ''' Redraws all of the map screen. '''
         pygame.draw.rect(self.screen, self.config["background_colour"],
-                         (0, 285, 200, 175))
+                         (0, 0, self.config["screenX"],self.config["screenY"]))
+        self.draw_choices()
         self.refresh_screen()
