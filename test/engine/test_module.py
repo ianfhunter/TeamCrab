@@ -10,7 +10,7 @@ class TestModule(unittest.TestCase):
 
     def test_constructor(self):
         module = Module('test_module', 600)
-        self.assertTrue(module.name == 'test_module' and module.base_cost == 600 
+        self.assertTrue(module.name == 'test_module' and module.cost == 600 
             and not module.modules and not module.completed_tasks and len(module.tasks) == 7)
         self.assertTrue(module.tasks[0].cost == 90)
         self.assertTrue(module.tasks[1].cost == 90)

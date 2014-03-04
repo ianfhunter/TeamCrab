@@ -44,21 +44,21 @@ class Location(object):
             total += team.efficiency*cultures[self.culture][0]
         return int(total/len(self.teams) * 100)
 
-    def total_task_progress(self):
-        ''' Returns the total progress of all tasks assigned to teams in this location.
+    def total_module_progress(self):
+        ''' Returns the total progress of all modules assigned to teams in this location.
         '''
         total = 0
         for team in self.teams:
-            if team.task:    #check
-                total += team.task.progress
+            if team.module:    #check
+                total += team.module.progress
         return total
 
-    def num_tasks_on_schedule(self):
-        ''' Returns the number of tasks being performed by teams at this location that are "on time".
+    def num_modules_on_schedule(self):
+        ''' Returns the number of modules being performed by teams at this location that are "on time".
         '''
         total = 0
         for team in self.teams:
-            if team.task: 
-                if team.task.is_on_time():
+            if team.module: 
+                if team.module.is_on_time():
                     total += 1
         return total

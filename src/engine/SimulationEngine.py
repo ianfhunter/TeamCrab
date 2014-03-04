@@ -15,16 +15,16 @@ project = None
 game_obj = None
 
 def all_finished():
-    ''' Returns True when all tasks in all modules have completed, False otherwise
+    ''' Returns True when all modules in all modules have completed, False otherwise
     '''
     global project
     for module in project.modules:
-        if module.tasks:
+        if not module.completed:
             return False
     return True
 
 def calc_progress(gmt_time):
-    ''' This function calculates the progress of each task assigned to each team 
+    ''' This function calculates the progress of each module assigned to each team 
     if the team is currently working. A team is considered to be working between 
     9:00 and 17:00 local time.
     '''
@@ -34,14 +34,13 @@ def calc_progress(gmt_time):
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
                 team.calc_progress(location.calc_mod())
-                if team.task:
-                    print 'Module:', team.task.module.name, '- Task:', \
-                        team.task.name, '- Actual Progress:', \
-                        str(team.task.progress), '- Expected Progress:', \
-                        str(team.task.expected_progress), '- Target End Progress:', \
-                        str(team.task.cost)
+                if team.module:
+                    print 'Module:', team.module.name, '- Actual Progress:', \
+                        str(team.module.progress), '- Expected Progress:', \
+                        str(team.module.expected_progress), '- Target End Progress:', \
+                        str(team.module.cost)
                 else:
-                    print 'Warning: Team ' + team.name + ' has no task assigned.'
+                    print 'Warning: Team ' + team.name + ' has no module assigned.'
 
 
 def progress_time():

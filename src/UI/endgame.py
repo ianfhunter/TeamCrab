@@ -15,12 +15,12 @@ class EndGame:
     def generate_report(self):
         ''' Generate table with information about the end of the game '''
         report = list()
-        report.append(['Team', 'Module', 'Task', 'Estimated Time', 'Actual Time'])
+        report.append(['Team', 'Module', 'Estimated Time', 'Actual Time'])
         for location in self.project.locations:
             for team in location.teams:
-                for task in team.completed_tasks:
-                    estimated_hours = task.cost / team.size
-                    report.append([team.name, task.module.name, task.name, estimated_hours, task.hours_taken])
+                for module in team.completed_modules:
+                    estimated_hours = module.cost / team.size
+                    report.append([team.name, module.name, estimated_hours, module.hours_taken])
         return report
 
     def total_person_hours(self):
@@ -28,10 +28,10 @@ class EndGame:
         total_actual = 0
         for location in self.project.locations:
             for team in location.teams:
-                for task in team.completed_tasks:
-                    estimated_hours = task.cost / team.size
+                for module in team.completed_modules:
+                    estimated_hours = module.cost / team.size
                     total_estimated += estimated_hours    
-                    total_actual += task.hours_taken
+                    total_actual += module.hours_taken
         return (total_estimated, total_actual)
 
     def refresh_screen(self):
@@ -75,9 +75,9 @@ class EndGame:
         
         table = gui.Table(font=monofont)
 
-        for (team, module, task, estimate, actual) in report:
+        for (team, module, estimate, actual) in report:
             # I'm not proud of this
-            s = team + (" " * (20 - len(team))) + task + (" " * (20 - len(task))) \
+            s = team + (" " * (20 - len(team))) + module + (" " * (20 - len(module))) \
             + str(estimate) + (" " * (20 - len(str(estimate)))) + str(actual)
             
             l = gui.Label(s)
