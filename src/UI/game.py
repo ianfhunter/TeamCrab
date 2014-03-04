@@ -190,11 +190,12 @@ class Game:
             label = font.render(str(progress) + " Hours (Total)", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 100))
 
+            #TODO: Potentially change this if multiple modules at one site.
             targetIcon = pygame.image.load(self.config["target_icon_path"])
             self.screen.blit(targetIcon, (1, 430))
             num_on_time = site.num_modules_on_schedule()
-            num_teams = site.num_teams()
-            label = font.render(str(num_on_time) + "/" + str(num_teams) +
+            num_modules = site.num_modules()
+            label = font.render(str(num_on_time) + "/" + str(num_modules) +    
                                 " Modules On Schedule", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 

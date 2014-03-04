@@ -52,7 +52,7 @@ def progress_time():
     if gmt_time[0] == 24:
         gmt_time[0] = 0
 
-    print gmt_time
+    print str(gmt_time[0]) + ":00 GMT"
 
     calc_progress(gmt_time)
 

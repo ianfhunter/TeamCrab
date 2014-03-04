@@ -62,3 +62,11 @@ class Location(object):
                 if team.module.is_on_time():
                     total += 1
         return total
+
+    def num_modules(self):
+        total = 0
+        for team in self.teams:
+            if team.module: 
+                total += 1
+        return total
+
