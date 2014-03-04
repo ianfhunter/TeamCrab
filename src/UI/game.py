@@ -13,7 +13,7 @@ root_dir = os.path.join(this_dir, '../..')
 
 
 class Game:
-    def __init__(self, project_data, game_config):
+    def __init__(self, project_data, game_config,screen):
         glob_game = self
         self.project_data = project_data
         self.config = game_config
@@ -23,11 +23,7 @@ class Game:
 
         self.selected_site = None
 
-        # Screen setup.
-        # TODO: This should be passed in the constructor rather than
-        # being created in here.
-        self.screen = pygame.display.set_mode((self.config["screenX"],
-                                               self.config["screenY"]))
+        self.screen = screen
         self.app = gui.App()
         self.app.connect(gui.QUIT, self.app.quit, None)
         self.contain = gui.Container(width=self.config["screenX"],
@@ -121,10 +117,10 @@ class Game:
             inactive = True
             failing = False
             for team in site.teams:
-                
-                #Changed as modules now assigned to teams rather then tasks and modules do not have dependancies at this time.
-                #if a module is running, it is not stalled waiting on dependencies or waiting on another.
-                #print team.modules[0] ,":",team.module
+                 
+ #Changed as modules now assigned to teams rather then tasks and modules do not have dependancies at this time.
+ #if a module is running, it is not stalled waiting on dependencies or waiting on another.
+ #print team.modules[0] ,":",team.module                
                 if team.module:
                     inactive = False
 
@@ -199,7 +195,7 @@ class Game:
             num_on_time = site.num_modules_on_schedule()
             num_teams = site.num_teams()
             label = font.render(str(num_on_time) + "/" + str(num_teams) +
-                                " Module On Schedule", 1, (0, 0, 0))
+                                " Modules On Schedule", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
     def draw_pause_button(self):
