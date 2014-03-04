@@ -39,7 +39,7 @@ class Module(object):
             return None
 
     def is_on_time(self):
-        ''' Returns True if the progress of this task is at least equal to the expected progress,
+        ''' Returns True if the progress of this task is at least equal to 75% of the expected progress,
         False otherwise
         '''
-        return self.progress >= self.expected_progress
+        return self.progress >= self.expected_progress - (self.expected_progress/4)
