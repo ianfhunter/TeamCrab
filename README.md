@@ -145,6 +145,30 @@ to generate html documentation use
   * Wait until the end of the game.
   * A summary of the report will be displayed on the screen, with the full report written to report.csv in the game's working directory.
 
+## Game console trace
+When running the game, information related to the current progress of modules is displayed in the console.
+The game time is printed to the console every turn. A turn equates to an hour of work in the game. The time
+displayed takes the form "hour:minutes GMT" as a 24-hour clock.
+
+The progress of each module currently being worked on is printed every turn that the assigned team is
+"working". Teams are considered to be working from 9:00 to 17:00 local time. An example of the output
+of the progress of a module is:
+
+"Module: Sample Module - Actual Progress: 42.7 - Expected Progress: 45.0 - Target End Progress: 50"
+
+First the name of the module is printed. After this, there are 3 values related to the progress of the
+module. In this context, progress means the amount of person-hours that have been put into the module
+so far. The "Actual Progress" is the number of hours of work that have actually been put into the
+module so far. The "Expected Progress" is the number of hours of work that should have been put in
+based on estimates. The "Target End Progress" is the total number of hours that need to be put into
+the module for it to be completed fully.
+
+When a module is completed, a message will be printed to the console. For example, "Team C's module has
+completed".
+
+When a team has no module assigned during a working hour and are sitting idle, a warning will be printed
+to the console. For example, "Warning: Team Team B has no module assigned".
+
 ##Attributions:
 * Map Image - http://dezignus.com/vector-world-map/#more-912
 * Man Icon - Man by Tamiko Young from The Noun Project http://thenounproject.com/term/man/12173/
