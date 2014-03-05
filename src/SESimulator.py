@@ -16,6 +16,7 @@ from global_config import config
 
 setup_finished = False
 
+#to avoid screen flickering
 def enable_vsync():
     if sys.platform != 'darwin':
         return
@@ -32,16 +33,12 @@ def enable_vsync():
 
 
 class FrontEndThread(threading.Thread):
-    def __init__(self, game, proj,start_screen):
+    def __init__(self, game, proj):
         threading.Thread.__init__(self)
         self.proj = proj
         self.game = game
-        self.start_screen = start_screen
 
     def run(self):
-        self.start_screen.run()
-        global setup_finished
-        setup_finished = True
         self.game.run()
 
 class BackEndThread(threading.Thread):
@@ -51,34 +48,23 @@ class BackEndThread(threading.Thread):
         self.game = game
 
     def run(self):
-        global setup_finished
-        while(not setup_finished):
-            sleep(1)
-        #start simulation once game params have been setup
         simeng.run_engine(self.game, self.proj)
 
 def main():
-    # Parse arguments passed to game
-    parser = argparse.ArgumentParser(description='Software Engineering Simulator')
-    parser.add_argument('-l','--load', help='Load a saved game or default scenario', metavar='game')
-    args = vars(parser.parse_args())
-
+    #setup standard stuff
     enable_vsync()
     pygame.init()
 
-    if args['load']:
-        exec('from games import %s as chosen_game' % args['load'])
-        project = chosen_game.load_game()
-    else:
-        project = populate.load_game()
-    
-    project.calc_nominal_schedule(config["developer_period_effort_value"])
+    #create our window
     screen = pygame.display.set_mode((config["screenX"], config["screenY"]))
 
+    #startup dialog
     sScreen = start_screen.Start_Screen(config,screen)
+    project = sScreen.run()
+
     glob_game = game.Game(project, config,screen)
 
-    frontend = FrontEndThread(glob_game,project,sScreen)
+    frontend = FrontEndThread(glob_game,project)
     backend = BackEndThread(glob_game,project)
     frontend.start()
     backend.start()

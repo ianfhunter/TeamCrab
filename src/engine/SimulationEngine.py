@@ -7,6 +7,7 @@ from time import sleep
 from Repeated_Timer import Repeated_Timer
 
 from UI import game
+from global_config import config
 
 # gmt_time is represented as a list [hours, day, month, year]
 gmt_time = datetime.datetime(2014,1,1,0,0,0)
@@ -70,8 +71,11 @@ def run_engine(game, proj):
     global project
     project = proj
 
+    project.calc_nominal_schedule(config["developer_period_effort_value"])
+
     global game_obj
     game_obj = game
+
 
     thread_time = (0, 0)
     timer = Repeated_Timer(0.5, progress_time)

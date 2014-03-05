@@ -2,6 +2,7 @@ import pygame
 import os
 from pgu import gui
 from time import sleep
+from games import scenarios
 
 this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
@@ -11,7 +12,6 @@ class Start_Screen:
         self.config = game_config
         self.selected_site = None
         self.screen = screen
-
         #
         self.app = gui.App()
         self.app.connect(gui.QUIT, self.app.quit, None)
@@ -31,7 +31,7 @@ class Start_Screen:
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
             if self.complete:
-                return
+                return self.sel_val
             else:
                 self.draw()
 
@@ -43,7 +43,7 @@ class Start_Screen:
 
     def update_scenario_choice(self,selection):
         ''' Callback for changing scenarios with PGU select element'''
-        print selection.value
+        self.sel_val = scenarios.get_scenarios().get(selection.value)
 
     def complete_setup(self):
         self.complete = True
@@ -51,20 +51,22 @@ class Start_Screen:
 
     def draw_choices(self):
         ''' Takes different scenarios and puts them in the selection gui element '''
-        choices = ["Eastern European Teams", "Asia-Based Development", "Worldwide Development"]
+#        choices = ["Eastern European Teams", "Asia-Based Development", "Worldwide Development"]
+        choices =  scenarios.get_scenarios()
+
 
         if self.contain.widgets == []:
             #selection
             sel = gui.Select()
             for itr,label in enumerate(choices):
-                sel.add(label,str(itr))
+                sel.add(label,label)
             sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
             #button
             button = gui.Button("Submit")
             button.connect(gui.CLICK, self.complete_setup)
 
             self.contain.add(button, 500, 180)
-            self.contain.add(sel, 200, 180)
+            self.contain.add(sel, 100, 180)
             self.app.init(self.contain)
 
 
