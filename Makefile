@@ -1,5 +1,5 @@
 .PHONY: all test clean install uninstall
-version = RC1_rc3
+version = RC1_rc4
 install_dir = /opt/SESimulator_v$(version)
 
 build:
