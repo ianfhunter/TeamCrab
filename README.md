@@ -143,6 +143,12 @@ to generate html documentation use
   * Start the game with the sample game file (this happens automatically at the moment).
   * Wait until the end of the game.
   * A summary of the report will be displayed on the screen, with the full report written to report.csv in the game's working directory.
+6. Feature #5 - Nominal schedule calculator
+   **TODO**
+7. Feature #3 - Game score calc. 
+   **TODO**
+8. Feature #8 - Module Completion calc.
+   **TODO**
 
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.
