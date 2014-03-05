@@ -99,9 +99,10 @@ class Game:
         self.screen.blit(label, (20, label_pos))
         cur_time =self.project_data.current_time
         label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
-        self.screen.blit(label, (200, label_pos))
-        label = font.render("10 Items Needing Review", 1, (238, 255, 53))
-        self.screen.blit(label, (500, label_pos))
+        self.screen.blit(label, (100, label_pos))
+        label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
+                             1, (238, 255, 53))
+        self.screen.blit(label, (320, label_pos))
 
     def draw_sites(self):
         ''' Draws dots showing sites around the world map.
