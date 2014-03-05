@@ -30,18 +30,21 @@ def calc_progress(gmt_time):
     9:00 and 17:00 local time.
     '''
     global project
+    global cmd_args
     for location in project.locations:
         local_time = (gmt_time.hour + location.time_zone) % 24
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
                 team.calc_progress(location.calc_mod())
                 if team.module:
-                    print 'Module:', team.module.name, '- Actual Progress:', \
-                        str(team.module.progress), '- Expected Progress:', \
-                        str(team.module.expected_progress), '- Target End Progress:', \
-                        str(team.module.cost)
+                    if not cmd_args["P_SUPPRESS"]:
+                        print 'Module:', team.module.name, '- Actual Progress:', \
+                            str(team.module.progress), '- Expected Progress:', \
+                            str(team.module.expected_progress), '- Target End Progress:', \
+                            str(team.module.cost)
                 else:
-                    print 'Warning: Team ' + team.name + ' has no module assigned.'
+                    if not cmd_args["P_SUPPRESS"]:
+                        print 'Warning: Team ' + team.name + ' has no module assigned.'
 
 
 def progress_time():
@@ -50,7 +53,9 @@ def progress_time():
     global gmt_time
     gmt_time += datetime.timedelta(hours=1)
 
-    print str(gmt_time.day) + "-" + str(gmt_time.month) + "-" + str(gmt_time.year) + " " + str(gmt_time.hour) + ":00 GMT"
+    global cmd_args
+    if not cmd_args["P_SUPPRESS"]:
+        print str(gmt_time.day) + "-" + str(gmt_time.month) + "-" + str(gmt_time.year) + " " + str(gmt_time.hour) + ":00 GMT"
 
     calc_progress(gmt_time)
 
@@ -65,9 +70,12 @@ def progress_time():
     finished = all_finished()
 
 
-def run_engine(game, proj):
+def run_engine(game, proj,c_args):
     ''' Runs the backend engine for the game.
     '''
+    global cmd_args
+    cmd_args = c_args
+
     global project
     project = proj
 
