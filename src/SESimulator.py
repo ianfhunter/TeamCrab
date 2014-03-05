@@ -71,8 +71,8 @@ def main():
         project = chosen_game.load_game()
     else:
         project = populate.load_game()
-
-
+    
+    project.calc_nominal_schedule(config["developer_period_effort_value"])
     screen = pygame.display.set_mode((config["screenX"], config["screenY"]))
 
     sScreen = start_screen.Start_Screen(config,screen)

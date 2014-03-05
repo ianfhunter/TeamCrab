@@ -8,8 +8,8 @@ from Repeated_Timer import Repeated_Timer
 
 from UI import game
 
-# gmt_time is represented as a list [hours, minutes]
-gmt_time = [0, 0]
+# gmt_time is represented as a list [hours, day, month, year]
+gmt_time = datetime.datetime(2014,1,1,0,0,0)
 finished = False
 project = None
 game_obj = None
@@ -30,7 +30,7 @@ def calc_progress(gmt_time):
     '''
     global project
     for location in project.locations:
-        local_time = (gmt_time[0] + location.time_zone) % 24
+        local_time = (gmt_time.hour + location.time_zone) % 24
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
                 team.calc_progress(location.calc_mod())
@@ -46,13 +46,10 @@ def calc_progress(gmt_time):
 def progress_time():
     ''' This function is called every x seconds to "progress" the game by 1 hour.
     '''
-    gmt_time[0] += 1
-    global gmt_overall
+    global gmt_time
+    gmt_time += datetime.timedelta(hours=1)
 
-    if gmt_time[0] == 24:
-        gmt_time[0] = 0
-
-    print str(gmt_time[0]) + ":00 GMT"
+    print str(gmt_time.day) + "-" + str(gmt_time.month) + "-" + str(gmt_time.year) + " " + str(gmt_time.hour) + ":00 GMT"
 
     calc_progress(gmt_time)
 

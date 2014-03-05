@@ -147,7 +147,7 @@ to generate html documentation use
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.
 The game time is printed to the console every turn. A turn equates to an hour of work in the game. The time
-displayed takes the form "hour:minutes GMT" as a 24-hour clock.
+displayed takes the form "1-1-2014 8:00 GMT" for example.
 
 The progress of each module currently being worked on is printed every turn that the assigned team is
 "working". Teams are considered to be working from 9:00 to 17:00 local time. An example of the output

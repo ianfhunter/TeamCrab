@@ -7,6 +7,7 @@ config = {
         # Game parameters
         "difficulty" : "normal",
         "sleep_duration" : 0.05,
+        "developer_period_effort_value" : 1,
         # UI colours
         "site_colour" : 0x2C8718,
         "bar_colour" : 0x9b9b9b,
