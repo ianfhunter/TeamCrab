@@ -6,7 +6,8 @@ build:
 	python -m compileall src
 	mkdir -p bin
 	cd src; find . ! -path . -type d | cpio -pdumv ../bin
-	cd src; find . -name '*.pyc' | xargs cp --parents -t ../bin/
+	cd src; find . \( -iname "*.pyc" ! -iname "global_config.pyc" \) | xargs cp --parents -t ../bin/
+	cp src/global_config.py bin/global_config.py
 	find src -name *.pyc -delete
 	chmod a+x bin/SESimulator.pyc
 	@echo Build successful!
