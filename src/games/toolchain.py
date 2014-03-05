@@ -4,10 +4,10 @@ from engine.Module import Module
 from engine.Team import Team
 
 class Scenario_Toolchain():
-    def get_name():
+    def get_name(self):
         return "7 sites - Worldwide toolchain development"
 
-    def load_game():
+    def load_game(self):
         ''' Project is a toolchain for a microprocessor architecture with a purpose-built
         high level programming language made up of 7 modules:
         Compiler frontend, compiler backend, assembler, disassembler, linker, debugger and virtual machine.

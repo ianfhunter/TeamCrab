@@ -4,10 +4,10 @@ from engine.Module import Module
 from engine.Team import Team
 
 class Scenario_Traffic_Monitor():
-    def get_name():
+    def get_name(self):
         return "3 sites - Worldwide traffic monitoring system"
 
-    def load_game():
+    def load_game(self):
         ''' Project is a Traffic Monitoring system made up of 3 modules:
         Traffic camera API, backend infrastructure and UI.
         Each module has been assigned in its entirity to a single location.
