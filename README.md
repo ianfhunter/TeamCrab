@@ -91,14 +91,13 @@ from engine.Location import Location
 from engine.Module import Module
 from engine.Team import Team
 
-class Scenario_Name():
-    def get_name():
-        return "x sites - scenario name"
+def get_name():
+    return "x sites - scenario name"
 
-    def load_game():
-        ''' Place a description of the scenario here
-        '''
-        pass
+def load_game():
+    ''' Place a description of the scenario here
+    '''
+    pass
 ```
 
 The string returned by the get_name function is displayed in the UI for user selection. The load_game function should return

@@ -1,8 +1,8 @@
-from toolchain import Scenario_Toolchain
-from traffic_monitor import Scenario_Traffic_Monitor
+import toolchain
+import traffic_monitor
 
 def get_scenarios():
-	scenarios = list()
-	scenarios.append(Scenario_Toolchain())
-	scenarios.append(Scenario_Traffic_Monitor())
+	scenarios = dict()
+	scenarios[toolchain.get_name()] = toolchain.load_game()
+	scenarios[traffic_monitor.get_name()] = traffic_monitor.load_game()
 	return scenarios
