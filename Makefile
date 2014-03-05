@@ -42,3 +42,7 @@ uninstall:
 
 uninstall-script:
 	rm /usr/local/bin/SESimulator
+
+run:
+	python bin/SESimulator.pyc
+
