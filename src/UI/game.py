@@ -95,7 +95,10 @@ class Game:
 
         # Overlay balance & statistics on bottom bar.
         label_pos = y - bar_height
-        label = font.render("-$500", 1, (255, 0, 0))
+        if self.project_data.cash >= 0:
+            label = font.render("$"+str(self.project_data.cash), 1, (0, 255, 0))
+        else:
+            label = font.render("-$"+str(self.project_data.cash), 1, (255, 0, 0))
         self.screen.blit(label, (20, label_pos))
         cur_time =self.project_data.current_time
         label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))

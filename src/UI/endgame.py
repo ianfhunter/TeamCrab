@@ -60,7 +60,7 @@ class EndGame:
         self.screen.blit(label, (80, 100))
 
         # TODO: Get real cost value here when implemented, currently dummy.
-        cost = 1337
+        cost = self.project.cash
         label = font.render("Profit Margin: $" + str(cost), 1, (0, 0, 0))
         self.screen.blit(label, (80, 140))
 

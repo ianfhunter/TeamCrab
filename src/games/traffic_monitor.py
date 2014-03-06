@@ -11,7 +11,7 @@ def load_game():
     Traffic camera API, backend infrastructure and UI.
     Each module has been assigned in its entirity to a single location.
     '''
-    project = Project('Traffic Monitor', 'Agile', (29,4,2014))
+    project = Project('Traffic Monitor', 'Agile', 200000)
 
     # Setup a team in Dublin
     dublin = Location('Dublin', 0, "culture1", 20, 25, (375,148))

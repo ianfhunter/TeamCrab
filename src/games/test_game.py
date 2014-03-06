@@ -7,7 +7,7 @@ def get_name():
     return "test_game"
 
 def load_game():
-    project = Project('Sample Project', 'Agile', (12,3,2014))
+    project = Project('Sample Project', 'Agile', 100000)
 
     location_a = Location('Dublin', 0, "culture1", 20, 25, (375,148))
     team_a = Team('Team A', 1.0, 15, 10)

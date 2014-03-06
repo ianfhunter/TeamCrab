@@ -35,6 +35,7 @@ def calc_progress(gmt_time):
         local_time = (gmt_time.hour + location.time_zone) % 24
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
+                project.cash -= (team.salary*team.size)
                 team.calc_progress(location.calc_mod())
                 if team.module:
                     if not cmd_args["P_SUPPRESS"]:
