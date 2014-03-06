@@ -1,12 +1,13 @@
 .PHONY: all test clean install uninstall
-version = RC1_rc3
+version = RC1_rc4
 install_dir = /opt/SESimulator_v$(version)
 
 build:
 	python -m compileall src
 	mkdir -p bin
 	cd src; find . ! -path . -type d | cpio -pdumv ../bin
-	cd src; find . -name '*.pyc' | xargs cp --parents -t ../bin/
+	cd src; find . \( -iname "*.pyc" ! -iname "global_config.pyc" \) | xargs cp --parents -t ../bin/
+	cp src/global_config.py bin/global_config.py
 	find src -name *.pyc -delete
 	chmod a+x bin/SESimulator.pyc
 	@echo Build successful!
@@ -41,3 +42,7 @@ uninstall:
 
 uninstall-script:
 	rm /usr/local/bin/SESimulator
+
+run:
+	python bin/SESimulator.pyc
+

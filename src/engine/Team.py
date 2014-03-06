@@ -7,9 +7,9 @@ class Team(object):
         self.salary = salary
         self.efficiency = efficiency
         self.size = size
-        self.task = None
-        self.tasks = list()
-        self.completed_tasks = list()
+        self.module = None
+        self.modules = list()
+        self.completed_modules = list()
 
     def calc_progress(self, mod):
         ''' Calculates the progress of the taks currently assigned to this team.
@@ -35,37 +35,37 @@ class Team(object):
         random element = +/- up to 25% of
             (team efficiency * cultural efficiency * team size)
         '''
-        if not self.task or self.task.completed:
-            if self.tasks:
-                self.task = self.tasks[0]
-                self.tasks.pop(0)
+        
+
+        if not self.module or self.module.completed:
+            if len(self.modules) > 0 :
+                self.module = self.modules[0]
+                self.modules.pop(0)
             else:
                 return
+        self.module.hours_taken += 1
 
-        tmp_prog = self.task.progress
-        self.task.stalled = False
-        if not self.task.completed:
-            if self.task.module.tasks[0] == self.task:
-                self.task.hours_taken += 1
-                prog = self.efficiency * mod * self.size
-                self.task.progress += self.random_element(prog)
+        tmp_prog = self.module.progress
+        self.module.stalled = False
+        if not self.module.completed:
+            self.module.hours_taken += 1
+            prog = self.efficiency * mod * self.size
+            self.module.progress += self.random_element(prog)
 
-                if self.task.expected_progress < self.task.cost:
-                    self.task.expected_progress += self.size
-                if self.task.progress >= self.task.cost:
-                    print self.name + '\'s task has completed!'
-                    self.task.module.completed_tasks.append(self.task)
-                    self.task.module.tasks.remove(self.task)
-                    self.task.completed = True
-                    self.completed_tasks.append(self.task)
-                    # Allocate a new task
-                    if self.tasks:
-                        self.task = self.tasks[0]
-                        self.tasks.pop(0)
-                    else:
-                        self.task = None
 
-        if self.task and tmp_prog >= self.task.progress:
+            self.module.expected_progress += self.size
+            if self.module.progress >= self.module.cost:
+                print self.name + '\'s module has completed!'
+                self.module.completed = True
+                self.completed_modules.append(self.module)
+                # Allocate a new module
+                if self.modules:
+                    self.module = self.modules[0]
+                    self.modules.pop(0)
+                else:
+                    self.module = None
+
+        if self.module and tmp_prog >= self.module.progress:
             pass
 #            self.task.stalled = True
 

@@ -7,53 +7,56 @@ from time import sleep
 from Repeated_Timer import Repeated_Timer
 
 from UI import game
+from global_config import config
 
-# gmt_time is represented as a list [hours, minutes]
-gmt_time = [0, 0]
+# gmt_time is represented as a list [hours, day, month, year]
+gmt_time = datetime.datetime(2014,1,1,0,0,0)
 finished = False
 project = None
 game_obj = None
 
 def all_finished():
-    ''' Returns True when all tasks in all modules have completed, False otherwise
+    ''' Returns True when all modules in all modules have completed, False otherwise
     '''
     global project
     for module in project.modules:
-        if module.tasks:
+        if not module.completed:
             return False
     return True
 
 def calc_progress(gmt_time):
-    ''' This function calculates the progress of each task assigned to each team 
+    ''' This function calculates the progress of each module assigned to each team 
     if the team is currently working. A team is considered to be working between 
     9:00 and 17:00 local time.
     '''
     global project
+    global cmd_args
     for location in project.locations:
-        local_time = (gmt_time[0] + location.time_zone) % 24
+        local_time = (gmt_time.hour + location.time_zone) % 24
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
+                project.cash -= (team.salary*team.size)
                 team.calc_progress(location.calc_mod())
-                if team.task:
-                    print 'Module:', team.task.module.name, '- Task:', \
-                        team.task.name, '- Actual Progress:', \
-                        str(team.task.progress), '- Expected Progress:', \
-                        str(team.task.expected_progress), '- Target End Progress:', \
-                        str(team.task.cost)
+                if team.module:
+                    if not cmd_args["P_SUPPRESS"]:
+                        print 'Module:', team.module.name, '- Actual Progress:', \
+                            str(team.module.progress), '- Expected Progress:', \
+                            str(team.module.expected_progress), '- Target End Progress:', \
+                            str(team.module.cost)
                 else:
-                    print 'Warning: Team ' + team.name + ' has no task assigned.'
+                    if not cmd_args["P_SUPPRESS"]:
+                        print 'Warning: Team ' + team.name + ' has no module assigned.'
 
 
 def progress_time():
     ''' This function is called every x seconds to "progress" the game by 1 hour.
     '''
-    gmt_time[0] += 1
-    global gmt_overall
+    global gmt_time
+    gmt_time += datetime.timedelta(hours=1)
 
-    if gmt_time[0] == 24:
-        gmt_time[0] = 0
-
-    print gmt_time
+    global cmd_args
+    if not cmd_args["P_SUPPRESS"]:
+        print str(gmt_time.day) + "-" + str(gmt_time.month) + "-" + str(gmt_time.year) + " " + str(gmt_time.hour) + ":00 GMT"
 
     calc_progress(gmt_time)
 
@@ -68,14 +71,20 @@ def progress_time():
     finished = all_finished()
 
 
-def run_engine(game, proj):
+def run_engine(game, proj,c_args):
     ''' Runs the backend engine for the game.
     '''
+    global cmd_args
+    cmd_args = c_args
+
     global project
     project = proj
 
+    project.calc_nominal_schedule(config["developer_period_effort_value"])
+
     global game_obj
     game_obj = game
+
 
     thread_time = (0, 0)
     timer = Repeated_Timer(0.5, progress_time)

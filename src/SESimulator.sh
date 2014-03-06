@@ -1,6 +1,6 @@
 #!/bin/bash
 
-v=RC1_rc3
+v=RC1_rc4
 
 if [[ $1 = "--simv" ]]; then
 	v=$2

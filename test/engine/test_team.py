@@ -16,13 +16,12 @@ class TestTask(unittest.TestCase):
     def test_calc_progress(self):
         team = Team('test_team', 30, 25, 10)
         module = Module('test_module', 800)
-        task = module.get_task('design')
-        team.task = task
+        team.module = module
 
-        while team.task and not team.task.completed:
+        while team.module and not team.module.completed:
             team.calc_progress(1)
 
-        self.assertTrue(module.completed_tasks and module.completed_tasks[0] == task)
+        self.assertTrue(team.completed_modules and team.completed_modules[0] == module)
 
     def test_random_element(self):
         team = Team('test_team', 30, 25, 10)
