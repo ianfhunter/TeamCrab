@@ -2,6 +2,7 @@ from engine.Project import Project
 from engine.Location import Location
 from engine.Module import Module
 from engine.Team import Team
+from engine.RevenueTier import LowRevenueTier
 
 def get_name():
     return "2 sites - Small webapp development"
@@ -11,7 +12,7 @@ def load_game():
     Framework, database, front end, api, documentation. 
 
     '''
-    project = Project('Web App', 'Agile', 100000)
+    project = Project('Web App', 'Agile', 100000, LowRevenueTier())
 
     # Setup a team in Dublin
     dublin = Location('Dublin', 0, "culture1", 30, 25, (375,148))

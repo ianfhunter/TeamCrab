@@ -2,12 +2,13 @@ from engine.Project import Project
 from engine.Location import Location
 from engine.Module import Module
 from engine.Team import Team
+from engine.RevenueTier import LowRevenueTier
 
 def get_name():
     return "test_game"
 
 def load_game():
-    project = Project('Sample Project', 'Agile', 100000)
+    project = Project('Sample Project', 'Agile', 100000, LowRevenueTier())
 
     location_a = Location('Dublin', 0, "culture1", 20, 25, (375,148))
     team_a = Team('Team A', 1.0, 15, 10)

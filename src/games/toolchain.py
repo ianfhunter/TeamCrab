@@ -2,6 +2,7 @@ from engine.Project import Project
 from engine.Location import Location
 from engine.Module import Module
 from engine.Team import Team
+from engine.RevenueTier import MediumRevenueTier
 
 def get_name():
     return "7 sites - Worldwide toolchain development"
@@ -12,7 +13,7 @@ def load_game():
     Compiler frontend, compiler backend, assembler, disassembler, linker, debugger and virtual machine.
     Each module in its entirity has been assigned to a single team.
     '''
-    project = Project('Traffic Monitor', 'Agile', 500000)
+    project = Project('Traffic Monitor', 'Agile', 500000, MediumRevenueTier())
 
     # Setup a team in Rio de Janeiro
     rio_de_janeiro = Location('Rio de Janeiro', -3, "culture1", 20, 25, (285,337))
