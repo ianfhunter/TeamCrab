@@ -151,7 +151,10 @@ to generate html documentation use
   * Your game score is shown.
   * Game score is calculated by "score = remaining_budget + [(6 - number_of_months_behind_schedule) * (yearly_revenue / 12)]".
 8. Feature #8 - Module Completion calc.
-   **TODO**
+  * This is currently not implemented as specified. 
+  * Instead of taking the base and modifying the required amount by up to +/- 25%, the amount of work done by a team is modified by up to +/- 25% each hour worked. 
+  * This is so it can be seen when a module is falling behind schedule.
+  * This can be seen in the trace - Actual Progress - how much work a team has actually done on the module - compared to Expected Progress - how much work a team should have done with no random element.
 
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.
