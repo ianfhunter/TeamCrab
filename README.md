@@ -146,7 +146,8 @@ to generate html documentation use
 6. Feature #5 - Nominal schedule calculator
    **TODO**
 7. Feature #3 - Game score calc. 
-   **TODO**
+  * Play a game through until the end-game screen.
+  * Your game score is shown.
 8. Feature #8 - Module Completion calc.
    **TODO**
 
