@@ -35,7 +35,7 @@ class Team(object):
         random element = +/- up to 25% of
             (team efficiency * cultural efficiency * team size)
         '''
-        self.module.hours_taken += 1
+        
 
         if not self.module or self.module.completed:
             if len(self.modules) > 0 :
@@ -43,6 +43,7 @@ class Team(object):
                 self.modules.pop(0)
             else:
                 return
+        self.module.hours_taken += 1
 
         tmp_prog = self.module.progress
         self.module.stalled = False
