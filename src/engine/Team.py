@@ -35,6 +35,8 @@ class Team(object):
         random element = +/- up to 25% of
             (team efficiency * cultural efficiency * team size)
         '''
+        self.module.hours_taken += 1
+
         if not self.module or self.module.completed:
             if len(self.modules) > 0 :
                 self.module = self.modules[0]
@@ -49,8 +51,8 @@ class Team(object):
             prog = self.efficiency * mod * self.size
             self.module.progress += self.random_element(prog)
 
-            if self.module.expected_progress < self.module.cost:
-                self.module.expected_progress += self.size
+
+            self.module.expected_progress += self.size
             if self.module.progress >= self.module.cost:
                 print self.name + '\'s module has completed!'
                 self.module.completed = True

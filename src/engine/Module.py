@@ -21,7 +21,8 @@ class Module(object):
         self.expected_progress = 0.0
         self.completed = False
         self.stalled = False
-        self.hours_taken = 0
+        self.hours_taken = 0 # This is productive time
+        self.total_hours = 0 # number of hours from start of project including non productive hours. 
 
     # TODO: Consider changing tasks to be a dictionary for O(1) lookups
     # by name.
