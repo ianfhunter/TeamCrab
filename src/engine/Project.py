@@ -45,12 +45,15 @@ class Project():
     #  [sum(module estimated effort) /  (avg_developer_effort_day * num_developers)] * 1.24
     def expected_budget(self, developer_effort_day):
         total_module_effort = 0
+        print "dev day", developer_effort_day
         for module in self.modules:
             total_module_effort += module.cost
+        print "total effort", total_module_effort
         num_developers = 0
         for location in self.locations:
             num_developers += location.current_size
-        return (total_module_effort / (developer_effort_day * num_developers) * 1.24)
+        print "devs", num_developers
+        return (float(total_module_effort) / (float(developer_effort_day) * float(num_developers)) * 1.24)
 
     def actual_budget(self):
         return self.budget
@@ -58,7 +61,7 @@ class Project():
     # From e-mail:
     # expected_revenue = expected_early_revenue / 2
     def expected_revenue(self):
-        return self.expected_early_revenue / 2
+        return self.expected_yearly_revenue / 2
 
     def actual_revenue(self):
         num_months_late = self.months_behind_schedule() 
