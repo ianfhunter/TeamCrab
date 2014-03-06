@@ -136,17 +136,18 @@ to generate html documentation use
   * Changes between colours indicate a change in status information in line with the above statuses.
   * Sites are clickable to view more detailed information about a site.
 4. Feature #20 - Default scenarios
-  * Scenarios can be loaded from the command line using the -l and --load flags. As it stands there are two default scenarios available.
-  * As an example, run 'SESimulator -l scenario2' to load scenario2.
-  * A list of available scenarios can be found by listing the contents of the src/games directory.
+  * To choose a provided scenario, launch the game and select one from the dropdown list.
+  * If no scenario is selected, the default scenario is the first item in the dropdown list.
 5. Feature #14 - End of game report 
   * Start the game with the sample game file (this happens automatically at the moment).
   * Wait until the end of the game.
   * A summary of the report will be displayed on the screen, with the full report written to report.csv in the game's working directory.
 6. Feature #5 - Nominal schedule calculator
-   **TODO**
+   * The nominal deadline is the sum of all the efforts estimated for each module, divided by a default developer-period effort value.
+   * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen
+   * Each scenario has its own nominal deadline
 7. Feature #3 - Game score calc. 
-   **TODO**
+   * Game score is calculated by "score = remaining_budget + [(6 - number_of_months_behind_schedule) * (yearly_revenue / 12)]" and is show on the end-game screen
 8. Feature #8 - Module Completion calc.
    **TODO**
 
