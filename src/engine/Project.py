@@ -28,6 +28,18 @@ class Project():
             nominal_schedule = max_team_cost / dev_effort_val
             self.delivery_date = self.start_time + datetime.timedelta(days=nominal_schedule/8)
 
+    def months_behind_schedule(self):
+        # Returns a number of days late, divide by 30 to get number of months late
+        delta = self.delivery_date - self.start_time
+        days_late = delta.days
+        num_months_late = days_late/30
+        return num_months_late
+
+    def game_score(self):
+        num_months_late = self.months_behind_schedule() 
+        score = self.cash + ((6 - num_months_late) * (self.expected_yearly_revenue / 12))
+        return score
+
     # From email:
     # expected_budget =
     #  [sum(module estimated effort) /  (avg_developer_effort_day * num_developers)] * 1.24
@@ -49,7 +61,6 @@ class Project():
         return self.expected_early_revenue / 2
 
     def actual_revenue(self):
-        # Returns a number of days late, divide by 30 to get number of months late
-        num_months_late = (self.delivery_date - self.start_time) / 30
+        num_months_late = self.months_behind_schedule() 
         actual_revenue = (6 - num_months_late) * (self.expected_yearly_revenue / 12)
         return actual_revenue
