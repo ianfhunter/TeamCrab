@@ -12,7 +12,8 @@ class Start_Screen:
         self.config = game_config
         self.selected_site = None
         self.screen = screen
-        #
+        self.sel_val = scenarios.get_scenarios().itervalues().next()
+
         self.app = gui.App()
         self.app.connect(gui.QUIT, self.app.quit, None)
         self.contain = gui.Container(width=self.config["screenX"],
