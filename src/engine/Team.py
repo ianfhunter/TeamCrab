@@ -1,4 +1,3 @@
-import random
 
 
 class Team(object):
@@ -49,12 +48,11 @@ class Team(object):
         self.module.stalled = False
         if not self.module.completed:
             self.module.hours_taken += 1
-            prog = self.efficiency * mod * self.size
-            self.module.progress += self.random_element(prog)
+            self.module.progress += self.size
 
 
             self.module.expected_progress += self.size
-            if self.module.progress >= self.module.cost:
+            if self.module.progress >= self.module.actual_cost:
                 print self.name + '\'s module has completed!'
                 self.module.completed = True
                 self.completed_modules.append(self.module)
@@ -70,9 +68,4 @@ class Team(object):
 #            self.task.stalled = True
 
 
-    def random_element(self, prog):
-        ''' Generates a random value between -25 and 25 used as a percentage to offset prog.
-        '''
-        amount = float(random.randint(0, 25))
-        direction = random.choice([-1, 1])
-        return prog * (1 + (direction * amount / 100.0))
+

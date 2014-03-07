@@ -41,8 +41,9 @@ def calc_progress(gmt_time):
                     if not cmd_args["P_SUPPRESS"]:
                         print 'Module:', team.module.name, '- Actual Progress:', \
                             str(team.module.progress), '- Expected Progress:', \
-                            str(team.module.expected_progress), '- Target End Progress:', \
-                            str(team.module.cost)
+                            str(team.module.expected_progress), '- Target Estimated End Progress:', \
+                            str(team.module.cost), '- Target Actual End Progress:', \
+                            str(team.module.actual_cost)
                 else:
                     if not cmd_args["P_SUPPRESS"]:
                         print 'Warning: Team ' + team.name + ' has no module assigned.'

@@ -1,10 +1,18 @@
+import random
 from Task import Task
 
+def random_element(prog):
+    ''' Generates a random value between -25 and 25 used as a percentage to offset prog.
+    '''
+    amount = float(random.randint(-25, 25))
+    direction = random.choice([-1, 1])
+    return prog * (1 + (amount / 100.0))
 
 class Module(object):
     def __init__(self, name, cost):
         self.name = name
         self.cost = cost
+        self.actual_cost = random_element(cost)
         self.modules = list()
         self.tasks = list()
         self.completed_tasks = list()
@@ -43,4 +51,6 @@ class Module(object):
         ''' Returns True if the progress of this task is at least equal to 75% of the expected progress,
         False otherwise
         '''
-        return self.progress >= self.expected_progress - (self.expected_progress/4)
+        return self.progress < self.cost
+
+
