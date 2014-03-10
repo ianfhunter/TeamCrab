@@ -18,7 +18,7 @@ config = {
         "root_dir" : root_dir,
         "map_path" : os.path.join(root_dir, "media/map.png"),
         "man_icon_path" : os.path.join(root_dir, "media/man.png"),
-        "cog_icon_path" : os.path.join(root_dir, "media/cog.png"),
+        "peep_icon_path" : os.path.join(root_dir, "media/people.png"),
         "clock_icon_path" : os.path.join(root_dir, "media/clock.png"),
         "location_icon_path" : os.path.join(root_dir, "media/location.png"),
         "target_icon_path" : os.path.join(root_dir, "media/target.png"),

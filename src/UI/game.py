@@ -45,12 +45,12 @@ class Game:
         ''' Menu button to bring up new dialog, changes variables for next
         update().'''
 
-        print("Pause Clicked!")
-        if not self.endscreen:
-            self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
-        elif not self.gameover:
-            self.endscreen = None
-            self.firstDraw = True  # Redraw main screen fully once we exit.
+        # print("Pause Clicked!")
+        # if not self.endscreen:
+        #     self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
+        # elif not self.gameover:
+        #     self.endscreen = None
+        #     self.firstDraw = True  # Redraw main screen fully once we exit.
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
@@ -60,9 +60,11 @@ class Game:
             # Handle all events.
             for event in pygame.event.get():
                 # Tell PGU about all events.
-                self.app.event(event)
+                if not self.endscreen:
+                    self.app.event(event)
+                else:
+                    self.endscreen.app.event(event)
                 # Handle quitting.
-
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
 
@@ -181,17 +183,19 @@ class Game:
                                 " Team(s)", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 30))
 
-            cogIcon = pygame.image.load(self.config["cog_icon_path"])
-            self.screen.blit(cogIcon, (1, 360))
-            efficiency = site.average_efficiency()
-            label = font.render(str(efficiency) + "% Efficiency (Avg)", 1,
+            peepIcon = pygame.image.load(self.config["peep_icon_path"])
+            self.screen.blit(peepIcon, (1, 360))
+            population = 0
+            for team in self.selected_site.teams:
+                population += team.size
+            label = font.render(str(population) + "  People ", 1,
                                 (0, 0, 0))
             self.screen.blit(label, (40, y + 65))
 
             clockIcon = pygame.image.load(self.config["clock_icon_path"])
             self.screen.blit(clockIcon, (1, 395))
             progress = int(site.total_module_progress())
-            label = font.render(str(progress) + " Hours (Total)", 1, (0, 0, 0))
+            label = font.render(str(progress) + "h Effort Expended", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 100))
 
             #TODO: Potentially change this if multiple modules at one site.
@@ -199,8 +203,11 @@ class Game:
             self.screen.blit(targetIcon, (1, 430))
             num_on_time = site.num_modules_on_schedule()
             num_modules = site.num_modules()
-            label = font.render(str(num_on_time) + "/" + str(num_modules) +    
-                                " Modules On Schedule", 1, (0, 0, 0))
+            if num_modules - num_on_time == 0:
+                status = "On Schedule"
+            else:
+                status = "Delayed"
+            label = font.render(status, 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
     def draw_pause_button(self):
