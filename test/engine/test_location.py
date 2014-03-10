@@ -17,21 +17,17 @@ class TestLocation(unittest.TestCase):
     def test_add_team(self):
         location = Location('Dublin', 0, "culture1", 30, 25,(375,148))
 
-        team1 = Team('test_team1', 0.9, 25, 10)
+        team1 = Team('test_team1', 25, 10)
         self.assertTrue(location.add_team(team1))
 
-        team2 = Team('test_team2', 0.6, 20, 20)
+        team2 = Team('test_team2', 20, 20)
         self.assertTrue(location.add_team(team2))
 
-        team3 = Team('test_team3', 0.5, 20, 1)
+        team3 = Team('test_team3', 20, 1)
         self.assertFalse(location.add_team(team3))
 
         self.assertTrue(len(location.teams) == 2)
 
-    def test_calc_mod(self):
-        location = Location('Dublin', 0, "culture1", 30, 25,(375,148))
-
-        self.assertTrue(location.calc_mod() == 1.0)
 
 if __name__ == '__main__':
     unittest.main()

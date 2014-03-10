@@ -1,38 +1,19 @@
 
 
 class Team(object):
-    def __init__(self, name, efficiency, salary, size):
+    def __init__(self, name, salary, size):
         self.name = name
         self.salary = salary
-        self.efficiency = efficiency
         self.size = size
         self.module = None
         self.modules = list()
         self.completed_modules = list()
 
-    def calc_progress(self, mod):
+    def calc_progress(self):
         ''' Calculates the progress of the taks currently assigned to this team.
-        Expected_progress is 1 point per hour per person on the team -
+        Progress is 1 point per hour per person on the team -
         so each hour + size of team.
 
-        Actual progress (Left name as just progress) -
-        Affected by -
-            Efficiency of team:
-                - 1 is standard, no modifier.
-                - Less than 1 is a poor team.
-                - Greater than 1 is a good team.
-            Cultural modifier:
-                - 1 is standard, no modifier.
-                - Less than 1 is a poor culture.
-                - 1 is a good culture.
-            Size of team:
-                Basic advancement per hour
-            Random element:
-                + or - 0 to 25% of the progress made in that hour
-
-        formula: team efficiency * cultural efficiency * team size + random element
-        random element = +/- up to 25% of
-            (team efficiency * cultural efficiency * team size)
         '''
         
 
@@ -50,8 +31,6 @@ class Team(object):
             self.module.hours_taken += 1
             self.module.progress += self.size
 
-
-            self.module.expected_progress += self.size
             if self.module.progress >= self.module.actual_cost:
                 print self.name + '\'s module has completed!'
                 self.module.completed = True

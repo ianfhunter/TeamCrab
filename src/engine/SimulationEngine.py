@@ -5,6 +5,7 @@ import threading
 import datetime
 from time import sleep
 from Repeated_Timer import Repeated_Timer
+from global_config import config
 
 from UI import game
 from global_config import config
@@ -36,13 +37,12 @@ def calc_progress(gmt_time):
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
                 project.cash -= (team.salary*team.size)
-                team.calc_progress(location.calc_mod())
+                team.calc_progress()
                 if team.module:
                     if not cmd_args["P_SUPPRESS"]:
-                        print 'Module:', team.module.name, '- Actual Progress:', \
-                            str(team.module.progress), '- Expected Progress:', \
-                            str(team.module.expected_progress), '- Target Estimated End Progress:', \
-                            str(team.module.cost), '- Target Actual End Progress:', \
+                        print 'Module:', team.module.name, '- Progress:', \
+                            str(team.module.progress), '- Expected Cost:', \
+                            str(team.module.actual_cost), '- Actual Cost:', \
                             str(team.module.actual_cost)
                 else:
                     if not cmd_args["P_SUPPRESS"]:
@@ -70,6 +70,8 @@ def progress_time():
 
     global finished
     finished = all_finished()
+    if finished:
+        timer.stop()
 
 
 def run_engine(game, proj,c_args):
@@ -88,10 +90,12 @@ def run_engine(game, proj,c_args):
 
 
     thread_time = (0, 0)
-    timer = Repeated_Timer(0.5, progress_time)
+    global timer
+    timer = Repeated_Timer(config["game_speed"], progress_time)
 
     while not finished:
         sleep(1)
+
         # Main logic of the simulator will go here
 
-    timer.stop()
+    

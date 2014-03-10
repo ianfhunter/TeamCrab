@@ -9,6 +9,7 @@ config = {
         "sleep_duration" : 0.05,
         "developer_period_effort_value" : 1,
         "developer_daily_effort" : 4,
+        "game_speed" : 0.1,
         # UI colours
         "site_colour" : 0x2C8718,
         "bar_colour" : 0x9b9b9b,
@@ -31,9 +32,9 @@ config = {
 config.update(constants)
 
 cultures = {
-    # Name : (Effiency mod, honesty Mod)
-    "culture1" : (1.0, 1.0),
-    "culture2" : (1.0, 1.0),
-    "culture3" : (1.0, 1.0),
+    # Name : (honesty Mod)
+    "culture1" : (1.0),
+    "culture2" : (1.0),
+    "culture3" : (1.0),
 
 }

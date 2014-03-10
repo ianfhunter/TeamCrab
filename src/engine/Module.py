@@ -11,22 +11,21 @@ def random_element(prog):
 class Module(object):
     def __init__(self, name, cost):
         self.name = name
-        self.cost = cost
+        self.expected_cost = cost
         self.actual_cost = random_element(cost)
         self.modules = list()
         self.tasks = list()
         self.completed_tasks = list()
 
-        self.tasks.append(Task('design', self.cost/100*15, self))
-        self.tasks.append(Task('implementation', self.cost/100*15, self))
-        self.tasks.append(Task('unit_test', self.cost/100*10, self))
-        self.tasks.append(Task('integration', self.cost/100*15, self))
-        self.tasks.append(Task('system_test', self.cost/100*15, self))
-        self.tasks.append(Task('deployment', self.cost/100*15, self))
-        self.tasks.append(Task('acceptance_test', self.cost/100*15, self))
+        self.tasks.append(Task('design', self.actual_cost/100*15, self))
+        self.tasks.append(Task('implementation', self.actual_cost/100*15, self))
+        self.tasks.append(Task('unit_test', self.actual_cost/100*10, self))
+        self.tasks.append(Task('integration', self.actual_cost/100*15, self))
+        self.tasks.append(Task('system_test', self.actual_cost/100*15, self))
+        self.tasks.append(Task('deployment', self.actual_cost/100*15, self))
+        self.tasks.append(Task('acceptance_test', self.actual_cost/100*15, self))
 
         self.progress = 0.0
-        self.expected_progress = 0.0
         self.completed = False
         self.stalled = False
         self.hours_taken = 0 # This is productive time
@@ -51,6 +50,20 @@ class Module(object):
         ''' Returns True if the progress of this task is at least equal to 75% of the expected progress,
         False otherwise
         '''
-        return self.progress < (self.cost * .75)
+        return self.progress < (self.actual_cost * .75)
+
+    def expected_cost()
+        return self.expected_cost
+
+    def actual_cost()
+        return self.actual_cost
+
+    def wall_clock_time()
+        return self.total_hours
+
+    def productive_time_on_task()
+        return self.hours_taken
+
+>>>>>>> ddaabbd4474c2fa64a6e814b8a93880e410e734b
 
 

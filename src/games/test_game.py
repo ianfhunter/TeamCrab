@@ -11,21 +11,21 @@ def load_game():
     project = Project('Sample Project', 'Agile', 100000, LowRevenueTier())
 
     location_a = Location('Dublin', 0, "culture1", 20, 25, (375,148))
-    team_a = Team('Team A', 1.0, 15, 10)
+    team_a = Team('Team A', 15, 10)
 
     location_a.add_team(team_a)
 
     project.locations.append(location_a)
 
     location_b = Location('Florida', -8, "culture2", 30, 5, (192,207))
-    team_b = Team('Team B', 1.0, 20, 25)
+    team_b = Team('Team B', 20, 25)
 
     location_b.add_team(team_b)
 
     project.locations.append(location_b)
 
     location_c = Location('New Dehli', -11, "culture3", 30, 35, (570,264))
-    team_c = Team('Team C', 1.0, 10, 5)
+    team_c = Team('Team C', 10, 5)
 
     location_c.add_team(team_c)
 

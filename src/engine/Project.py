@@ -22,7 +22,7 @@ class Project():
                 for team in location.teams:
                     team_cost = 0
                     for module in team.modules:
-                        team_cost += module.cost/team.size
+                        team_cost += module.expected_cost/team.size
                     if team_cost > max_team_cost:
                         max_team_cost = team_cost
             nominal_schedule = max_team_cost / dev_effort_val
@@ -49,7 +49,7 @@ class Project():
         total_module_effort = 0
         total_daily_cost = 0  # in $CURRENCY
         for module in self.modules:
-            total_module_effort += module.cost
+            total_module_effort += module.expected_cost
         num_developers = 0
         for location in self.locations:
             num_developers += location.current_size

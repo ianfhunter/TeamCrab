@@ -25,24 +25,11 @@ class Location(object):
             self.teams.append(team)
             return True
 
-    def calc_mod(self):
-        ''' Returns the efficiency modification for this location's culture.
-        '''
-        return cultures[self.culture][0]
 
     def num_teams(self):
         ''' Returns the number of teams at this location.
         '''
         return len(self.teams)
-
-    def average_efficiency(self):
-        ''' Returns the average efficiency of all teams at this location.
-        The result is returned as an integer value and may be prone to rounding errors.
-        '''
-        total = 0.0
-        for team in self.teams:
-            total += team.efficiency*cultures[self.culture][0]
-        return int(total/len(self.teams) * 100)
 
     def total_module_progress(self):
         ''' Returns the total progress of all modules assigned to teams in this location.
