@@ -91,7 +91,7 @@ def run_engine(game, proj,c_args):
     timer = Repeated_Timer(0.5, progress_time)
 
     while not finished:
-        sleep(10)
+        sleep(1)
         # Main logic of the simulator will go here
 
     timer.stop()
