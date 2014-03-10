@@ -21,6 +21,9 @@ class Game:
         self.endscreen = None
         self.gameover = False
 
+        self.inquiry = None
+        self.inquiry_site = None
+
         self.selected_site = None
 
         self.screen = screen
@@ -45,8 +48,13 @@ class Game:
         ''' Menu button to bring up new dialog, changes variables for next
         update().'''
 
-    def inquiry(self):
-        print ":)"
+    def choose_inquiry_site(self,site):
+        print "HI"
+        self.inquiry_site = site
+
+    def inquire(self):
+        #toggle window
+        self.inquiry = not self.inquiry
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
@@ -60,6 +68,9 @@ class Game:
                     self.app.event(event)
                 else:
                     self.endscreen.app.event(event)
+
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                    self.inquiry = False
 
                 # Handle quitting.
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -77,7 +88,7 @@ class Game:
     def draw_info_button(self):
         #dont touch those style settings. very, very hax
         button = gui.Button("",width=14,height=28)
-        button.connect(gui.CLICK, self.inquiry)
+        button.connect(gui.CLICK, self.inquire)
         button.style.background = \
             pygame.image.load(self.config["question_icon_path"])
 
@@ -223,19 +234,13 @@ class Game:
             label = font.render(status, 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
-            button = gui.Button("Inquiry - $500")
-            button.connect(gui.CLICK, self.inquiry)
-            self.contain.add(button, 30, y-35)
-            self.app.init(self.contain)
-            self.app.paint(self.screen)
-
 
     def draw_pause_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
         '''
         # TODO: Real implementation for button action, currently dummy action.
-        button = gui.Button("Menu")
-        button.connect(gui.CLICK, self.pauseClick)
+        button = gui.Button("Inquiries")
+        button.connect(gui.CLICK, self.inquire)
 
         self.contain.add(button, self.config["menuX"], self.config["menuY"])
         self.app.init(self.contain)
@@ -245,17 +250,75 @@ class Game:
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
         '''
-    
-#        if self.firstDraw:
+        #This is getting complicated and we dont really need it as it 
         pygame.display.flip()
-        #     self.firstDraw = False
-        # else:
-        #     pygame.display.update((0, 460, 850, 20))  # Bottom bar
-        #     pygame.display.update((0, 250, 200, 215))  # Grey box 0, 280, 200, 180
 
-        #     for site in self.project_data.locations:
-        #         (xpos, ypos) = site.coordinates
-        #         pygame.display.update((xpos - 5, ypos - 5, xpos + 5, ypos + 5))
+    def draw_inqury_screen(self):
+        pygame.draw.rect(self.screen, 0xFAFCA4,
+                            (100,20,650,410))
+        pygame.draw.line(self.screen, 0x000000, (250,20), (250,430))
+
+        start_x = 100
+        start_y = 20
+        inq_site = self.selected_site
+
+        self.contain.widgets = []
+        my_list = gui.List(width=175, height=395)
+        s = ""
+        for itr,site in enumerate(self.project_data.locations):
+            l = gui.Label(site.name)
+            l.connect(gui.CLICK, self.choose_inquiry_site,site)
+            my_list.add(l)            
+            self.contain.add(l, start_x + 5, start_y + 20 +(20* (itr+1) ))
+
+        self.app.paint()
+        self.app.update()
+
+        info_x = 250 + 10
+        font = pygame.font.SysFont("Helvetica", 18)
+
+        label = font.render( "Inquiries", 1, (0, 0, 0))
+        self.screen.blit(label, (info_x + 150, 20))
+
+        label = font.render( "Press Enter to close this window", 1, (0, 0, 0))
+        self.screen.blit(label, (info_x, 400))
+
+
+        if self.inquiry_site:
+            font = pygame.font.SysFont("Helvetica", 24)
+            label = font.render(self.inquiry_site.name + " Inquiry"
+                    , 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 50))
+
+            label = font.render( "The results of your inquiry are as follows:"
+                    , 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 90))
+
+            font = pygame.font.SysFont("Helvetica", 16)
+            if self.inquiry_site.num_modules_on_schedule  == self.inquiry_site.num_modules:
+                label = font.render( "Status: On Schedule", 1, (0, 0, 0))
+                self.screen.blit(label, (info_x, 140))
+
+                label = font.render( "Problem: None", 1, (0, 0, 0))
+                self.screen.blit(label, (info_x, 180))
+
+            else:
+                label = font.render( "Status: Delayed", 1, (0, 0, 0))
+                self.screen.blit(label, (info_x, 140))
+
+                label = font.render( "Problem: X", 1, (0, 0, 0))
+                self.screen.blit(label, (info_x, 180))
+
+            label = font.render( "Difference between ideal and actual effort produced: ", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 220))
+
+            label = font.render( "Estimated delivery date: ", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 260))
+
+            label = font.render( "Further Info: Nothing of note (Put hints about interventions here)", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 300))
+
+
 
     def draw(self):
         ''' Redraws all of the map screen. '''
@@ -272,4 +335,6 @@ class Game:
         self.draw_detailed_site_info(self.font)
         self.draw_pause_button()
         self.draw_info_button()
+        if self.inquiry:
+            self.draw_inqury_screen()
         self.refresh_screen()
