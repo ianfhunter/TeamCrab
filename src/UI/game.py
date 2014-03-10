@@ -60,6 +60,7 @@ class Game:
                     self.app.event(event)
                 else:
                     self.endscreen.app.event(event)
+
                 # Handle quitting.
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
@@ -72,6 +73,18 @@ class Game:
             self.endscreen.draw()  # Draw the endgame screen when pause pressed
         else:
             self.draw()
+
+    def draw_info_button(self):
+        #dont touch those style settings. very, very hax
+        button = gui.Button("",width=14,height=28)
+        button.connect(gui.CLICK, self.inquiry)
+        button.style.background = \
+            pygame.image.load(self.config["question_icon_path"])
+
+        self.contain.add(button, 800, 10)
+        self.app.init(self.contain)
+        self.app.paint(self.screen)
+    
 
     def draw_world_map(self):
         """ Draws the world map onscreen."""
@@ -233,16 +246,16 @@ class Game:
         on refreshing the entire screen.
         '''
     
-        if self.firstDraw:
-            pygame.display.flip()
-            self.firstDraw = False
-        else:
-            pygame.display.update((0, 460, 850, 20))  # Bottom bar
-            pygame.display.update((0, 250, 200, 215))  # Grey box 0, 280, 200, 180
+#        if self.firstDraw:
+        pygame.display.flip()
+        #     self.firstDraw = False
+        # else:
+        #     pygame.display.update((0, 460, 850, 20))  # Bottom bar
+        #     pygame.display.update((0, 250, 200, 215))  # Grey box 0, 280, 200, 180
 
-            for site in self.project_data.locations:
-                (xpos, ypos) = site.coordinates
-                pygame.display.update((xpos - 5, ypos - 5, xpos + 5, ypos + 5))
+        #     for site in self.project_data.locations:
+        #         (xpos, ypos) = site.coordinates
+        #         pygame.display.update((xpos - 5, ypos - 5, xpos + 5, ypos + 5))
 
     def draw(self):
         ''' Redraws all of the map screen. '''
@@ -258,4 +271,5 @@ class Game:
         self.draw_sites()
         self.draw_detailed_site_info(self.font)
         self.draw_pause_button()
+        self.draw_info_button()
         self.refresh_screen()

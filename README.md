@@ -188,4 +188,4 @@ to the console. For example, "Warning: Team Team B has no module assigned".
 * Target Icon - Target by Laurent Patain from The Noun Project 
 * Location Icon - Designed by Vladimir Dubinin from the Noun Project
 * People Icon - Designed by Sagiev Farid from the Noun Project
-
+* Question Icon - Designed by Mateo Zlatar from the Noun Project

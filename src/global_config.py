@@ -9,13 +9,14 @@ config = {
         "sleep_duration" : 0.05,
         "developer_period_effort_value" : 1,
         "developer_daily_effort" : 4,
-        "game_speed" : 0.1,
+        "game_speed" : 0.4,
         # UI colours
         "site_colour" : 0x2C8718,
         "bar_colour" : 0x9b9b9b,
         "background_colour" : 0xdedede,
         # File paths
         "root_dir" : root_dir,
+        "question_icon_path" : os.path.join(root_dir,"media/question.png"),
         "map_path" : os.path.join(root_dir, "media/map.png"),
         "man_icon_path" : os.path.join(root_dir, "media/man.png"),
         "peep_icon_path" : os.path.join(root_dir, "media/people.png"),
