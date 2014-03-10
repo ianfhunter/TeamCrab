@@ -32,7 +32,7 @@ class EndGame:
         for location in self.project.locations:
             for team in location.teams:
                 for module in team.completed_modules:
-                    estimated_hours = module.cost
+                    estimated_hours = module.expected_cost
                     effort_table.append([team.name, module.name, estimated_hours, module.progress])
                     total_estimated += estimated_hours
                     total_actual += module.progress
@@ -49,7 +49,7 @@ class EndGame:
         for location in self.project.locations:
             for team in location.teams:
                 for module in team.completed_modules:
-                    estimated_hours = module.cost / team.size
+                    estimated_hours = module.expected_cost / team.size
                     total_estimated += estimated_hours    
                     total_actual += module.hours_taken
         return (total_estimated, total_actual)

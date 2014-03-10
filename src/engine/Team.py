@@ -50,8 +50,6 @@ class Team(object):
             self.module.hours_taken += 1
             self.module.progress += self.size
 
-
-            self.module.expected_progress += self.size
             if self.module.progress >= self.module.actual_cost:
                 print self.name + '\'s module has completed!'
                 self.module.completed = True

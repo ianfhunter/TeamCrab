@@ -11,22 +11,21 @@ def random_element(prog):
 class Module(object):
     def __init__(self, name, cost):
         self.name = name
-        self.cost = cost
+        self.expected_cost = cost
         self.actual_cost = random_element(cost)
         self.modules = list()
         self.tasks = list()
         self.completed_tasks = list()
 
-        self.tasks.append(Task('design', self.cost/100*15, self))
-        self.tasks.append(Task('implementation', self.cost/100*15, self))
-        self.tasks.append(Task('unit_test', self.cost/100*10, self))
-        self.tasks.append(Task('integration', self.cost/100*15, self))
-        self.tasks.append(Task('system_test', self.cost/100*15, self))
-        self.tasks.append(Task('deployment', self.cost/100*15, self))
-        self.tasks.append(Task('acceptance_test', self.cost/100*15, self))
+        self.tasks.append(Task('design', self.actual_cost/100*15, self))
+        self.tasks.append(Task('implementation', self.actual_cost/100*15, self))
+        self.tasks.append(Task('unit_test', self.actual_cost/100*10, self))
+        self.tasks.append(Task('integration', self.actual_cost/100*15, self))
+        self.tasks.append(Task('system_test', self.actual_cost/100*15, self))
+        self.tasks.append(Task('deployment', self.actual_cost/100*15, self))
+        self.tasks.append(Task('acceptance_test', self.actual_cost/100*15, self))
 
         self.progress = 0.0
-        self.expected_progress = 0.0
         self.completed = False
         self.stalled = False
         self.hours_taken = 0 # This is productive time
@@ -51,6 +50,6 @@ class Module(object):
         ''' Returns True if the progress of this task is at least equal to 75% of the expected progress,
         False otherwise
         '''
-        return self.progress < self.cost
+        return self.progress < self.actual_cost
 
 
