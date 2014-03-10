@@ -52,18 +52,18 @@ class Module(object):
         '''
         return self.progress < (self.actual_cost * .75)
 
-    def expected_cost()
+    def expected_cost():
         return self.expected_cost
 
-    def actual_cost()
+    def actual_cost():
         return self.actual_cost
 
-    def wall_clock_time()
+    def wall_clock_time():
         return self.total_hours
 
-    def productive_time_on_task()
+    def productive_time_on_task():
         return self.hours_taken
 
->>>>>>> ddaabbd4474c2fa64a6e814b8a93880e410e734b
+
 
 
