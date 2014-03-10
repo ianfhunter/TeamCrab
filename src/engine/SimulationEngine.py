@@ -37,7 +37,7 @@ def calc_progress(gmt_time):
         if local_time >= 9 and local_time <= 17:
             for team in location.teams:
                 project.cash -= (team.salary*team.size)
-                team.calc_progress(location.calc_mod())
+                team.calc_progress()
                 if team.module:
                     if not cmd_args["P_SUPPRESS"]:
                         print 'Module:', team.module.name, '- Progress:', \

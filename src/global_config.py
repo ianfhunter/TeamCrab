@@ -32,9 +32,9 @@ config = {
 config.update(constants)
 
 cultures = {
-    # Name : (Effiency mod, honesty Mod)
-    "culture1" : (1.0, 1.0),
-    "culture2" : (1.0, 1.0),
-    "culture3" : (1.0, 1.0),
+    # Name : (honesty Mod)
+    "culture1" : (1.0),
+    "culture2" : (1.0),
+    "culture3" : (1.0),
 
 }

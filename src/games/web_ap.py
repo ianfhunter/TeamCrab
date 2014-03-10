@@ -16,15 +16,15 @@ def load_game():
 
     # Setup a team in Dublin
     dublin = Location('Dublin', 0, "culture1", 30, 25, (375,148))
-    dublin_team = Team('Dublin Team 1', 1.0, 35, 20)
-    dublin_team2 = Team('Dublin Team 1', 1.0, 35, 10)
+    dublin_team = Team('Dublin Team 1', 35, 20)
+    dublin_team2 = Team('Dublin Team 1', 35, 10)
     dublin.add_team(dublin_team)
     dublin.add_team(dublin_team2)
     project.locations.append(dublin)
 
     # Setup a team in Poland
     poland = Location('Belarus', 0, "culture2", 15, 20, (445,138))
-    poland_team = Team('Belarus Team', 1.0, 30, 15)
+    poland_team = Team('Belarus Team', 30, 15)
     poland.add_team(poland_team)
     project.locations.append(poland)
 
