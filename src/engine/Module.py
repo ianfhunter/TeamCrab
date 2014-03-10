@@ -52,4 +52,17 @@ class Module(object):
         '''
         return self.progress < self.actual_cost
 
+    def expected_cost()
+        return self.expected_cost
+
+    def actual_cost()
+        return self.actual_cost
+
+    def wall_clock_time()
+        return self.total_hours
+
+    def productive_time_on_task()
+        return self.hours_taken
+
+
 
