@@ -1,6 +1,7 @@
 import pygame
 import json 
 from pgu import gui
+from time import sleep
 
 class EndGame:
     def __init__(self, screen, config, project):
@@ -11,6 +12,7 @@ class EndGame:
         self.app.connect(gui.QUIT, self.app.quit, None)
         self.contain = gui.Container(width=400,
                                      height=400)
+        self.hasList = False
 
     def generate_report(self):
         ''' Generate table with information about the end of the game '''
@@ -108,32 +110,40 @@ class EndGame:
             " / $" + str(actual_revenue), 1, (0, 0, 0))
         self.screen.blit(label, (80, 200))
 
-        my_list = gui.List(width=750, height=180)
-        
-        for (team, module, estimate, actual) in report["effort_table"]:
-            # I'm not proud of this
-            s = team + (" " * (20 - len(team))) + module + (" " * (20 - len(module))) \
-            + str(estimate) + (" " * (20 - len(str(estimate)))) + str(actual)
-            
-            l = gui.Label(s)
-            l.set_font(monofont)
-            my_list.add(l)
+        if not self.hasList:
 
-        # We need to empty the container's widgets before adding updated ones or else
-        # pgu will draw the new ones over the old ones.
-        self.contain.widgets = []    
-        self.contain.add(my_list, 0, 200)
-        self.app.init(self.contain)
-        self.app.paint(self.screen)
+            my_list = gui.List(width=750, height=180)
+            
+            for (team, module, estimate, actual) in report["effort_table"]:
+                # I'm not proud of this
+                s = team + (" " * (20 - len(team))) + module + (" " * (20 - len(module))) \
+                + str(estimate) + (" " * (20 - len(str(estimate)))) + str(actual)
+                
+                l = gui.Label(s)
+                l.set_font(monofont)
+                my_list.add(l)
+
+            # We need to empty the container's widgets before adding updated ones or else
+            # pgu will draw the new ones over the old ones.
+            self.contain.widgets = []    
+            self.contain.add(my_list, 0, 200)
+            self.app.init(self.contain)
+            self.app.paint(self.screen)
+            self.hasList = True
+        else:
+            self.app.paint(self.screen)
+            self.app.update(self.screen)
 
     def draw(self):
         ''' The parent draw function of the end game screen .'''
-        # Draw background
-        padding = 20
-        pygame.draw.rect(self.screen, 0x2DABFE, (padding , padding,
-                                                 self.config["screenX"] - 20 - padding,
-                                                 self.config["screenY"] - 40 - padding))
-        # Draw endgame stats
-        self.draw_endgame()
-
-        self.refresh_screen()
+        while(True):
+            # Draw background
+            padding = 20
+            if(self.hasList):
+                pygame.draw.rect(self.screen, 0x2DABFE, (padding , padding,
+                                                         self.config["screenX"] - 20 - padding,
+                                                         self.config["screenY"] - 40 - padding))
+            # Draw endgame stats
+            self.draw_endgame()
+            self.refresh_screen()
+            sleep(0.05)

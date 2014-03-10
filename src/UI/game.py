@@ -45,12 +45,12 @@ class Game:
         ''' Menu button to bring up new dialog, changes variables for next
         update().'''
 
-        print("Pause Clicked!")
-        if not self.endscreen:
-            self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
-        elif not self.gameover:
-            self.endscreen = None
-            self.firstDraw = True  # Redraw main screen fully once we exit.
+        # print("Pause Clicked!")
+        # if not self.endscreen:
+        #     self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
+        # elif not self.gameover:
+        #     self.endscreen = None
+        #     self.firstDraw = True  # Redraw main screen fully once we exit.
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
@@ -60,9 +60,11 @@ class Game:
             # Handle all events.
             for event in pygame.event.get():
                 # Tell PGU about all events.
-                self.app.event(event)
+                if not self.endscreen:
+                    self.app.event(event)
+                else:
+                    self.endscreen.app.event(event)
                 # Handle quitting.
-
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
 
