@@ -45,12 +45,8 @@ class Game:
         ''' Menu button to bring up new dialog, changes variables for next
         update().'''
 
-        # print("Pause Clicked!")
-        # if not self.endscreen:
-        #     self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
-        # elif not self.gameover:
-        #     self.endscreen = None
-        #     self.firstDraw = True  # Redraw main screen fully once we exit.
+    def inquiry(self):
+        print ":)"
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
@@ -148,12 +144,15 @@ class Game:
                 button.style.background = \
                     pygame.image.load(self.config["grey_button_path"])
 
-
+        
             button.connect(gui.CLICK, self.locationClick, site)
             self.contain.add(button, site.coordinates[0], site.coordinates[1])
-
+        
             self.app.init(self.contain)
             self.app.paint(self.screen)
+
+
+
 
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
@@ -163,12 +162,13 @@ class Game:
 
         # Draw plain background.
         pygame.draw.rect(self.screen, self.config["background_colour"],
-                         (0, 285, 200, 175))
+                         (0, 280, 200, 180))
 
         if self.selected_site is None:
             label = font.render("No site selected", 1, (0, 0, 0))
             self.screen.blit(label, (40, y))
         else:
+    
             site = self.selected_site
 
             workerIcon = pygame.image.load(self.config["location_icon_path"])
@@ -210,6 +210,13 @@ class Game:
             label = font.render(status, 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
+            button = gui.Button("Inquiry - $500")
+            button.connect(gui.CLICK, self.inquiry)
+            self.contain.add(button, 30, y-35)
+            self.app.init(self.contain)
+            self.app.paint(self.screen)
+
+
     def draw_pause_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
         '''
@@ -225,12 +232,13 @@ class Game:
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
         '''
+    
         if self.firstDraw:
             pygame.display.flip()
             self.firstDraw = False
         else:
             pygame.display.update((0, 460, 850, 20))  # Bottom bar
-            pygame.display.update((0, 290, 200, 175))  # Grey box
+            pygame.display.update((0, 250, 200, 215))  # Grey box 0, 280, 200, 180
 
             for site in self.project_data.locations:
                 (xpos, ypos) = site.coordinates

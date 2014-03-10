@@ -51,6 +51,6 @@ class Module(object):
         ''' Returns True if the progress of this task is at least equal to 75% of the expected progress,
         False otherwise
         '''
-        return self.progress < self.cost
+        return self.progress < (self.cost * .75)
 
 
