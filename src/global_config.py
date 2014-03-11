@@ -6,7 +6,7 @@ root_dir = os.path.join(os.path.dirname(__file__), '../')
 config = {
         # Game parameters
         "difficulty" : "normal",
-        "sleep_duration" : 0.05,
+        "ui_refresh_period_seconds" : 0.05,
         "developer_period_effort_value" : 1,
         "developer_daily_effort" : 4,
         "game_speed" : 0.1,

@@ -65,7 +65,7 @@ class Game:
         ''' Handles all input events and goes to sleep.'''
         self.draw()
         while True:
-            sleep(self.config["sleep_duration"])
+            sleep(self.config["ui_refresh_period_seconds"])
             # Handle all events.
             for event in pygame.event.get():
                 # Tell PGU about all events.

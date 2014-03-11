@@ -25,7 +25,7 @@ class Start_Screen:
         self.complete = False
         self.draw()
         while True:
-            sleep(self.config["sleep_duration"])
+            sleep(self.config["ui_refresh_period_seconds"])
             # Handle all events.
             for event in pygame.event.get():
                 self.app.event(event)
