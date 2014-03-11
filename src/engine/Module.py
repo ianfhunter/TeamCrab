@@ -1,5 +1,6 @@
 import random
 from Task import Task
+from global_config import problems
 
 def random_element(prog):
     ''' Generates a random value between -25 and 25 used as a percentage to offset prog.
@@ -13,6 +14,7 @@ class Module(object):
         self.name = name
         self.expected_cost = cost
         self.actual_cost = random_element(cost)
+        self.actual_cost_base = self.actual_cost
         self.modules = list()
         self.tasks = list()
         self.completed_tasks = list()
@@ -30,6 +32,7 @@ class Module(object):
         self.stalled = False
         self.hours_taken = 0 # This is productive time
         self.total_hours = 0 # number of hours from start of project including non productive hours. 
+        self.problems_occured = list()
 
     # TODO: Consider changing tasks to be a dictionary for O(1) lookups
     # by name.
@@ -63,4 +66,9 @@ class Module(object):
 
     def productive_time_on_task(self):
         return self.hours_taken
+
+    def add_problem(self):
+        prob = random.randint(1, 5)
+        self.problems_occured.append(problems[prob][0])
+        self.actual_cost += self.actual_cost_base * problems[prob][1]
 

@@ -38,13 +38,18 @@ def calc_progress(gmt_time):
             for team in location.teams:
                 project.cash -= (team.salary*team.size)
                 team.calc_progress()
-                if location.calc_fail(project.home_site):
-                    print "FAILURE HAS OCCURED"
+
                 if team.module:
+                    if local_time is 9:
+                        if location.calc_fail(project.home_site):
+                            team.module.add_problem()
+                            print "NEW PROBLEM AT SITE ", location.name, "List of problems to occur at site to date: "
+                            for x in team.module.problems_occured:
+                                print x
                     if not cmd_args["P_SUPPRESS"]:
                         print 'Module:', team.module.name, '- Progress:', \
                             str(team.module.progress), '- Expected Cost:', \
-                            str(team.module.actual_cost), '- Actual Cost:', \
+                            str(team.module.expected_cost), '- Actual Cost:', \
                             str(team.module.actual_cost)
                 else:
                     if not cmd_args["P_SUPPRESS"]:
