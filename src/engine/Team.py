@@ -9,14 +9,11 @@ class Team(object):
         self.modules = list()
         self.completed_modules = list()
 
-    def calc_progress(self):
+    def calc_progress(self, current_time):
         ''' Calculates the progress of the taks currently assigned to this team.
         Progress is 1 point per hour per person on the team -
         so each hour + size of team.
-
         '''
-        
-
         if not self.module or self.module.completed:
             if len(self.modules) > 0 :
                 self.module = self.modules[0]
@@ -24,12 +21,11 @@ class Team(object):
             else:
                 return
 
-
         tmp_prog = self.module.progress
         self.module.stalled = False
         if not self.module.completed:
             self.module.hours_taken += 1
-            self.module.progress += self.size
+            self.module.progress_module(self.size, current_time)
 
             if self.module.progress >= self.module.actual_cost:
                 print self.name + '\'s module has completed!'

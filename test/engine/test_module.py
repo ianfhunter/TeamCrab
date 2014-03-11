@@ -48,11 +48,20 @@ class TestModule(unittest.TestCase):
         self.assertTrue(not task)
 
     def test_random_element(self):
-        
         for i in range(100, 150):
             val = calculate_actual_cost(i)
             print i, val
             self.assertTrue(val >= i*0.75 and val <= i*1.25)
+
+    def test_expected_cost(self):
+        module1 = Module('test_module', 600)
+        self.assertTrue(module1.expected_cost == 600)
+
+        module2 = Module('test_module', 400)
+        self.assertTrue(module2.expected_cost == 400)
+
+        module3 = Module('test_module', 0)
+        self.assertTrue(module3.expected_cost == 0)
 
 if __name__ == '__main__':
     unittest.main()

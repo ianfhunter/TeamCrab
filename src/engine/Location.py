@@ -48,7 +48,7 @@ class Location(object):
         total = 0
         for team in self.teams:
             if team.module: 
-                if team.module.is_on_time():
+                if team.module.is_on_time:
                     total += 1
         return total
 
@@ -71,7 +71,7 @@ class Location(object):
         return 1.0
 
     def temp_distance(self, loc):
-        temporal = self.time_zone - loc.time_zone
+        temporal = abs(self.time_zone - loc.time_zone)
         if temporal > 12:
             temporal = 24 - temporal
         if temporal <= 3:

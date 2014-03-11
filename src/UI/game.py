@@ -188,7 +188,7 @@ class Game:
                 if not failing:
                     if team.module:
                         # Locations with issues causing a time delay
-                        if not team.module.is_on_time():
+                        if not team.module.is_on_time:
                             button.style.background = pygame.image.load(
                                 self.config["yellow_button_path"])
                         # Location that needs an intervention before it can

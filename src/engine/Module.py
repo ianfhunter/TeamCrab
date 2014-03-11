@@ -1,5 +1,6 @@
 import random
 from Task import Task
+import datetime
 from global_config import problems
 
 def calculate_actual_cost(expected_cost):
@@ -18,14 +19,17 @@ class Module(object):
         self.tasks = list()
         self.completed_tasks = list()
 
-        self.tasks.append(Task('design', self.actual_cost/100*15, self))
-        self.tasks.append(Task('implementation', self.actual_cost/100*15, self))
-        self.tasks.append(Task('unit_test', self.actual_cost/100*10, self))
-        self.tasks.append(Task('integration', self.actual_cost/100*15, self))
-        self.tasks.append(Task('system_test', self.actual_cost/100*15, self))
-        self.tasks.append(Task('deployment', self.actual_cost/100*15, self))
-        self.tasks.append(Task('acceptance_test', self.actual_cost/100*15, self))
+        self.tasks.append(Task('design', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('implementation', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('unit_test', int(self.actual_cost/100.0*10.0), int(self.expected_cost/100.0*10.0), self))
+        self.tasks.append(Task('integration', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('system_test', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('deployment', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('acceptance_test', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
 
+        self.is_on_time = True # Keeps track of whether this module is on time for the traffic light system
+        self.deadline = None # The deadline (by date) of this module
+        self.overall_task_progress = 0 # This is the amount of effort put into fully completed tasks
         self.progress = 0.0
         self.completed = False
         self.stalled = False
@@ -42,11 +46,38 @@ class Module(object):
         else:
             return None
 
-    def is_on_time(self):
-        ''' Returns True if the progress of this task is at least equal to 75% of the expected progress,
-        False otherwise
+    def progress_module(self, progress, current_time):
+        ''' Progress the module by the specified amount. This will progress tasks as necessary
+        as well. If a task has reached its deadline then self.is_on_time will be updated appropriately.
         '''
-        return self.progress < (self.actual_cost * .75)
+        self.progress += progress
+        
+        # If the current task has completed then progress to the next task and place this one on the completed_tasks list
+        if self.tasks:
+            if self.progress >= (self.overall_task_progress + self.tasks[0].actual_cost):
+                if current_time <= self.tasks[0].deadline:
+                    self.is_on_time = True
+                self.overall_task_progress += self.tasks[0].actual_cost
+                self.completed_tasks.append(self.tasks[0])
+                self.tasks.pop(0)
+                if len(self.tasks) == 0:
+                    print "LAST REMOVED"
+                    print str(self.progress) + " " + str(self.overall_task_progress) + " " + str(self.actual_cost)
+
+        # If the current task has reached its deadline then the module is not on time
+        if self.tasks:
+            if current_time >= self.tasks[0].deadline:
+                self.is_on_time = False
+
+    def calc_deadline(self, start_date, team_size):
+        ''' Calculates the deadline for this module and stores it in self.deadline
+        This also sets the deadlines for all tasks in this module
+        '''
+        work_hours_total = 0
+        for task in self.tasks:
+            work_hours_total += task.expected_cost/team_size
+            task.deadline = start_date + datetime.timedelta(days=work_hours_total/8, hours=work_hours_total%8)
+        self.deadline = self.tasks[-1].deadline
 
     def expected_cost(self):
         return self.expected_cost

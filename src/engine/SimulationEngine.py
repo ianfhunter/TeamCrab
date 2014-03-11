@@ -39,8 +39,9 @@ def calc_progress(gmt_time):
                 team.module.total_hours += 1
             if local_time >= 9 and local_time <= 17:
                 project.cash -= (team.salary*team.size)
-                team.calc_progress()
-
+                team.calc_progress(gmt_time)
+                if location.calc_fail(project.home_site):
+                    print "FAILURE HAS OCCURED"
                 if team.module:
                     if local_time is 9:
                         if location.calc_fail(project.home_site):
