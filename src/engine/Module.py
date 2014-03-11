@@ -1,5 +1,6 @@
 import random
 from Task import Task
+from global_config import problems
 
 
 class Module(object):
@@ -7,6 +8,7 @@ class Module(object):
         self.name = name
         self.expected_cost = cost
         self.actual_cost = self.calculate_actual_cost(cost)
+        self.actual_cost_base = self.actual_cost
         self.modules = list()
         self.tasks = list()
         self.completed_tasks = list()
@@ -24,6 +26,7 @@ class Module(object):
         self.stalled = False
         self.hours_taken = 0 # This is productive time
         self.total_hours = 0 # number of hours from start of project including non productive hours. 
+        self.problems_occured = list()
 
     def calculate_actual_cost(self, expected_cost):
         ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
@@ -57,4 +60,9 @@ class Module(object):
 
     def productive_time_on_task(self):
         return self.hours_taken
+
+    def add_problem(self):
+        prob = random.randint(1, 5)
+        self.problems_occured.append(problems[prob][0])
+        self.actual_cost += self.actual_cost_base * problems[prob][1]
 
