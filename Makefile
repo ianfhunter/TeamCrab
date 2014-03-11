@@ -41,7 +41,7 @@ uninstall:
 	@echo SESimulator has been uninstalled!
 
 uninstall-script:
-	rm /usr/local/bin/SESimulator
+	rm $(install_sh_prefix)/SESimulator
 
 run:
 	python bin/SESimulator.pyc
