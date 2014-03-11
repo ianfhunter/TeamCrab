@@ -29,7 +29,9 @@ The file provides the following targets:
 * clean
 * install
 * uninstall
+* uninstall-script
 * run
+* docs
 
 The build target compiles each of the .py source files in the src directory into corresponding .pyc files in the bin 
 directory (it will create the bin directory first if it does not already exist). The built project can then be run locally
@@ -53,8 +55,30 @@ can take an optional argument "--simv version" to specify which version of the g
 multiple versions installed). If this flag is not specified then the script will load the newest version of the
 game to be installed.
 
-The uninstall target simply removes all SESimulator files from /opt and /usr/local/bin. It will only uninstall
+The uninstall target simply removes all SESimulator files from /opt. It will only uninstall
 the version of the game that this source tree contains.
+
+The uninstall-script target will delete the run script in /usr/local/bin. It is assumed that make uninstall
+has been run for all installed versions of the game, since this target will not remove any game files from
+/opt.
+
+The run target will simply call "python bin/SESimulator.pyc" in the local directory. It can be used for quickly
+running a local build.
+
+Finally, the docs target will generate pydocs for the all source files in the src directory and place them
+into the docs directory.
+
+### How to install in a different directory
+As mentioned above, the game will install by default in /opt and /usr/local/bin. This can be changed by passing
+two different variables to make install. As an example, if you wanted to install the game so that the run script
+is in /bin and the game files to be in /bin/SE_sim then you could run:
+
+make install install_pyc_prefix=/bin/SE_sim install_sh_prefix=/bin
+
+Here the install_pyc_prefix value is the directory into which the SESimulator_$(version) directory containing all the game
+pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
+Multiple versions of the game can be installed in this way. The --simv flag mentioned above can be used to access different
+versions of the game installed into the same directory.
 
 ## Writing unit tests
 The following is a simple example of the form a unit test should take in the test directory

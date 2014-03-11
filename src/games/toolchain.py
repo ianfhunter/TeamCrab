@@ -13,7 +13,7 @@ def load_game():
     Compiler frontend, compiler backend, assembler, disassembler, linker, debugger and virtual machine.
     Each module in its entirity has been assigned to a single team.
     '''
-    project = Project('Traffic Monitor', 'Agile', 500000, MediumRevenueTier())
+    project = Project('Traffic Monitor', 'Agile', 250000, MediumRevenueTier())
 
     # Setup a team in Rio de Janeiro
     rio_de_janeiro = Location('Rio de Janeiro', -3, "culture1", 20, 25, (285,337))
