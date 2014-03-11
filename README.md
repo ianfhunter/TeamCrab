@@ -55,6 +55,18 @@ game to be installed.
 The uninstall target simply removes all SESimulator files from /opt and /usr/local/bin. It will only uninstall
 the version of the game that this source tree contains.
 
+### How to install in a different directory
+As mentioned above, the game will install by default in /opt and /usr/local/bin. This can be changed by passing
+two different variables to make install. As an example, if you wanted to install the game so that the run script
+is in /bin and the game files to be in /bin/SE_sim then you could run:
+
+make install install_pyc_prefix=/bin/SE_sim install_sh_prefix=/bin
+
+Here the install_pyc_prefix value is the directory into which the SESimulator_$(version) directory containing all the game
+pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
+Multiple versions of the game can be installed in this way. The --simv flag mentioned above can be used to access different
+versions of the game installed into the same directory.
+
 ## Writing unit tests
 The following is a simple example of the form a unit test should take in the test directory
 
