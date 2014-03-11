@@ -34,8 +34,10 @@ def calc_progress(gmt_time):
     global cmd_args
     for location in project.locations:
         local_time = (gmt_time.hour + location.time_zone) % 24
-        if local_time >= 9 and local_time <= 17:
-            for team in location.teams:
+        for team in location.teams:
+            if team.module:
+                team.module.total_hours += 1
+            if local_time >= 9 and local_time <= 17:
                 project.cash -= (team.salary*team.size)
                 team.calc_progress()
 
