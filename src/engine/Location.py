@@ -1,5 +1,7 @@
 from Team import Team
-from global_config import cultures
+from global_config import cultures, config
+import random
+import math
 
 class Location(object):
 
@@ -56,4 +58,54 @@ class Location(object):
             if team.module: 
                 total += 1
         return total
+
+    def geo_distance(self, loc):
+        #TODO these distances are made up and need to be adjusted based on map scale
+        distance = math.sqrt(math.pow(self.coordinates[0] - loc.coordinates[0], 2)+math.pow(self.coordinates[1] - loc.coordinates[1], 2))
+        if distance >= 200:
+            return 4.0
+        if distance >= 50:
+            return 3.0
+        if distance >= 10:
+            return 2.0
+        return 1.0
+
+    def temp_distance(self, loc):
+        temporal = self.time_zone - loc.time_zone
+        if temporal > 12:
+            temporal = 24 - temporal
+        if temporal <= 3:
+            return 1.0
+        if temporal <= 5:
+            return 2.0
+        if temporal >= 8:
+            return 3.0
+        return 4.0
+
+    def cult_distance(self, loc):
+        culture = 0.0
+        if cultures[self.culture][1] != cultures[loc.culture][1]:
+            culture += 4.0
+        if cultures[self.culture][2] != cultures[loc.culture][2]:
+            culture += 3.0
+        if cultures[self.culture][3] != cultures[loc.culture][3]:
+            culture += 3.0
+        if cultures[self.culture][4] != cultures[loc.culture][4]:
+            culture += 3.0
+        if cultures[self.culture][5] != cultures[loc.culture][5]:
+            culture += 2.0
+        if cultures[self.culture][6] != cultures[loc.culture][6]:
+            culture += 1.0
+        return culture
+
+    def dist_g(self, loc):
+        return self.geo_distance(loc) + self.temp_distance(loc) + self.cult_distance(loc)
+
+    def calc_fail(self, loc):
+        d_glo = self.dist_g(loc)
+        p_fail = config["fail_rate"] * (d_glo / (1 + d_glo))
+        print "chance of failure: " + str(p_fail)
+        if random.random() <= p_fail:
+            return True
+        return False
 

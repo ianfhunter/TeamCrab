@@ -38,6 +38,8 @@ def calc_progress(gmt_time):
             for team in location.teams:
                 project.cash -= (team.salary*team.size)
                 team.calc_progress()
+                if location.calc_fail(project.home_site):
+                    print "FAILURE HAS OCCURED"
                 if team.module:
                     if not cmd_args["P_SUPPRESS"]:
                         print 'Module:', team.module.name, '- Progress:', \

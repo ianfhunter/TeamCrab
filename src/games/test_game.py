@@ -10,26 +10,27 @@ def get_name():
 def load_game():
     project = Project('Sample Project', 'Agile', 100000, LowRevenueTier())
 
-    location_a = Location('Dublin', 0, "culture1", 20, 25, (375,148))
+    location_a = Location('Dublin', 0, "Irish", 20, 25, (375,148))
     team_a = Team('Team A', 15, 10)
 
     location_a.add_team(team_a)
 
     project.locations.append(location_a)
 
-    location_b = Location('Florida', -8, "culture2", 30, 5, (192,207))
+    location_b = Location('Florida', -8, "American", 30, 5, (192,207))
     team_b = Team('Team B', 20, 25)
 
     location_b.add_team(team_b)
 
     project.locations.append(location_b)
 
-    location_c = Location('New Dehli', -11, "culture3", 30, 35, (570,264))
+    location_c = Location('New Dehli', -11, "Indian", 30, 35, (570,264))
     team_c = Team('Team C', 10, 5)
 
     location_c.add_team(team_c)
 
     project.locations.append(location_c)
+    project.home_site(location_a)
 
     module1 = Module('Sample Module 1', 50)
     module2 = Module('Sample Module 2', 50)
