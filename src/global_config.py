@@ -10,6 +10,7 @@ config = {
         "developer_period_effort_value" : 1,
         "developer_daily_effort" : 4,
         "game_speed" : 0.4,
+        "fail_rate" : 0.2,
         # UI colours
         "site_colour" : 0x2C8718,
         "bar_colour" : 0x9b9b9b,
@@ -36,9 +37,14 @@ config = {
 config.update(constants)
 
 cultures = {
-    # Name : (honesty Mod)
-    "culture1" : (1.0),
-    "culture2" : (1.0),
-    "culture3" : (1.0),
+    # Name : (honesty Mod, language(possiably expand to array), language_skill, east/west, context, national,organizational )
+    "Irish" : (1, "English", "high", "west", "high", "Irish", "Innovative"),
+    "American" : (1, "English", "high", "west", "high", "American", "Outcome"),
+    "Indian" : (0, "English", "low", "east", "high", "Indian", "Outcome"),
+    "Japanese" : (0, "Japanese", "high", "east", "low", "Japanese", "Innovative"),
+    "Canadian" : (1, "English", "high", "west", "high", "Canadian", "People"),
+    "Australian" : (1, "English", "high", "west", "high", "Australian", "People"),
+    "Brazilian" : (1, "Protugise", "high", "west", "low", "Brazilian", "Detail"),
+    "Belarusian" : (1, "Belarusian", "high", "east", "low", "Belarusian", "Outcome"),
 
 }

@@ -15,15 +15,16 @@ def load_game():
     project = Project('Web App', 'Agile', 100000, LowRevenueTier())
 
     # Setup a team in Dublin
-    dublin = Location('Dublin', 0, "culture1", 30, 25, (375,148))
+    dublin = Location('Dublin', 0, "Irish", 30, 25, (375,148))
     dublin_team = Team('Dublin Team 1', 35, 20)
     dublin_team2 = Team('Dublin Team 1', 35, 10)
     dublin.add_team(dublin_team)
     dublin.add_team(dublin_team2)
     project.locations.append(dublin)
+    project.home_site(dublin)
 
-    # Setup a team in Poland
-    poland = Location('Belarus', 0, "culture2", 15, 20, (445,138))
+    # Setup a team in Belarus
+    poland = Location('Belarus', -2, "Belarusian", 15, 20, (445,138))
     poland_team = Team('Belarus Team', 30, 15)
     poland.add_team(poland_team)
     project.locations.append(poland)
