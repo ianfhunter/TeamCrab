@@ -24,6 +24,8 @@ class Game:
         self.inquiry = None
         self.inquiry_site = None
 
+        self.info_legend = False
+
         self.selected_site = None
 
         self.screen = screen
@@ -49,8 +51,10 @@ class Game:
         update().'''
 
     def choose_inquiry_site(self,site):
-        print "HI"
         self.inquiry_site = site
+
+    def info_legend_clicked(self):
+        self.info_legend = not self.info_legend
 
     def inquire(self):
         #toggle window
@@ -86,16 +90,43 @@ class Game:
             self.draw()
 
     def draw_info_button(self):
-        #dont touch those style settings. very, very hax
-        button = gui.Button("",width=14,height=28)
-        button.connect(gui.CLICK, self.inquire)
-        button.style.background = \
-            pygame.image.load(self.config["question_icon_path"])
+        if self.info_legend:
+            #show legend
+            pygame.draw.rect(self.screen, 0xA0ECFF,
+                            (670,10,170,110))    
+            font = pygame.font.SysFont("Helvetica", 10)
+            info_x = 680
 
-        self.contain.add(button, 800, 10)
-        self.app.init(self.contain)
-        self.app.paint(self.screen)
-    
+            label = font.render("Green: Active & On Schedule", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 30))
+            label = font.render("Yellow: Active & Delayed", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 50))
+            label = font.render("Red: Stalled, Needs Intervention", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 70))
+            label = font.render("Grey: Inactive / Concluded", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 90))
+
+            #dont touch those style settings. very, very hax
+            button = gui.Button("",width=14,height=28)
+            button.connect(gui.CLICK, self.info_legend_clicked)
+            button.style.background = \
+                pygame.image.load(self.config["cancel_icon_path"])
+
+            self.contain.add(button, 820, 0)
+            self.app.init(self.contain)
+            self.app.paint(self.screen)
+        else:
+            #show question mark icon
+            #dont touch those style settings. very, very hax
+            button = gui.Button("",width=14,height=28)
+            button.connect(gui.CLICK, self.info_legend_clicked)
+            button.style.background = \
+                pygame.image.load(self.config["question_icon_path"])
+
+            self.contain.add(button, 810, 10)
+            self.app.init(self.contain)
+            self.app.paint(self.screen)
+        
 
     def draw_world_map(self):
         """ Draws the world map onscreen."""

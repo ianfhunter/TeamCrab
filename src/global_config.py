@@ -16,8 +16,11 @@ config = {
         "background_colour" : 0xdedede,
         # File paths
         "root_dir" : root_dir,
-        "question_icon_path" : os.path.join(root_dir,"media/question.png"),
+
+        #if changing the icons, keep the same image dimensions. vector images are not supported.
         "map_path" : os.path.join(root_dir, "media/map.png"),
+        "cancel_icon_path" : os.path.join(root_dir,"media/cancel.png"),
+        "question_icon_path" : os.path.join(root_dir,"media/question.png"),
         "man_icon_path" : os.path.join(root_dir, "media/man.png"),
         "peep_icon_path" : os.path.join(root_dir, "media/people.png"),
         "clock_icon_path" : os.path.join(root_dir, "media/clock.png"),
