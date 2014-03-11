@@ -23,7 +23,7 @@ class Team(object):
                 self.modules.pop(0)
             else:
                 return
-        self.module.hours_taken += 1
+        self.module.total_hours += 1
 
         tmp_prog = self.module.progress
         self.module.stalled = False
