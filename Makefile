@@ -46,3 +46,8 @@ uninstall-script:
 run:
 	python bin/SESimulator.pyc
 
+docs:
+	cd src; pydoc -w ./
+	mkdir -p docs
+	mv src/*.html docs/
+	find src -name *.pyc -delete
