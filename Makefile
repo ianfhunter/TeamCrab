@@ -18,6 +18,7 @@ test:
 	$(MAKE) build
 	@nosetests -I ^notunit_ -I importme.py -w test engine; if [ $$? -eq 0 ] ; \
 	then echo "All tests passed!" ; else echo "Tests failed"; fi
+	@rm bin/global_config.pyc
 
 install:
 	$(MAKE) build
