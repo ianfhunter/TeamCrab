@@ -48,7 +48,7 @@ class Location(object):
         total = 0
         for team in self.teams:
             if team.module: 
-                if team.module.is_on_time():
+                if team.module.is_on_time:
                     total += 1
         return total
 

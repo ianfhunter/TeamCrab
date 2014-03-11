@@ -25,6 +25,7 @@ class Project():
                 for team in location.teams:
                     team_cost = 0
                     for module in team.modules:
+                        module.calc_deadline(self.start_time, team.size)
                         team_cost += module.expected_cost/team.size
                     if team_cost > max_team_cost:
                         max_team_cost = team_cost
