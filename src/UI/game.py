@@ -2,7 +2,7 @@ import pygame
 import os
 from pgu import gui
 from time import sleep
-import endgame
+import endgame,inquiry
 
 #from engine import SimulationEngine
 
@@ -21,8 +21,10 @@ class Game:
         self.endscreen = None
         self.gameover = False
 
-        self.inquiry = None
+        self.inquiry = None         #inquiry object
+        self.inquired = None        #boolean
         self.inquiry_site = None
+        self.inquiry_type = None
 
         self.info_legend = False
 
@@ -50,15 +52,14 @@ class Game:
         ''' Menu button to bring up new dialog, changes variables for next
         update().'''
 
-    def choose_inquiry_site(self,site):
-        self.inquiry_site = site
-
     def info_legend_clicked(self):
         self.info_legend = not self.info_legend
 
     def inquire(self):
         #toggle window
-        self.inquiry = not self.inquiry
+        self.inquired = not self.inquired
+        self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data)
+        print self.inquiry
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
@@ -68,14 +69,15 @@ class Game:
             # Handle all events.
             for event in pygame.event.get():
                 # Tell PGU about all events.
-                if not self.endscreen:
-                    self.app.event(event)
-                else:
+                if self.endscreen:
                     self.endscreen.app.event(event)
-
+                if self.inquired:
+                    self.inquiry.app.event(event)
+                else:
+                    self.app.event(event)
+   
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
-                    self.inquiry = False
-
+                    self.inquired = False
                 # Handle quitting.
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
@@ -86,6 +88,8 @@ class Game:
         self.project_data = project
         if self.endscreen:
             self.endscreen.draw()  # Draw the endgame screen when pause pressed
+        if self.inquired:
+            self.inquiry.draw()  # Draw the inquiry screen
         else:
             self.draw()
 
@@ -282,74 +286,10 @@ class Game:
         on refreshing the entire screen.
         '''
         #This is getting complicated and we dont really need it as it 
-        pygame.display.flip()
-
-    def draw_inqury_screen(self):
-        pygame.draw.rect(self.screen, 0xFAFCA4,
-                            (100,20,650,410))
-        pygame.draw.line(self.screen, 0x000000, (250,20), (250,430))
-
-        start_x = 100
-        start_y = 20
-        inq_site = self.selected_site
-
-        self.contain.widgets = []
-        my_list = gui.List(width=175, height=395)
-        s = ""
-        for itr,site in enumerate(self.project_data.locations):
-            l = gui.Label(site.name)
-            l.connect(gui.CLICK, self.choose_inquiry_site,site)
-            my_list.add(l)            
-            self.contain.add(l, start_x + 5, start_y + 20 +(20* (itr+1) ))
-
-        self.app.paint()
-        self.app.update()
-
-        info_x = 250 + 10
-        font = pygame.font.SysFont("Helvetica", 18)
-
-        label = font.render( "Inquiries", 1, (0, 0, 0))
-        self.screen.blit(label, (info_x + 150, 20))
-
-        label = font.render( "Press Enter to close this window", 1, (0, 0, 0))
-        self.screen.blit(label, (info_x, 400))
-
-
-        if self.inquiry_site:
-            font = pygame.font.SysFont("Helvetica", 24)
-            label = font.render(self.inquiry_site.name + " Inquiry"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x, 50))
-
-            label = font.render( "The results of your inquiry are as follows:"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x, 90))
-
-            font = pygame.font.SysFont("Helvetica", 16)
-            if self.inquiry_site.num_modules_on_schedule  == self.inquiry_site.num_modules:
-                label = font.render( "Status: On Schedule", 1, (0, 0, 0))
-                self.screen.blit(label, (info_x, 140))
-
-                label = font.render( "Problem: None", 1, (0, 0, 0))
-                self.screen.blit(label, (info_x, 180))
-
-            else:
-                label = font.render( "Status: Delayed", 1, (0, 0, 0))
-                self.screen.blit(label, (info_x, 140))
-
-                label = font.render( "Problem: X", 1, (0, 0, 0))
-                self.screen.blit(label, (info_x, 180))
-
-            label = font.render( "Difference between ideal and actual effort produced: ", 1, (0, 0, 0))
-            self.screen.blit(label, (info_x, 220))
-
-            label = font.render( "Estimated delivery date: ", 1, (0, 0, 0))
-            self.screen.blit(label, (info_x, 260))
-
-            label = font.render( "Further Info: Nothing of note (Put hints about interventions here)", 1, (0, 0, 0))
-            self.screen.blit(label, (info_x, 300))
-
-
+        if self.inquired:
+            pygame.display.update((0, 280, 200, 180))
+        else:
+            pygame.display.flip()
 
     def draw(self):
         ''' Redraws all of the map screen. '''
@@ -366,6 +306,4 @@ class Game:
         self.draw_detailed_site_info(self.font)
         self.draw_pause_button()
         self.draw_info_button()
-        if self.inquiry:
-            self.draw_inqury_screen()
         self.refresh_screen()
