@@ -32,16 +32,15 @@ class Project():
             nominal_schedule = max_team_cost / dev_effort_val
             self.delivery_date = self.start_time + datetime.timedelta(days=nominal_schedule/8)
 
-    def months_behind_schedule(self):
+    def days_behind_schedule(self):
         # Returns a number of days late, divide by 30 to get number of months late
         delta = self.delivery_date - self.start_time
         days_late = delta.days
-        num_months_late = days_late/30
-        return num_months_late
+        return days_late 
 
     def game_score(self):
-        num_months_late = self.months_behind_schedule() 
-        score = self.cash + ((6 - num_months_late) * (self.expected_yearly_revenue / 12))
+        num_months_late = self.days_behind_schedule() 
+        score = self.cash + ((6 - num_months_late) * (self.expected_yearly_revenue / 365))
         return score
 
     # From email:
@@ -57,7 +56,7 @@ class Project():
         num_developers = 0
         for location in self.locations:
             num_developers += location.current_size
-            total_daily_cost += (location.salary * 8 * location.current_size)
+            total_daily_cost += (location.salary * developer_effort_day * location.current_size)
         total_effort_hours = ((float(total_module_effort) / (float(developer_effort_day) * float(num_developers)) * 1.24))
         total_effort_days = (total_effort_hours/8) + 1
         return (float(total_effort_days) * float(total_daily_cost))
@@ -70,7 +69,9 @@ class Project():
     def expected_revenue(self):
         return self.expected_yearly_revenue / 2
 
+    # From e-mail:
+    # actual_revenue = (6 - num_months_late) * (expected_yearly_revenue/12)
     def actual_revenue(self):
-        num_months_late = self.months_behind_schedule() 
-        actual_revenue = (6 - num_months_late) * (self.expected_yearly_revenue / 12)
+        num_days_late = self.days_behind_schedule() 
+        actual_revenue = (365 - num_days_late) * (self.expected_yearly_revenue / 365)
         return actual_revenue

@@ -1,19 +1,14 @@
 import random
 from Task import Task
 import datetime
-
-def random_element(prog):
-    ''' Generates a random value between -25 and 25 used as a percentage to offset prog.
-    '''
-    amount = float(random.randint(-25, 25))
-    direction = random.choice([-1, 1])
-    return prog * (1 + (amount / 100.0))
+from global_config import problems
 
 class Module(object):
     def __init__(self, name, cost):
         self.name = name
         self.expected_cost = cost
-        self.actual_cost = random_element(cost)
+        self.actual_cost = self.calculate_actual_cost(cost)
+        self.actual_cost_base = self.actual_cost
         self.modules = list()
         self.tasks = list()
         self.completed_tasks = list()
@@ -34,13 +29,14 @@ class Module(object):
         self.stalled = False
         self.hours_taken = 0 # This is productive time
         self.total_hours = 0 # number of hours from start of project including non productive hours. 
+        self.problems_occured = list()
 
-    # TODO: Consider changing tasks to be a dictionary for O(1) lookups
-    # by name.
-    # Doing a linear search through the list here will be slow and a dict
-    # would be preferable.
+    def calculate_actual_cost(self, expected_cost):
+        ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
+        '''
+        actual_cost_percent = float(random.randint(75, 125)) / 100.0
+        return int(float(expected_cost) * actual_cost_percent)
 
-    # Reason for list is so task have to be performed in order. 
     def get_task(self, name):
         ''' Returns the task object which matches the name specified if it exists, None otherwise.
         '''
@@ -90,4 +86,9 @@ class Module(object):
 
     def productive_time_on_task(self):
         return self.hours_taken
+
+    def add_problem(self):
+        prob = random.randint(1, 5)
+        self.problems_occured.append(problems[prob][0])
+        self.actual_cost += self.actual_cost_base * problems[prob][1]
 

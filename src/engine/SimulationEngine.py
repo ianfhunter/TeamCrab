@@ -34,17 +34,25 @@ def calc_progress(gmt_time):
     global cmd_args
     for location in project.locations:
         local_time = (gmt_time.hour + location.time_zone) % 24
-        if local_time >= 9 and local_time <= 17:
-            for team in location.teams:
+        for team in location.teams:
+            if team.module:
+                team.module.total_hours += 1
+            if local_time >= 9 and local_time <= 17:
                 project.cash -= (team.salary*team.size)
                 team.calc_progress(gmt_time)
                 if location.calc_fail(project.home_site):
                     print "FAILURE HAS OCCURED"
                 if team.module:
+                    if local_time is 9:
+                        if location.calc_fail(project.home_site):
+                            team.module.add_problem()
+                            print "NEW PROBLEM AT SITE ", location.name, "List of problems to occur at site to date: "
+                            for x in team.module.problems_occured:
+                                print x
                     if not cmd_args["P_SUPPRESS"]:
                         print 'Module:', team.module.name, '- Progress:', \
                             str(team.module.progress), '- Expected Cost:', \
-                            str(team.module.actual_cost), '- Actual Cost:', \
+                            str(team.module.expected_cost), '- Actual Cost:', \
                             str(team.module.actual_cost)
                 else:
                     if not cmd_args["P_SUPPRESS"]:

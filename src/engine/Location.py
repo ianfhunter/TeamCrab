@@ -104,7 +104,6 @@ class Location(object):
     def calc_fail(self, loc):
         d_glo = self.dist_g(loc)
         p_fail = config["fail_rate"] * (d_glo / (1 + d_glo))
-        print "chance of failure: " + str(p_fail)
         if random.random() <= p_fail:
             return True
         return False
