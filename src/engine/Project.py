@@ -56,7 +56,7 @@ class Project():
         num_developers = 0
         for location in self.locations:
             num_developers += location.current_size
-            total_daily_cost += (location.salary * 8 * location.current_size)
+            total_daily_cost += (location.salary * developer_effort_day * location.current_size)
         total_effort_hours = ((float(total_module_effort) / (float(developer_effort_day) * float(num_developers)) * 1.24))
         total_effort_days = (total_effort_hours/8) + 1
         return (float(total_effort_days) * float(total_daily_cost))
