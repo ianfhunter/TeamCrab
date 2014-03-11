@@ -35,7 +35,7 @@ The file provides the following targets:
 
 The build target compiles each of the .py source files in the src directory into corresponding .pyc files in the bin 
 directory (it will create the bin directory first if it does not already exist). The built project can then be run locally
-via the command "./bin/SESimulator.pyc".
+via the command "make run".
 
 The test target will build the project as outlined above and then perform the unit tests which are in the test directory.
 At the moment there are no tests since the project is only at a zero velocity release, so this target will perform the
@@ -180,6 +180,10 @@ to generate html documentation use
   * Instead of taking the base and modifying the required amount by up to +/- 25%, the amount of work done by a team is modified by up to +/- 25% each hour worked. 
   * This is so it can be seen when a module is falling behind schedule.
   * This can be seen in the trace - Actual Progress - how much work a team has actually done on the module - compared to Expected Progress - how much work a team should have done with no random element.
+9. Feature #11 - Problem Simulator
+  * TODO
+10. Feature #7 - Inquiry Interface
+  * TODO
 
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.

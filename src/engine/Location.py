@@ -78,7 +78,7 @@ class Location(object):
             return 1.0
         if temporal <= 5:
             return 2.0
-        if temporal >= 8:
+        if temporal <= 8:
             return 3.0
         return 4.0
 
