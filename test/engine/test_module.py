@@ -1,6 +1,6 @@
 import importme
 import unittest
-from Module import Module, random_element
+from Module import Module, calculate_actual_cost
 from Task import Task
 
 class TestModule(unittest.TestCase):
@@ -49,8 +49,9 @@ class TestModule(unittest.TestCase):
 
     def test_random_element(self):
         
-        for i in range(30):
-            val = random_element(i)
+        for i in range(100, 150):
+            val = calculate_actual_cost(i)
+            print i, val
             self.assertTrue(val >= i*0.75 and val <= i*1.25)
 
 if __name__ == '__main__':
