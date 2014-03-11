@@ -14,7 +14,7 @@ class EndGame:
                                      height=400)
         self.hasList = False
         self.font = pygame.font.SysFont("Helvetica", 15)
-        self.monofont = pygame.font.SysFont("monospace", 12)
+        self.monofont = pygame.font.SysFont("monospace", 14)
         self.font_large = pygame.font.SysFont("Helvetica", 56)
 
 
@@ -22,26 +22,18 @@ class EndGame:
         ''' Generate table with information about the end of the game '''
         report = {}
         report["score"] = self.project.game_score()
-        report["remaining_cash"] = self.project.cash
         report["total_time"] = str(self.project.current_time - self.project.start_time)
-        report["months_behind_schedule"] = self.project.months_behind_schedule()
+        report["days_behind_schedule"] = self.project.days_behind_schedule()
         report["expected_budget"] = self.project.expected_budget(self.config["developer_daily_effort"])
         report["actual_budget"] = self.project.actual_budget()
         report["expected_revenue"] = self.project.expected_revenue()
         report["actual_revenue"] = self.project.actual_revenue()
+        report["endgame_cash"] = self.project.cash + self.project.actual_revenue()
 
         # Generate table to compare estimated/actual effort broken down by module
         effort_table = []
-# module name | team name | team size | expected cost (man hours) | actual cost (man hours) | wall clock time (actual days) | productive time on task
-        '''
-        expected_cost()
-        actual_cost()
-        wall_clock_time()
-        productive_time_on_task()
-
-        '''
-        effort_table.append(['Team', 'Module', 'Team', 'Estimated', 'Actual cost', 'Wall clock', 'Productive'])
-        effort_table.append(['Name', 'Name',   'Size', 'cost (mh)', '(mh)'       , 'time (hrs)', 'time (hrs)'])
+        effort_table.append(['Team', 'Module', 'Team', 'Estimated cost', 'Actual cost', 'Wall clock', 'Productive'])
+        effort_table.append(['Name', 'Name',   'Size', '(man hrs)',      '(man hrs)',   'time (hrs)', 'time (hrs)'])
         total_estimated = 0
         total_actual = 0
         for location in self.project.locations:
@@ -63,12 +55,12 @@ class EndGame:
 
     def report_table_line(self, team, module, size, estimate, actual, wall, productive):
         s = ""
-        s += team + (" " * (20 - (len(team))))
-        s += module + (" " * (20 - len(module)))
-        s += str(size) + (" " * (20 - (len(str(size)))))
-        s += str(estimate) + (" " * (20 - (len(str(estimate)))))
-        s += str(actual) + (" " * (20 - (len(str(actual)))))
-        s += str(wall) + (" " * (20 - len(str(wall))))
+        s += team + (" " * (14 - (len(team))))
+        s += module + (" " * (14 - len(module)))
+        s += str(size) + (" " * (6 - (len(str(size)))))
+        s += str(estimate) + (" " * (16 - (len(str(estimate)))))
+        s += str(actual) + (" " * (14 - (len(str(actual)))))
+        s += str(wall) + (" " * (14 - len(str(wall))))
         s += str(productive)
         return s
 
@@ -112,15 +104,15 @@ class EndGame:
         label = font.render("Game score: " + str(score) + " points", 1, (0, 0, 0))
         self.screen.blit(label, (80, 120))
 
-        # Leftover cash
-        cost = report["remaining_cash"]
-        label = font.render("Profit Margin: $" + str(cost), 1, (0, 0, 0))
-        self.screen.blit(label, (80, 140))
-
         # Person hours
         estimated_hours, actual_hours = self.total_person_hours()
         label = font.render("Total person hours used: " + str(actual_hours) +
             " (estimate " + str(estimated_hours) + ")", 1, (0, 0, 0))
+        self.screen.blit(label, (80, 140))
+
+        # Leftover cash
+        cost = report["endgame_cash"]
+        label = font.render("Endgame cash (leftover budget + revenue): $" + str(cost), 1, (0, 0, 0))
         self.screen.blit(label, (80, 160))
 
         # Budget calculations
@@ -139,7 +131,7 @@ class EndGame:
 
         if not self.hasList:
 
-            my_list = gui.List(width=750, height=180)
+            my_list = gui.List(width=800, height=195)
             # effort_table.append([team.name, module.name, team.size, expected, actual, wall, productive])
             for (team, module, size, estimate, actual, wall, productive) in report["effort_table"]:
                 s = self.report_table_line(team, module, size, estimate, actual, wall, productive)
