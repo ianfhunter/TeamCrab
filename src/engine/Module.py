@@ -13,13 +13,13 @@ class Module(object):
         self.tasks = list()
         self.completed_tasks = list()
 
-        self.tasks.append(Task('design', self.actual_cost/100*15, self.expected_cost/100*15, self))
-        self.tasks.append(Task('implementation', self.actual_cost/100*15, self.expected_cost/100*15, self))
-        self.tasks.append(Task('unit_test', self.actual_cost/100*10, self.expected_cost/100*10, self))
-        self.tasks.append(Task('integration', self.actual_cost/100*15, self.expected_cost/100*15, self))
-        self.tasks.append(Task('system_test', self.actual_cost/100*15, self.expected_cost/100*15, self))
-        self.tasks.append(Task('deployment', self.actual_cost/100*15, self.expected_cost/100*15, self))
-        self.tasks.append(Task('acceptance_test', self.actual_cost/100*15, self.expected_cost/100*15, self))
+        self.tasks.append(Task('design', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('implementation', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('unit_test', int(self.actual_cost/100.0*10.0), int(self.expected_cost/100.0*10.0), self))
+        self.tasks.append(Task('integration', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('system_test', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('deployment', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
+        self.tasks.append(Task('acceptance_test', int(self.actual_cost/100.0*15.0), int(self.expected_cost/100.0*15.0), self))
 
         self.is_on_time = True # Keeps track of whether this module is on time for the traffic light system
         self.deadline = None # The deadline (by date) of this module
@@ -53,12 +53,16 @@ class Module(object):
         self.progress += progress
         
         # If the current task has completed then progress to the next task and place this one on the completed_tasks list
-        if self.progress >= (self.overall_task_progress + self.tasks[0].actual_cost):
-            if current_time <= self.tasks[0].deadline:
-                self.is_on_time = True
-            self.overall_task_progress = self.progress
-            self.completed_tasks.append(self.tasks[0])
-            self.tasks.pop(0)
+        if self.tasks:
+            if self.progress >= (self.overall_task_progress + self.tasks[0].actual_cost):
+                if current_time <= self.tasks[0].deadline:
+                    self.is_on_time = True
+                self.overall_task_progress += self.tasks[0].actual_cost
+                self.completed_tasks.append(self.tasks[0])
+                self.tasks.pop(0)
+                if len(self.tasks) == 0:
+                    print "LAST REMOVED"
+                    print str(self.progress) + " " + str(self.overall_task_progress) + " " + str(self.actual_cost)
 
         # If the current task has reached its deadline then the module is not on time
         if self.tasks:
