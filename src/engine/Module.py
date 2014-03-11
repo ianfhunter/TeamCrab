@@ -3,11 +3,17 @@ from Task import Task
 import datetime
 from global_config import problems
 
+def calculate_actual_cost(expected_cost):
+    ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
+    '''
+    amount = float(random.randint(-25, 25))
+    return expected_cost * (1 + (amount / 100.0))
+
 class Module(object):
     def __init__(self, name, cost):
         self.name = name
         self.expected_cost = cost
-        self.actual_cost = self.calculate_actual_cost(cost)
+        self.actual_cost = calculate_actual_cost(cost)
         self.actual_cost_base = self.actual_cost
         self.modules = list()
         self.tasks = list()
@@ -30,12 +36,6 @@ class Module(object):
         self.hours_taken = 0 # This is productive time
         self.total_hours = 0 # number of hours from start of project including non productive hours. 
         self.problems_occured = list()
-
-    def calculate_actual_cost(self, expected_cost):
-        ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
-        '''
-        actual_cost_percent = float(random.randint(75, 125)) / 100.0
-        return int(float(expected_cost) * actual_cost_percent)
 
     def get_task(self, name):
         ''' Returns the task object which matches the name specified if it exists, None otherwise.
