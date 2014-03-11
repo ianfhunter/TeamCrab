@@ -71,14 +71,14 @@ class Location(object):
         return 1.0
 
     def temp_distance(self, loc):
-        temporal = self.time_zone - loc.time_zone
+        temporal = abs(self.time_zone - loc.time_zone)
         if temporal > 12:
             temporal = 24 - temporal
         if temporal <= 3:
             return 1.0
         if temporal <= 5:
             return 2.0
-        if temporal >= 8:
+        if temporal <= 8:
             return 3.0
         return 4.0
 
