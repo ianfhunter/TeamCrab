@@ -12,7 +12,7 @@ def load_game():
     Framework, database, front end, api, documentation. 
 
     '''
-    project = Project('Web App', 'Agile', 100000, LowRevenueTier())
+    project = Project('Web App', 'Agile', 90000, LowRevenueTier())
 
     # Setup a team in Dublin
     dublin = Location('Dublin', 0, "Irish", 30, 25, (375,148))
