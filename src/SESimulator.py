@@ -75,7 +75,7 @@ def main():
     project = sScreen.run()
 
     glob_game = game.Game(project, config, screen, simeng)
-
+    project.cash = project.expected_budget()
     #begin simulator
     frontend = FrontEndThread(glob_game,project)
     backend = BackEndThread(glob_game,project,cmd_args)

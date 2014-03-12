@@ -146,14 +146,20 @@ to generate html documentation use
 
 ## Inspection of Features
 1. Feature #17 - Master configuration file
-  * The master configuration file is in the form of a Python file which is interpreted by the game, kept in global_config.py. It contains a dictionary of key/value pairs for configuration values.
+  * The master configuration file is in the form of a Python file which is interpreted by the game, kept in global_config.py.
+  * It contains a dictionary of key/value pairs for configuration values.
   * To modify this file, you must modify the version in bin/global_config.py if running straight from the project repository/tarfile.
   * After the simulator has been installed, you must modify global_config.py in the install path in order to see changes reflected.
   * An obvious value to change is bar_colour: change this to ffffff to see a white bar at the bottom of the screen instead of grey.
 2. Feature #9 - Process simulator
   * Simply start the game with the sample game file (this happens automatically at the moment).
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
-  * This output is of the form "Module: module\_name Task: task\_name - Actual Progress: x - expected Progress: y" where x and y are floating point values.
+  * This output is of the form:
+    "Module: Front end - Current Effort Expended: x ph - Expected Total Effort: y ph - Actual Total Effort: x ph (ph = person-hours)"
+        where x, y and z are numerical values in Person Hours.
+        Current Effort Expended = the amount of actual effort in person hrs that a team has expended so far.
+        Expected Total Effort = the amount of actual effort estimated for this module to be completed.
+        Actual Total Effort = the actual amount of effort that will be required to complete this module, given the +-25% variance.
   * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
@@ -163,13 +169,14 @@ to generate html documentation use
   * Grey represents sites that are inactive - waiting on a dependency or completed. They are not supposed to be doing anything.
   * Changes between colours indicate a change in status information in line with the above statuses.
   * Sites are clickable to view more detailed information about a site.
+  * Clicking the ? in the top-right shows detailed information about what the colours of sites mean
 4. Feature #20 - Default scenarios
   * To choose a provided scenario, launch the game and select one from the dropdown list.
   * If no scenario is selected, the default scenario is the first item in the dropdown list.
 5. Feature #14 - End of game report 
   * Start the game with the sample game file (this happens automatically at the moment).
   * Wait until the end of the game.
-  * A summary of the report will be displayed on the screen, with the full report written to report.csv in the game's working directory.
+  * A summary of the report will be displayed on the screen, with the full report written to report.json in the game's working directory (the same directory as SESimulator.py)
 6. Feature #5 - Nominal schedule calculator
    * The nominal deadline is the sum of all the efforts estimated for each module, divided by a default developer-period effort value.
    * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen
@@ -184,9 +191,18 @@ to generate html documentation use
   * This is so it can be seen when a module is falling behind schedule.
   * This can be seen in the trace - Actual Progress - how much work a team has actually done on the module - compared to Expected Progress - how much work a team should have done with no random element.
 9. Feature #11 - Problem Simulator
-  * TODO
+  * If a problem occurs, the site at which it occurs will be reported in the trace, as well as the nature of the problem. e.g. Problem occured at Belarus Problem: Module failed to deploy properly
 10. Feature #7 - Inquiry Interface
-  * TODO
+  * To open the inquiry interface, click the 'inquiries' button in the bottom right corner.
+  * Select a site to give inquiries to by clicking on the text links
+  * Choose a type of inquiry to issue and select corresponding button.
+  * Results of the inquiry for each team at the site are shown in the text box below the buttons.
+  * There are 5 different types of inquiry
+     1.  Ask sites if they are on schedule or not. Dishonest sites will always report that they are on schedule
+     2.  Ask sites the status of their assigned modules. Dishonest sites report list of modules with 'on schedule' for all; others report actual status
+     3.  Ask sites for a list of their completed tasks - All sites report actual tasks completed, but not status of other tasks (in progress or late)
+     4.  A video conference - All sites report actual tasks completed; Asian & Russian sites report other tasks with 50% accuracy
+     5.  Visit the site - All sites provide accurate list of completed, on-schedule, and late tasks
 
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.
@@ -197,14 +213,13 @@ The progress of each module currently being worked on is printed every turn that
 "working". Teams are considered to be working from 9:00 to 17:00 local time. An example of the output
 of the progress of a module is:
 
-"Module: Sample Module - Actual Progress: 42.7 - Expected Progress: 45.0 - Target End Progress: 50"
+"Module: Sample Module - Current Effort Expended: 60.0 ph - Expected Total Effort: 800 ph - Actual Total Effort: 968.0 ph (ph = person-hours)"
 
 First the name of the module is printed. After this, there are 3 values related to the progress of the
-module. In this context, progress means the amount of person-hours that have been put into the module
-so far. The "Actual Progress" is the number of hours of work that have actually been put into the
-module so far. The "Expected Progress" is the number of hours of work that should have been put in
-based on estimates. The "Target End Progress" is the total number of hours that need to be put into
-the module for it to be completed fully.
+module.
+Current Effort Expended is the amount of actual effort in person hrs that a team has expended so far.
+Expected Total Effort is the amount of actual effort in person hrs estimated for this module to be completed.
+Actual Total Effort is the actual amount of effort in person hrs that will be required to complete this module, given the +-25% variance.
 
 When a module is completed, a message will be printed to the console. For example, "Team C's module has
 completed".

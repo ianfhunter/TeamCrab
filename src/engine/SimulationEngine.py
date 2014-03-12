@@ -27,18 +27,20 @@ def all_finished():
 
 def calc_progress(gmt_time):
     ''' This function calculates the progress of each module assigned to each team 
-    if the team is currently working. A team is considered to be working between 
-    9:00 and 17:00 local time.
+    if the team is currently working. A team is considered to be working from 
+    9:00 for a number of hours based on "developer_daily_effort".
     '''
     global project
     global cmd_args
     for location in project.locations:
         local_time = (gmt_time.hour + location.time_zone) % 24
         for team in location.teams:
+            if local_time is 9:
+                project.cash -= config["developer_daily_cost"] * team.size
+                project.budget += config["developer_daily_cost"] * team.size
             if team.module:
-                team.module.total_hours += 1
-            if local_time >= 9 and local_time <= 17:
-                project.cash -= (team.salary*team.size)
+                team.module.total_hours += 1     
+            if local_time >= 9 and local_time <= 9 + config["developer_daily_effort"]:
                 team.calc_progress(gmt_time)
                 if team.module:
                     if location.calc_fail(project.home_site):
@@ -47,10 +49,10 @@ def calc_progress(gmt_time):
                             print "Problem occured at", location.name
                             print "Problem:", problem
                     if not cmd_args["P_SUPPRESS"]:
-                        print 'Module:', team.module.name, '- Progress:', \
-                            str(team.module.progress), '- Expected Cost:', \
-                            str(team.module.expected_cost), '- Actual Cost:', \
-                            str(team.module.actual_cost)
+                        print 'Module:', team.module.name, '- Current Effort Expended:', \
+                            str(team.module.progress), 'ph - Expected Total Effort:', \
+                            str(team.module.expected_cost), 'ph - Actual Total Effort:', \
+                            str(team.module.actual_cost), 'ph (ph = person-hours)'
                 else:
                     if not cmd_args["P_SUPPRESS"]:
                         print 'Warning: Team ' + team.name + ' has no module assigned.'

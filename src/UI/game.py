@@ -58,32 +58,52 @@ class Game:
 
     def inquire(self):
         #toggle window
-        self.engine.pause()
         self.inquired = not self.inquired
         self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data)
-        print self.inquiry
+        self.engine.pause()
+
+        while(self.inquired):
+
+            self.inquiry.draw()
+            sleep(self.config["ui_refresh_period_seconds"])
+            # Handle all events.
+            for event in pygame.event.get():
+
+                # Tell PGU about all events.
+                self.inquiry.app.event(event)
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                    self.inquired = False
+                    self.engine.resume() 
+                    break
+                # Handle quitting.
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    os._exit(1)
+
+
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''
         self.draw()
         while True:
             sleep(self.config["ui_refresh_period_seconds"])
-            # Handle all events.
-            for event in pygame.event.get():
-                # Tell PGU about all events.
-                if self.endscreen:
-                    self.endscreen.app.event(event)
-                if self.inquired:
-                    self.inquiry.app.event(event)
-                else:
-                    self.app.event(event)
-   
-                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
-                    self.inquired = False
-                    self.engine.resume() 
-                # Handle quitting.
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                    os._exit(1)
+
+            if not self.inquired:
+                # Handle all events.
+                for event in pygame.event.get():
+                    # Tell PGU about all events.
+                    if self.endscreen:
+                        self.endscreen.app.event(event)
+                    # if self.inquired:
+                    #     self.inquiry.app.event(event)
+                    else:
+                        self.app.event(event)
+       
+                    if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                        self.inquired = False
+                        self.engine.resume() 
+                    # Handle quitting.
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        os._exit(1)
 
     def update(self, project):
         """ Retrieves updated information from the backend and redraws the
@@ -91,8 +111,6 @@ class Game:
         self.project_data = project
         if self.endscreen:
             self.endscreen.draw()  # Draw the endgame screen when pause pressed
-        if self.inquired:
-            self.inquiry.draw()  # Draw the inquiry screen
         else:
             self.draw()
 
@@ -158,7 +176,7 @@ class Game:
         if self.project_data.cash >= 0:
             label = font.render("$"+str(self.project_data.cash), 1, (0, 255, 0))
         else:
-            label = font.render("-$"+str(self.project_data.cash), 1, (255, 0, 0))
+            label = font.render("-$"+str(self.project_data.cash*-1), 1, (255, 0, 0))
         self.screen.blit(label, (20, label_pos))
         cur_time =self.project_data.current_time
         label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
