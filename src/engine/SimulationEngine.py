@@ -47,9 +47,9 @@ def calc_progress(gmt_time):
                             print "Problem occured at", location.name
                             print "Problem:", problem
                     if not cmd_args["P_SUPPRESS"]:
-                        print 'Module:', team.module.name, '- Current Total Effort Expended:', \
+                        print 'Module:', team.module.name, '- Current Effort Expended:', \
                             str(team.module.progress), 'ph - Expected Total Effort:', \
-                            str(team.module.expected_cost), 'ph - Actual Effort:', \
+                            str(team.module.expected_cost), 'ph - Actual Total Effort:', \
                             str(team.module.actual_cost), 'ph (ph = person-hours)'
                 else:
                     if not cmd_args["P_SUPPRESS"]:

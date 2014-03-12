@@ -10,8 +10,10 @@ config = {
         "developer_period_effort_value" : 1,
         # How many productive work hours a developer has in one work day (8 hours)
         "developer_daily_effort" : 4,
+        # Total number of hours a developer works in one day
+        "developer_daily_working_hours" : 8,
         # Real-life seconds per game hour
-        "game_speed" : 0.1,
+        "game_speed" : 0.4,
         # Base likelihood value that a site will encounter a "problem" caused by the problem simulator
         # Used with global distance to adjust problem rates. 0.01 = 1%
         # Note: global distances influences the actual problem rate in conjunction with this rate
