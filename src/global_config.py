@@ -37,7 +37,7 @@ config = {
 config.update(constants)
 
 cultures = {
-    # Name : (honesty Mod, language(possiably expand to array), language_skill, east/west, context, national,organizational )
+    # Name : (honesty Mod, language(possiably expand to array), language_skill, east/west, context, national,organizational, Dgeo, Dtime )
     "Irish" : (1, "English", "high", "west", "high", "Irish", "Innovative"),
     "American" : (1, "English", "high", "west", "high", "American", "Outcome"),
     "Indian" : (0, "English", "low", "east", "high", "Indian", "Outcome"),

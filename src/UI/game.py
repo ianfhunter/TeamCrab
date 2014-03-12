@@ -4,8 +4,6 @@ from pgu import gui
 from time import sleep
 import endgame,inquiry
 
-#from engine import SimulationEngine
-
 glob_game = None
 
 this_dir = os.path.dirname(__file__)
@@ -13,7 +11,7 @@ root_dir = os.path.join(this_dir, '../..')
 
 
 class Game:
-    def __init__(self, project_data, game_config,screen):
+    def __init__(self, project_data, game_config, screen, engine):
         glob_game = self
         self.project_data = project_data
         self.config = game_config
@@ -29,6 +27,8 @@ class Game:
         self.info_legend = False
 
         self.selected_site = None
+
+        self.engine = engine
 
         self.screen = screen
         self.app = gui.App()
@@ -57,6 +57,7 @@ class Game:
 
     def inquire(self):
         #toggle window
+        self.engine.pause()
         self.inquired = not self.inquired
         self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data)
         print self.inquiry
@@ -78,6 +79,7 @@ class Game:
    
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                     self.inquired = False
+                    self.engine.resume() 
                 # Handle quitting.
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
@@ -161,7 +163,7 @@ class Game:
         label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
         self.screen.blit(label, (100, label_pos))
         label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
-                             1, (238, 255, 53))
+                             1, (0, 0, 0))
         self.screen.blit(label, (320, label_pos))
 
     def draw_sites(self):

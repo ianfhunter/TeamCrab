@@ -80,7 +80,7 @@ class EndGame:
 
     def write_endgame_json(self, report):
         outfile = open('report.json', 'w')
-        outfile.write(json.dumps(report))
+        outfile.write(json.dumps(report, indent=4))
 
     def draw_endgame(self):
         ''' Shows the user the end game stats and generates a report.'''

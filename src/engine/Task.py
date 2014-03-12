@@ -12,3 +12,9 @@ class Task(object):
         self.module = module
         self.stalled = False
         self.hours_taken = 0
+
+    def current_cost(self):
+        return self.actual_cost
+
+    def increase_cost(self, person_hours):
+        self.actual_cost += person_hours
