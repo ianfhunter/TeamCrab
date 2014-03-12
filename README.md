@@ -193,7 +193,16 @@ to generate html documentation use
 9. Feature #11 - Problem Simulator
   * If a problem occurs, the site at which it occurs will be reported in the trace, as well as the nature of the problem. e.g. Problem occured at Belarus Problem: Module failed to deploy properly
 10. Feature #7 - Inquiry Interface
-  * TODO
+  * To open the inquiry interface, click the 'inquiries' button in the bottom right corner.
+  * Select a site to give inquiries to by clicking on the text links
+  * Choose a type of inquiry to issue and select corresponding button.
+  * Results of the inquiry for each team at the site are shown in the text box below the buttons.
+  * There are 5 different types of inquiry
+     1.  Ask sites if they are on schedule or not. Dishonest sites will always report that they are on schedule
+     2.  Ask sites the status of their assigned modules. Dishonest sites report list of modules with 'on schedule' for all; others report actual status
+     3.  Ask sites for a list of their completed tasks - All sites report actual tasks completed, but not status of other tasks (in progress or late)
+     4.  A video conference - All sites report actual tasks completed; Asian & Russian sites report other tasks with 50% accuracy
+     5.  Visit the site - All sites provide accurate list of completed, on-schedule, and late tasks
 
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.
