@@ -38,24 +38,49 @@ class Game:
                                      height=self.config["screenY"])
         self.font = pygame.font.SysFont("Helvetica", 15)
 
+    '''
+    Draws endgame screen over game screen.
+
+    @untestable - just draws UI so not testable.
+    '''
     def endgame(self, project):
         ''' Bring up the game over screen on the next draw().'''
         self.gameover = True
         self.endscreen = endgame.EndGame(self.screen, self.config, project)
 
+    '''
+    Event handler for when user clicks a location
+
+    @untestable - just draws UI so not testable.
+    '''
     def locationClick(self, site):
         if not self.endscreen:
             print "Site Clicked!", site.coordinates
             self.selected_site = site
             self.draw_detailed_site_info(self.font)
 
+    '''
+    Event handler for when user clicks pause button.
+
+    @untestable - just draws UI so not testable.
+    '''
     def pauseClick(self):
         ''' Menu button to bring up new dialog, changes variables for next
         update().'''
 
+    '''
+    Event handler for when user clicks info legend.
+
+    @untestable - just draws UI so not testable.
+    '''
     def info_legend_clicked(self):
         self.info_legend = not self.info_legend
 
+    '''
+    Draws inquiry interface screen.
+
+    @untestable - just draws UI so not testable.
+    '''
     def inquire(self):
         #toggle window
         self.inquired = not self.inquired
@@ -79,8 +104,11 @@ class Game:
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
 
+    '''
+    Renders the game screen in a loop.
 
-
+    @untestable - just draws UI so not testable.
+    '''
     def run(self):
         ''' Handles all input events and goes to sleep.'''
         self.draw()
@@ -105,6 +133,11 @@ class Game:
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                         os._exit(1)
 
+    '''
+    Updates changed parts of main game screen.
+
+    @untestable - just draws UI so not testable.
+    '''
     def update(self, project):
         """ Retrieves updated information from the backend and redraws the
         screen. """
@@ -114,6 +147,11 @@ class Game:
         else:
             self.draw()
 
+    '''
+    Draws info button onscreen.
+
+    @untestable - just draws UI so not testable.
+    '''
     def draw_info_button(self):
         if self.info_legend:
             #show legend
@@ -152,12 +190,21 @@ class Game:
             self.app.init(self.contain)
             self.app.paint(self.screen)
         
+    '''
+    Draws world map onscreen.
 
+    @untestable - just draws UI so not testable.
+    '''
     def draw_world_map(self):
         """ Draws the world map onscreen."""
         worldMap = pygame.image.load(self.config["map_path"])
         self.screen.blit(worldMap, (0, 0))
 
+    '''
+    Draws the bottom bar on screen, showing cash and nominal end date.
+
+    @untestable - just draws UI so not testable.
+    '''
     def draw_bottom_bar(self, font):
         """Draws bottom bar, taking screen geometry from global config file.
         Draws statistics about progress, balance, etc on the bottom bar.
@@ -185,6 +232,11 @@ class Game:
                              1, (0, 0, 0))
         self.screen.blit(label, (320, label_pos))
 
+    '''
+    Draws circles indications site locations onscreen.
+
+    @untestable - just draws UI so not testable.
+    '''
     def draw_sites(self):
         ''' Draws dots showing sites around the world map.
         '''
@@ -200,9 +252,9 @@ class Game:
             failing = False
             for team in site.teams:
                  
- #Changed as modules now assigned to teams rather then tasks and modules do not have dependancies at this time.
- #if a module is running, it is not stalled waiting on dependencies or waiting on another.
- #print team.modules[0] ,":",team.module                
+             #Changed as modules now assigned to teams rather then tasks and modules do not have dependancies at this time.
+             #if a module is running, it is not stalled waiting on dependencies or waiting on another.
+             #print team.modules[0] ,":",team.module            
                 if team.module:
                     inactive = False
 
@@ -233,9 +285,11 @@ class Game:
             self.app.init(self.contain)
             self.app.paint(self.screen)
 
+    '''
+    Draws detailed site location for selected site onscreen.
 
-
-
+    @untestable - just draws UI so not testable.
+    '''
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
         '''
@@ -292,7 +346,11 @@ class Game:
             label = font.render(status, 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
+    '''
+    Draws pause button onscreen.
 
+    @untestable - just draws UI so not testable.
+    '''
     def draw_pause_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
         '''
@@ -304,6 +362,11 @@ class Game:
         self.app.init(self.contain)
         self.app.paint(self.screen)
 
+    '''
+    Redraws changed items onscreen.
+
+    @untestable - just draws UI so not testable.
+    '''
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
@@ -314,6 +377,11 @@ class Game:
         else:
             pygame.display.flip()
 
+    '''
+    Redraws all of map screen.
+
+    @untestable - just draws UI so not testable.
+    '''
     def draw(self):
         ''' Redraws all of the map screen. '''
         font = pygame.font.SysFont("Helvetica", 15)

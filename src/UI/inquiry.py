@@ -21,6 +21,11 @@ class Inquiry:
         self.firstOptions = True
         self.firstScroll = True
 
+    '''
+    Changes active site when an site is chosen to be inquired.
+
+    @untestable - function manipulates user interface, makes no sense to test.
+    '''
     def choose_inquiry_site(self,site):
         self.inquiry_site = site
         self.inquiry_type = None
@@ -28,12 +33,22 @@ class Inquiry:
         if self.contain.find("report_details"):
             self.contain.remove(self.contain.find("report_details"))
 
+    '''
+    Sets the type of inquiry in UI.
+
+    @untestable - function manipulates user interface, makes no sense to test.
+    '''
     def do_inquiry(self,inquiry_type):
         self.inquiry_type = inquiry_type
         self.firstScroll = True
         if self.contain.find("report_details"):
             self.contain.remove(self.contain.find("report_details"))
 
+    '''
+    Refreshes the inquiry interface screen.
+
+    @untestable - Just draws UI elements onscreen, makes no sense to test.
+    '''
     def refresh_screen(self):
         self.app.init(self.contain)
         self.app.paint(self.screen)
@@ -41,6 +56,11 @@ class Inquiry:
 
         pygame.display.flip()
 
+    '''
+    Draws details of an inquiry onscreen.
+
+    @untestable - Just draws UI elements onscreen, makes no sense to test.
+    '''
     def draw_inquiry(self):
         pygame.draw.rect(self.screen, 0xFAFCA4,
                             (100,20,650,410))
@@ -170,19 +190,32 @@ class Inquiry:
                             my_list.add(gui.Label(on_or_off))
                         if self.inquiry_type == "list_c_tasks":
                             my_list.add(gui.Label("Completed Tasks:"))
-                            if len(team.module.completed_tasks) == 0:
-                                my_list.add(gui.Label("We have not completed any tasks."))
+                            for module in team.completed_modules:                                
+                                for task in module.completed_tasks:
+                                    my_list.add(gui.Label(module.name + " - " + task.name))
+                            if not team.module:
+                                my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
-                                for x in team.module.completed_tasks:
-                                    my_list.add(gui.Label(x))
+                                if len(team.module.completed_tasks) == 0:
+                                    my_list.add(gui.Label("We have not completed any tasks."))
+                                else:
+                                    for x in team.module.completed_tasks:
+                                        my_list.add(gui.Label(x))
 
                         if self.inquiry_type == "video_conf":
                             my_list.add(gui.Label("Completed Tasks:"))
-                            if len(team.module.completed_tasks) == 0:
-                                my_list.add(gui.Label("We have not completed any tasks."))
+                            for module in team.completed_modules:                                
+                                for task in module.completed_tasks:
+                                    my_list.add(gui.Label(module.name + " - " + task.name))
+
+                            if not team.module:
+                                my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
-                                for x in team.module.completed_tasks:
-                                    my_list.add(gui.Label(x))
+                                if len(team.module.completed_tasks) == 0:
+                                    my_list.add(gui.Label("We have not completed any tasks."))
+                                else:
+                                    for x in team.module.completed_tasks:
+                                        my_list.add(gui.Label(x))
 
                             if self.inquiry_site.culture[0] == 0:
                                 if randint(0,1) == 0:
@@ -196,11 +229,18 @@ class Inquiry:
 
                         if self.inquiry_type == "visit":
                             my_list.add(gui.Label("Completed Tasks:"))
-                            if len(team.module.completed_tasks) == 0:
-                                my_list.add(gui.Label("Have not completed any tasks."))
+                            for module in team.completed_modules:                                
+                                for task in module.completed_tasks:
+                                    my_list.add(gui.Label(module.name + " - " + task.name))
+
+                            if not team.module:
+                                my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
-                                for x in team.module.completed_tasks:
-                                    my_list.add(gui.Label(x))
+                                if len(team.module.completed_tasks) == 0:
+                                    my_list.add(gui.Label("We have not completed any tasks."))
+                                else:
+                                    for x in team.module.completed_tasks:
+                                        my_list.add(gui.Label(x))
 
                             if team.module.is_on_time:
                                 my_list.add(gui.Label("On schedule for the current task")) 
@@ -209,7 +249,11 @@ class Inquiry:
 
                     self.contain.add(my_list,info_x,y_offset+50)
 
+    '''
+    Draws UI for inquiry interface.
 
+    @untestable - Just draws UI elements onscreen, makes no sense to test.
+    '''
     def draw(self):
         ''' The parent draw function of the end game screen .'''
         self.draw_inquiry()
