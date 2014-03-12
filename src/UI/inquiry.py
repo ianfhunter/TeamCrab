@@ -242,10 +242,10 @@ class Inquiry:
                                     for x in team.module.completed_tasks:
                                         my_list.add(gui.Label(x))
 
-                            if team.module.is_on_time:
-                                my_list.add(gui.Label("On schedule for the current task")) 
-                            else:
-                                my_list.add(gui.Label("delayed for the current task"))  
+                                if team.module.is_on_time:
+                                    my_list.add(gui.Label("On schedule for the current task")) 
+                                else:
+                                    my_list.add(gui.Label("delayed for the current task"))  
 
                     self.contain.add(my_list,info_x,y_offset+50)
 

@@ -31,6 +31,10 @@ class Game:
 
         self.engine = engine
 
+        self.buttonsNeedDrawing = True
+        self.exitLegendNeedDrawing = True
+
+
         self.screen = screen
         self.app = gui.App()
         self.app.connect(gui.QUIT, self.app.quit, None)
@@ -111,8 +115,6 @@ class Game:
                     # Tell PGU about all events.
                     if self.endscreen:
                         self.endscreen.app.event(event)
-                    # if self.inquired:
-                    #     self.inquiry.app.event(event)
                     else:
                         self.app.event(event)
        
@@ -159,25 +161,30 @@ class Game:
             self.screen.blit(label, (info_x, 90))
 
             #dont touch those style settings. very, very hax
-            button = gui.Button("",width=14,height=28)
-            button.connect(gui.CLICK, self.info_legend_clicked)
-            button.style.background = \
-                pygame.image.load(self.config["cancel_icon_path"])
+            if self.buttonsNeedDrawing:
 
-            self.contain.add(button, 820, 0)
-            self.app.init(self.contain)
-            self.app.paint(self.screen)
+                button = gui.Button("",width=14,height=28)
+                button.connect(gui.CLICK, self.info_legend_clicked)
+                button.style.background = \
+                    pygame.image.load(self.config["cancel_icon_path"])
+
+                self.contain.add(button, 820, 0)
+                self.app.init(self.contain)
+                self.app.paint(self.screen)
+            self.exitLegendNeedDrawing = True
         else:
             #show question mark icon
             #dont touch those style settings. very, very hax
-            button = gui.Button("",width=14,height=28)
-            button.connect(gui.CLICK, self.info_legend_clicked)
-            button.style.background = \
-                pygame.image.load(self.config["question_icon_path"])
+            if self.exitLegendNeedDrawing:
+                self.exitLegendNeedDrawing = False
+                button = gui.Button("",width=14,height=28)
+                button.connect(gui.CLICK, self.info_legend_clicked)
+                button.style.background = \
+                    pygame.image.load(self.config["question_icon_path"])
 
-            self.contain.add(button, 810, 10)
-            self.app.init(self.contain)
-            self.app.paint(self.screen)
+                self.contain.add(button, 810, 10)
+                self.app.init(self.contain)
+                self.app.paint(self.screen)
         
 
     def draw_world_map(self):
@@ -224,8 +231,13 @@ class Game:
 
         @untestable - just draws UI so not testable.
         '''
+
         for index, site in enumerate(self.project_data.locations):
-            button = gui.Button(" ")
+
+            if self.buttonsNeedDrawing:
+                button = gui.Button(" ",name=site.name)
+            else:
+                button = self.contain.find(site.name)
             # Note: Styling buttons via images requires that a _surface_
             # be passed in.
             button.style.background = pygame.image.load(
@@ -262,12 +274,10 @@ class Game:
                 button.style.background = \
                     pygame.image.load(self.config["grey_button_path"])
 
-        
-            button.connect(gui.CLICK, self.locationClick, site)
-            self.contain.add(button, site.coordinates[0], site.coordinates[1])
-        
-            self.app.init(self.contain)
-            self.app.paint(self.screen)
+            if self.buttonsNeedDrawing:
+                button.connect(gui.CLICK, self.locationClick, site)
+                self.contain.add(button, site.coordinates[0], site.coordinates[1])    
+                self.app.init(self.contain)
 
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
@@ -331,13 +341,13 @@ class Game:
 
         @untestable - just draws UI so not testable.
         '''
-        # TODO: Real implementation for button action, currently dummy action.
-        button = gui.Button("Inquiries")
-        button.connect(gui.CLICK, self.inquire)
+        if self.buttonsNeedDrawing:
+            # TODO: Real implementation for button action, currently dummy action.
+            button = gui.Button("Inquiries")
+            button.connect(gui.CLICK, self.inquire)
 
-        self.contain.add(button, self.config["menuX"], self.config["menuY"])
-        self.app.init(self.contain)
-        self.app.paint(self.screen)
+            self.contain.add(button, self.config["menuX"], self.config["menuY"])
+            self.app.init(self.contain)
 
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
@@ -346,6 +356,8 @@ class Game:
         @untestable - just draws UI so not testable.
         '''
         #This is getting complicated and we dont really need it as it 
+        self.app.paint(self.screen)
+
         if self.inquired:
             pygame.display.update((0, 280, 200, 180))
         else:
@@ -362,7 +374,7 @@ class Game:
         ''' empty widget container - fix to memory leak
         (I tried to update the objects rather than recreating them, but it
         seems like we'd have trouble maintaining it) '''
-        self.contain.widgets = []
+        #self.contain.widgets = []
 
         self.draw_world_map()
         self.draw_bottom_bar(self.font)
@@ -371,3 +383,4 @@ class Game:
         self.draw_pause_button()
         self.draw_info_button()
         self.refresh_screen()
+        self.buttonsNeedDrawing = False
