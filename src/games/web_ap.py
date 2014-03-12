@@ -21,7 +21,7 @@ def load_game():
     dublin.add_team(dublin_team)
     dublin.add_team(dublin_team2)
     project.locations.append(dublin)
-    project.home_site(dublin)
+    project.home_site = dublin
 
     # Setup a team in Belarus
     poland = Location('Belarus', -2, "Belarusian", 15, 20, (445,138))

@@ -30,7 +30,7 @@ def load_game():
     location_c.add_team(team_c)
 
     project.locations.append(location_c)
-    project.home_site(location_a)
+    project.home_site = location_a
 
     module1 = Module('Sample Module 1', 50)
     module2 = Module('Sample Module 2', 50)

@@ -38,7 +38,7 @@ def load_game():
     dublin_team = Team('Dublin Team', 30, 10)
     dublin.add_team(dublin_team)
     project.locations.append(dublin)
-    project.home_site(dublin)
+    project.home_site = dublin
 
     # Setup a team in Canberra
     canberra = Location('Canberra', +11, "Australian", 30, 35, (733,369))

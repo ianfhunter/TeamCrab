@@ -15,9 +15,6 @@ class Project():
         self.start_time = datetime.datetime(2014,1,1,0,0,0)
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
 
-    def home_site(self, site):
-        self.home_site = site
-
     def calc_nominal_schedule(self, dev_effort_val):
         if self.development_method == 'Agile':
             max_team_cost = 0
