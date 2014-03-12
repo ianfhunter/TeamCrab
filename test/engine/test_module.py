@@ -2,6 +2,7 @@ import importme
 import unittest
 from Module import Module, calculate_actual_cost
 from Task import Task
+import datetime
 
 class TestModule(unittest.TestCase):
 
@@ -47,21 +48,47 @@ class TestModule(unittest.TestCase):
         task = module.get_task('not_a_task')
         self.assertTrue(not task)
 
-    def test_random_element(self):
+    def test_calculate_actual_cost(self):
         for i in range(100, 150):
             val = calculate_actual_cost(i)
             print i, val
             self.assertTrue(val >= i*0.75 and val <= i*1.25)
 
-    def test_expected_cost(self):
-        module1 = Module('test_module', 600)
-        self.assertTrue(module1.expected_cost == 600)
+    def test_progress_module(self):
+        module = Module('test_module', 600)
+        current_time = datetime.datetime(2014,1,1,0,0,0)
+        module.calc_deadline(current_time, 10)
 
-        module2 = Module('test_module', 400)
-        self.assertTrue(module2.expected_cost == 400)
+        for i in range(60):
+            current_time += datetime.timedelta(hours=1)
+            module.progress_module(10, current_time)
 
-        module3 = Module('test_module', 0)
-        self.assertTrue(module3.expected_cost == 0)
+        self.assertTrue(module.progress == 600)
+
+    def test_calc_deadline(self):
+        module = Module('test_module', 600)
+        start_time = datetime.datetime(2014,1,1,0,0,0)
+        deadline = datetime.datetime(2014,1,8,4,0,0)
+
+        module.calc_deadline(start_time, 10)
+        self.assertTrue(module.deadline == deadline)
+
+        module.calc_deadline(start_time, 600)
+        self.assertTrue(module.deadline == start_time)
+
+    def test_wall_clock_time(self):
+        module = Module('test_module', 600)
+        
+        self.assertTrue(module.wall_clock_time() == 0)
+        module.total_hours += 10
+        self.assertTrue(module.wall_clock_time() == 10)
+
+    def test_productive_time_on_task(self):
+        module = Module('test_module', 600)
+        
+        self.assertTrue(module.productive_time_on_task() == 0)
+        module.hours_taken += 10
+        self.assertTrue(module.productive_time_on_task() == 10)
 
 if __name__ == '__main__':
     unittest.main()

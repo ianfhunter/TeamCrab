@@ -88,12 +88,6 @@ class Module(object):
             task.deadline = start_date + datetime.timedelta(days=work_hours_total/8, hours=work_hours_total%8)
         self.deadline = self.tasks[-1].deadline
 
-    def expected_cost(self):
-        return self.expected_cost
-
-    def actual_cost(self):
-        return self.actual_cost
-
     def wall_clock_time(self):
         return self.total_hours
 
