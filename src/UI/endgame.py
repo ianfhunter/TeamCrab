@@ -4,6 +4,11 @@ from time import sleep
 import logic
 
 class EndGame:
+    '''
+    End of game UI elements
+
+    @untestable - entire class untestable as it just draws UI elements onscreen.
+    '''
     def __init__(self, screen, config, project):
         self.config = config
         self.project = project
@@ -17,15 +22,12 @@ class EndGame:
         self.monofont = pygame.font.SysFont("monospace", 14)
         self.font_large = pygame.font.SysFont("Helvetica", 56)
 
-    '''
-    Refreshes the endgame screen.
-    '''
     def refresh_screen(self):
+        '''
+        Refreshes the endgame screen.
+        '''
         pygame.display.flip()
 
-    '''
-    Draws the endgame report from project attribute `project' onscreen.
-    '''
     def draw_endgame(self):
         ''' Shows the user the end game stats and generates a report.'''
         report = logic.generate_report(self.project)
@@ -100,11 +102,10 @@ class EndGame:
             self.app.paint(self.screen)
             self.app.update(self.screen)
 
-    '''
-    Draws the endgame screen.
-    '''
     def draw(self):
-        ''' The parent draw function of the end game screen .'''
+        '''
+        Draws the endgame screen.
+        '''
         while(True):
             # Draw background
             padding = 20
