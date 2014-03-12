@@ -63,6 +63,38 @@ class Start_Screen:
         ''' Callback for changing scenarios with PGU select element'''
         self.sel_val = scenarios.get_scenarios().get(selection.value)
 
+
+
+    '''
+    Displays info about the selected scenario so users can make more informed choices
+    This is UI code and untestable
+
+    @untestable
+    '''
+    def show_scenario(self):
+        ''' Callback for changing scenarios with PGU select element'''
+        if self.contain.find("scenario_details"):
+            self.contain.remove(self.contain.find("scenario_details"))
+        
+
+        my_list = gui.List(width=700,height=360,name="scenario_details")
+        my_list.add(gui.Label("Scenario Details:"))
+
+        for location in self.sel_val.locations:
+            my_list.add(gui.Label("    " +location.name + ":"))
+            for itr,team in enumerate(location.teams):
+                my_list.add(gui.Label("        Team "+ str(itr+1) + ":"))
+                for module in team.modules:
+                    my_list.add(gui.Label("            Module - "+ module.name))
+
+
+
+
+        self.contain.add(my_list,70,90)
+        self.app.init(self.contain)
+
+
+
     '''
     Flags that the start screen setup is completed.
     Simple attribute setter so not tested.
@@ -90,13 +122,21 @@ class Start_Screen:
             for itr,label in enumerate(choices):
                 sel.add(label,label)
             sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
+
             #button
+            button = gui.Button("Details")
+            button.connect(gui.CLICK, self.show_scenario)
+            self.contain.add(button, 570, 60)
+            self.contain.add(sel, 170, 60)
+
+
             button = gui.Button("Submit")
             button.connect(gui.CLICK, self.complete_setup)
+            self.contain.add(button, 650, 60)
 
-            self.contain.add(button, 500, 180)
-            self.contain.add(sel, 100, 180)
+            #scrolls
             self.app.init(self.contain)
+
 
 
         font = pygame.font.SysFont("Veranda", 40)
