@@ -35,7 +35,7 @@ class Module(object):
         self.stalled = False
         self.hours_taken = 0 # This is productive time
         self.total_hours = 0 # number of hours from start of project including non productive hours. 
-        self.problems_occured = list()
+        self.problems_occured = list() # A list of all problems that have occured for this module
 
     def get_task(self, name):
         ''' Returns the task object which matches the name specified if it exists, None otherwise.
@@ -92,7 +92,56 @@ class Module(object):
         return self.hours_taken
 
     def add_problem(self):
-        prob = random.randint(1, 5)
-        self.problems_occured.append(problems[prob][0])
-        self.actual_cost += self.actual_cost_base * problems[prob][1]
+        if self.tasks:
+            if self.tasks[0].name == 'integration':
+                # Add unit_tests and implementation back onto the tasks list
+                self.tasks.insert(0, self.completed_tasks.pop())
+                self.tasks.insert(0, self.completed_tasks.pop())
+
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 1.85)
+                for i in range(6):
+                    self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
+                self.tasks[1].actual_cost = int(self.actual_cost/100.0*10.0) # Unit tests
+
+                self.problems_occured.append('Module failed to integrate properly')
+                return 'Module failed to integrate properly'
+
+            elif self.tasks[0].name == 'system_test':
+                # Add integration back onto the tasks list
+                self.tasks.insert(0, self.completed_tasks.pop())
+
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 1.6)
+                for i in range(4):
+                    self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
+
+                self.problems_occured.append('Module failed system tests')
+                return 'Module failed system tests'
+
+            elif self.tasks[0].name == 'acceptance_test':
+                # Add all tasks back onto the tasks list
+                for i in range(6):
+                    self.tasks.insert(0, self.completed_tasks.pop())
+
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 2)
+                for i in range(6):
+                    self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
+                self.tasks[2].actual_cost = int(self.actual_cost/100.0*10.0) # Unit tests
+
+                self.problems_occured.append('Module failed acceptance tests')
+                return 'Module failed acceptance tests'
+
+            elif self.tasks[0].name == 'deployment':
+                # Add system tests back onto the tasks list
+                self.tasks.insert(0, self.completed_tasks.pop())
+
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 1.45)
+                for i in range(3):
+                    self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
+
+                self.problems_occured.append('Module failed to deploy properly')
+                return 'Module failed to deploy properly'
 
