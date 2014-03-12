@@ -232,6 +232,20 @@ to the console. For example, "Warning: Team Team B has no module assigned".
 IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
 This is caused by the problem simulator feature and is not an error in game logic.
 
+## Untested functions
+
+Functions that are untested for legitimate reasons (calls to external libraries, UI drawing functions, for example) are marked with the @untestable attribute in their documentation string. An example of this would be:
+
+```
+'''
+Foos the Bar `bar'.
+
+@untestable - just a call to external library baz.
+'''
+def foo_bar(bar):
+    return baz(bar)
+```
+
 ## Attributions:
 * Map Image - http://dezignus.com/vector-world-map/#more-912
 * Man Icon - Man by Tamiko Young from The Noun Project http://thenounproject.com/term/man/12173/
