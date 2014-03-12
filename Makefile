@@ -28,7 +28,7 @@ install:
 	cp -R bin/* $(install_pyc_prefix)/SESimulator_v$(version)/bin
 	cp -R media/* $(install_pyc_prefix)/SESimulator_v$(version)/media
 	cp src/SESimulator.sh $(install_sh_prefix)/SESimulator
-	@echo p=$(install_pyc_prefix) | cat - $(install_sh_prefix)/SESimulator > temp && mv temp $(install_sh_prefix)/SESimulator
+	@echo "#!/bin/bash \np=$(install_pyc_prefix)" | cat - $(install_sh_prefix)/SESimulator > temp && mv temp $(install_sh_prefix)/SESimulator
 	chmod +x $(install_sh_prefix)/SESimulator
 	@echo Installation complete!
 

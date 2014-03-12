@@ -1,5 +1,3 @@
-#!/bin/bash
-
 v=RC1_rc5
 
 if [[ $1 = "--simv" ]]; then
