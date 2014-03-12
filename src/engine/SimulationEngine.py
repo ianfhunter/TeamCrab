@@ -27,8 +27,8 @@ def all_finished():
 
 def calc_progress(gmt_time):
     ''' This function calculates the progress of each module assigned to each team 
-    if the team is currently working. A team is considered to be working between 
-    9:00 and 17:00 local time.
+    if the team is currently working. A team is considered to be working from 
+    9:00 for a number of hours based on "developer_daily_effort".
     '''
     global project
     global cmd_args
@@ -37,7 +37,7 @@ def calc_progress(gmt_time):
         for team in location.teams:
             if team.module:
                 team.module.total_hours += 1
-            if local_time >= 9 and local_time <= 17:
+            if local_time >= 9 and local_time <= 9 + config["developer_daily_effort"]:
                 project.cash -= (team.salary*team.size)
                 team.calc_progress(gmt_time)
                 if team.module:
