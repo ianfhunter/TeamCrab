@@ -9,6 +9,7 @@ config = {
         "ui_refresh_period_seconds" : 0.05,
         "developer_period_effort_value" : 1,
         "developer_daily_effort" : 4,
+        "developer_daily_working_hours" : 8,
         "game_speed" : 0.4,
         "fail_rate" : 0.01,
         # UI colours

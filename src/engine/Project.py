@@ -57,7 +57,7 @@ class Project():
         num_developers = 0
         for location in self.locations:
             num_developers += location.current_size
-            total_daily_cost += (location.salary * developer_effort_day * location.current_size)
+            total_daily_cost += (location.salary * config["developer_daily_working_hours"] * location.current_size)
         total_effort_hours = ((float(total_module_effort) / (float(developer_effort_day) * float(num_developers)) * 1.24))
         total_effort_days = (total_effort_hours/config["developer_daily_effort"]) + 1
         return (float(total_effort_days) * float(total_daily_cost))
@@ -73,6 +73,6 @@ class Project():
     # From e-mail:
     # actual_revenue = (6 - num_months_late) * (expected_yearly_revenue/12)
     def actual_revenue(self):
-        num_days_late = self.days_behind_schedule() 
-        actual_revenue = (365 - num_days_late) * (self.expected_yearly_revenue / 365)
+        num_months_late = self.days_behind_schedule() * 12.0 / 365.0
+        actual_revenue = (6 - num_months_late) * (self.expected_yearly_revenue / 12)
         return actual_revenue
