@@ -20,6 +20,11 @@ class Start_Screen:
                                      height=self.config["screenY"])
         self.font = pygame.font.SysFont("Helvetica", 15)
 
+    '''
+    Runs the start screen, redrawing while the screen is focused.
+
+    @untestable
+    '''
     def run(self):
         ''' Handles all input events and goes to sleep.'''
         self.complete = False
@@ -36,20 +41,43 @@ class Start_Screen:
             else:
                 self.draw()
 
+    '''
+    Looks for changes to the start screen and redraws it.
+
+    @untestable
+    '''
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
         '''
         pygame.display.flip()
 
+
+    '''
+    Updates the currently selectable scenario.
+    Simple attribute setter so not tested.
+
+    @untestable
+    '''
     def update_scenario_choice(self,selection):
         ''' Callback for changing scenarios with PGU select element'''
         self.sel_val = scenarios.get_scenarios().get(selection.value)
 
+    '''
+    Flags that the start screen setup is completed.
+    Simple attribute setter so not tested.
+
+    '''
     def complete_setup(self):
         self.complete = True
         return
 
+    '''
+    Draws the possible scenarios onscreen in a selection box.
+
+    This is UI code and untestable.
+    @untestable
+    '''
     def draw_choices(self):
         ''' Takes different scenarios and puts them in the selection gui element '''
 #        choices = ["Eastern European Teams", "Asia-Based Development", "Worldwide Development"]
@@ -80,6 +108,11 @@ class Start_Screen:
 
         #select APP
 
+    '''
+    Draws the start screen onscreen.
+
+    This is UI code and untestable.
+    '''
     def draw(self):
         ''' Redraws all of the map screen. '''
         pygame.draw.rect(self.screen, self.config["background_colour"],

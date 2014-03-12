@@ -1,7 +1,7 @@
 import pygame
-import json 
 from pgu import gui
 from time import sleep
+import logic
 
 class EndGame:
     def __init__(self, screen, config, project):
@@ -17,79 +17,19 @@ class EndGame:
         self.monofont = pygame.font.SysFont("monospace", 14)
         self.font_large = pygame.font.SysFont("Helvetica", 56)
 
-
-    def generate_report(self):
-        ''' Generate table with information about the end of the game '''
-        report = {}
-        report["score"] = self.project.game_score()
-        report["total_time"] = str(self.project.current_time - self.project.start_time)
-        report["nominal_end_time"] = str(self.project.delivery_date)
-        report["actual_end_time"] = str(self.project.current_time)
-        report["days_behind_schedule"] = self.project.days_behind_schedule()
-        report["expected_budget"] = self.project.expected_budget()
-        report["actual_budget"] = self.project.actual_budget()
-        report["expected_revenue"] = self.project.expected_revenue()
-        report["actual_revenue"] = self.project.actual_revenue()
-        report["endgame_cash"] = self.project.cash + self.project.actual_revenue()
-
-        # Generate table to compare estimated/actual effort broken down by module
-        effort_table = []
-        effort_table.append(['Team', 'Module', 'Team', 'Estimated cost', 'Actual cost', 'Module', 'Wall clock', 'Productive'])
-        effort_table.append(['Name', 'Name',   'Size', '(man hrs)',      '(man hrs)',   'Cost $', 'time (hrs)', 'time (hrs)'])
-        total_estimated = 0
-        total_actual = 0
-        for location in self.project.locations:
-            for team in location.teams:
-                for module in team.completed_modules:
-                    expected = int(module.expected_cost)
-                    actual = int(module.actual_cost)
-                    wall = module.wall_clock_time()
-                    productive = module.productive_time_on_task()
-                    dollars = int(actual * location.salary)
-                    effort_table.append([team.name, module.name, team.size, expected, actual, dollars, wall, productive])
-                    total_estimated += expected
-                    total_actual += actual
-        # Add totals row
-        # effort_table.append(["Total", "Total", total_estimated, total_actual])
-        
-        report["effort_table"] = effort_table
-        
-        return report
-
-    def report_table_line(self, team, module, size, estimate, actual, cost, wall, productive):
-        s = ""
-        s += team + (" " * (15 - (len(team))))
-        s += module + (" " * (13 - len(module)))
-        s += str(size) + (" " * (6 - (len(str(size)))))
-        s += str(estimate) + (" " * (16 - (len(str(estimate)))))
-        s += str(actual) + (" " * (13 - (len(str(actual)))))
-        s += str(cost) + (" " * (10 - (len(str(cost)))))
-        s += str(wall) + (" " * (13 - len(str(wall))))
-        s += str(productive)
-        return s
-
-    def total_person_hours(self):
-        total_estimated = 0
-        total_actual = 0
-        for location in self.project.locations:
-            for team in location.teams:
-                for module in team.completed_modules:
-                    estimated_hours = module.expected_cost / team.size
-                    total_estimated += estimated_hours    
-                    total_actual += module.hours_taken
-        return (total_estimated, total_actual)
-
+    '''
+    Refreshes the endgame screen.
+    '''
     def refresh_screen(self):
         pygame.display.flip()
 
-    def write_endgame_json(self, report):
-        outfile = open('report.json', 'w')
-        outfile.write(json.dumps(report, indent=4))
-
+    '''
+    Draws the endgame report from project attribute `project' onscreen.
+    '''
     def draw_endgame(self):
         ''' Shows the user the end game stats and generates a report.'''
-        report = self.generate_report()
-        self.write_endgame_json(report)
+        report = logic.generate_report(self.project)
+        logic.write_endgame_json(report)
 
         font = self.font 
         monofont = self.monofont
@@ -115,7 +55,7 @@ class EndGame:
         self.screen.blit(label, (80, 120))
 
         # Person hours
-        estimated_hours, actual_hours = self.total_person_hours()
+        estimated_hours, actual_hours = logic.total_person_hours(self.project)
         label = font.render("Total person hours used: " + str(actual_hours) +
             " (estimate " + str(estimated_hours) + ")", 1, (0, 0, 0))
         self.screen.blit(label, (80, 140))
@@ -144,8 +84,7 @@ class EndGame:
             my_list = gui.List(width=800, height=195)
             # effort_table.append([team.name, module.name, team.size, expected, actual, wall, productive])
             for (team, module, size, estimate, actual, dollars, wall, productive) in report["effort_table"]:
-                s = self.report_table_line(team, module, size, estimate, actual, dollars, wall, productive)
-
+                s = logic.report_table_line(team, module, size, estimate, actual, dollars, wall, productive)
                 l = gui.Label(s)
                 l.set_font(monofont)
                 my_list.add(l)
@@ -161,6 +100,9 @@ class EndGame:
             self.app.paint(self.screen)
             self.app.update(self.screen)
 
+    '''
+    Draws the endgame screen.
+    '''
     def draw(self):
         ''' The parent draw function of the end game screen .'''
         while(True):
