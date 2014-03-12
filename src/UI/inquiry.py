@@ -229,11 +229,18 @@ class Inquiry:
 
                         if self.inquiry_type == "visit":
                             my_list.add(gui.Label("Completed Tasks:"))
-                            if len(team.module.completed_tasks) == 0:
-                                my_list.add(gui.Label("Have not completed any tasks."))
+                            for module in team.completed_modules:                                
+                                for task in module.completed_tasks:
+                                    my_list.add(gui.Label(module.name + " - " + task.name))
+
+                            if not team.module:
+                                my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
-                                for x in team.module.completed_tasks:
-                                    my_list.add(gui.Label(x))
+                                if len(team.module.completed_tasks) == 0:
+                                    my_list.add(gui.Label("We have not completed any tasks."))
+                                else:
+                                    for x in team.module.completed_tasks:
+                                        my_list.add(gui.Label(x))
 
                             if team.module.is_on_time:
                                 my_list.add(gui.Label("On schedule for the current task")) 
