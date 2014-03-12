@@ -1,4 +1,5 @@
 import pygame
+import random
 import json 
 from pgu import gui
 from time import sleep
@@ -142,16 +143,69 @@ class Inquiry:
 
                         if self.inquiry_type == "on_schedule":
                             #if onschedule s = "", else "not "
-                            on_or_off = ""
-                            my_list.add(gui.Label("We are " + on_or_off + "on schedule."))
+                            if not team.module:
+                                on_or_off = "We aren't working on anything at the moment" 
+                            else:
+                                if self.inquiry_site.culture[0] == 0:
+                                    on_or_off = "Yes, We are on schedule."
+                                else:
+                                    if team.module.is_on_time:
+                                        on_or_off = "Yes, We are on schedule."
+                                    else:
+                                        on_or_off = "No, We are not on schedule."
+
+                            my_list.add(gui.Label(on_or_off))
                         if self.inquiry_type == "status":
-                            pass
+                            if not team.module:
+                                on_or_off = "We aren't working on anything at the moment" 
+                            else:
+                                if self.inquiry_site.culture[0] == 0:
+                                    on_or_off = "We are on schedule."
+                                else:
+                                    if team.module.is_on_time:
+                                        on_or_off = "We are on schedule."
+                                    else:
+                                        on_or_off = "We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems."
+
+                            my_list.add(gui.Label(on_or_off))
                         if self.inquiry_type == "list_c_tasks":
-                            pass
+                            my_list.add(gui.Label("Completed Tasks:"))
+                            if len(team.module.completed_tasks) == 0:
+                                my_list.add(gui.Label("We have not completed any tasks."))
+                            else:
+                                for x in team.module.completed_tasks:
+                                    my_list.add(gui.Label(x))
+
                         if self.inquiry_type == "video_conf":
-                            pass
+                            my_list.add(gui.Label("Completed Tasks:"))
+                            if len(team.module.completed_tasks) == 0:
+                                my_list.add(gui.Label("We have not completed any tasks."))
+                            else:
+                                for x in team.module.completed_tasks:
+                                    my_list.add(gui.Label(x))
+
+                            if self.inquiry_site.culture[0] == 0:
+                                if randint(0,1) == 0:
+                                    #continue to lie
+                                    my_list.add(gui.Label("We are on schedule for the current task"))
+                                else:
+                                    if team.module.is_on_time:
+                                        my_list.add(gui.Label("We are on schedule for the current task")) 
+                                    else:
+                                        my_list.add(gui.Label("We are delayed for the current task"))  
+
                         if self.inquiry_type == "visit":
-                            pass
+                            my_list.add(gui.Label("Completed Tasks:"))
+                            if len(team.module.completed_tasks) == 0:
+                                my_list.add(gui.Label("Have not completed any tasks."))
+                            else:
+                                for x in team.module.completed_tasks:
+                                    my_list.add(gui.Label(x))
+
+                            if team.module.is_on_time:
+                                my_list.add(gui.Label("On schedule for the current task")) 
+                            else:
+                                my_list.add(gui.Label("delayed for the current task"))  
 
                     self.contain.add(my_list,info_x,y_offset+50)
 

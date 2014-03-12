@@ -16,8 +16,8 @@ def load_game():
 
     # Setup a team in Dublin
     dublin = Location('Dublin', 0, "Irish", 30, 25, (375,148))
-    dublin_team = Team('Dublin Team 1', 35, 20)
-    dublin_team2 = Team('Dublin Team 1', 35, 10)
+    dublin_team = Team('Dublin Team', 35, 20)
+    dublin_team2 = Team('Dublin Team', 35, 10)
     dublin.add_team(dublin_team)
     dublin.add_team(dublin_team2)
     project.locations.append(dublin)

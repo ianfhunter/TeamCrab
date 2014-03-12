@@ -40,9 +40,9 @@ class Project():
         return days_late 
 
     def game_score(self):
-        num_months_late = self.days_behind_schedule() 
-        score = self.cash + ((6 - num_months_late) * (self.expected_yearly_revenue / 365))
-        return score
+        num_months_late = self.days_behind_schedule() / 30.0 
+        score = self.cash + ((6 - num_months_late) * (self.expected_yearly_revenue / 12))
+        return int(score)
 
     # From email:
     # expected_budget =
