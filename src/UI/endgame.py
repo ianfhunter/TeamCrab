@@ -34,18 +34,19 @@ class EndGame:
 
         # Generate table to compare estimated/actual effort broken down by module
         effort_table = []
-        effort_table.append(['Team', 'Module', 'Team', 'Estimated cost', 'Actual cost',      'Wall clock', 'Productive'])
-        effort_table.append(['Name', 'Name',   'Size', '(man hrs)',      '(man hrs)',        'time (hrs)', 'time (hrs)'])
+        effort_table.append(['Team', 'Module', 'Team', 'Estimated cost', 'Actual cost', 'Module', 'Wall clock', 'Productive'])
+        effort_table.append(['Name', 'Name',   'Size', '(man hrs)',      '(man hrs)',   'Cost $', 'time (hrs)', 'time (hrs)'])
         total_estimated = 0
         total_actual = 0
         for location in self.project.locations:
             for team in location.teams:
                 for module in team.completed_modules:
-                    expected = module.expected_cost
-                    actual = module.actual_cost
+                    expected = int(module.expected_cost)
+                    actual = int(module.actual_cost)
                     wall = module.wall_clock_time()
                     productive = module.productive_time_on_task()
-                    effort_table.append([team.name, module.name, team.size, expected, actual, wall, productive])
+                    dollars = int(actual * location.salary)
+                    effort_table.append([team.name, module.name, team.size, expected, actual, dollars, wall, productive])
                     total_estimated += expected
                     total_actual += actual
         # Add totals row
@@ -55,14 +56,15 @@ class EndGame:
         
         return report
 
-    def report_table_line(self, team, module, size, estimate, actual, wall, productive):
+    def report_table_line(self, team, module, size, estimate, actual, cost, wall, productive):
         s = ""
-        s += team + (" " * (14 - (len(team))))
-        s += module + (" " * (14 - len(module)))
+        s += team + (" " * (15 - (len(team))))
+        s += module + (" " * (13 - len(module)))
         s += str(size) + (" " * (6 - (len(str(size)))))
         s += str(estimate) + (" " * (16 - (len(str(estimate)))))
-        s += str(actual) + (" " * (14 - (len(str(actual)))))
-        s += str(wall) + (" " * (14 - len(str(wall))))
+        s += str(actual) + (" " * (13 - (len(str(actual)))))
+        s += str(cost) + (" " * (10 - (len(str(cost)))))
+        s += str(wall) + (" " * (13 - len(str(wall))))
         s += str(productive)
         return s
 
@@ -104,7 +106,7 @@ class EndGame:
         # Nominal vs actual end times
         nominal_end = report["nominal_end_time"]
         actual_end = report["actual_end_time"]
-        label = font.render("Nominal delivery date: " + str(nominal_end) + "/ actual: " + str(actual_end), 1, (0, 0, 0))
+        label = font.render("Nominal delivery date: " + str(nominal_end) + "    Actual delivery date: " + str(actual_end), 1, (0, 0, 0))
         self.screen.blit(label, (80, 100))
 
         # Game score
@@ -141,8 +143,8 @@ class EndGame:
 
             my_list = gui.List(width=800, height=195)
             # effort_table.append([team.name, module.name, team.size, expected, actual, wall, productive])
-            for (team, module, size, estimate, actual, wall, productive) in report["effort_table"]:
-                s = self.report_table_line(team, module, size, estimate, actual, wall, productive)
+            for (team, module, size, estimate, actual, dollars, wall, productive) in report["effort_table"]:
+                s = self.report_table_line(team, module, size, estimate, actual, dollars, wall, productive)
 
                 l = gui.Label(s)
                 l.set_font(monofont)
