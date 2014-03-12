@@ -161,6 +161,8 @@ to generate html documentation use
         Expected Total Effort = the amount of actual effort estimated for this module to be completed.
         Actual Total Effort = the actual amount of effort that will be required to complete this module, given the +-25% variance.
   * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
+  * IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
+    * This is caused by the problem simulator feature and is not an error in game logic.
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
   * Green represents sites that are progressing at a rate that is satisfactory (not under 75% of estimated progress)
@@ -226,8 +228,25 @@ completed".
 
 When a team has no module assigned during a working hour and are sitting idle, a warning will be printed
 to the console. For example, "Warning: Team Team B has no module assigned".
+ 
+IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
+This is caused by the problem simulator feature and is not an error in game logic.
 
-##Attributions:
+## Untested functions
+
+Functions that are untested for legitimate reasons (calls to external libraries, UI drawing functions, for example) are marked with the @untestable attribute in their documentation string. An example of this would be:
+
+```
+'''
+Foos the Bar `bar'.
+
+@untestable - just a call to external library baz.
+'''
+def foo_bar(bar):
+    return baz(bar)
+```
+
+## Attributions:
 * Map Image - http://dezignus.com/vector-world-map/#more-912
 * Man Icon - Man by Tamiko Young from The Noun Project http://thenounproject.com/term/man/12173/
 * Gear Icon - Gear by Reed Enger from The Noun Project
