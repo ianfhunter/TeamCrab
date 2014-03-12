@@ -1,5 +1,6 @@
 filename, function, reason
 tests/*, *, These are unit tests, it makes no sense to test them.
+src/engine/RevenueTier.py, *, These are simple static data holders, testing them would be pointless.
 src/engine/Module.py, add_problem, There is a random element involved which cannot be controlled and will effect the output of the function.
 src/engine/Project.py, expected_budget, This relies on a value from the global config which is likely to change often so it cannot be veried properly.
 src/engine/Repeated_Timer, *, This module relies on timers and spawning threads which are unpredictable in a testing environment.
