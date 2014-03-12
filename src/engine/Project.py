@@ -32,7 +32,7 @@ class Project():
 
     def days_behind_schedule(self):
         # Returns a number of days late, divide by 30 to get number of months late
-        delta = self.delivery_date - self.start_time
+        delta = self.current_time - self.delivery_date
         days_late = delta.days
         return days_late 
 
@@ -65,5 +65,5 @@ class Project():
     # actual_revenue = (6 - num_months_late) * (expected_yearly_revenue/12)
     def actual_revenue(self):
         num_months_late = self.days_behind_schedule() * 12.0 / 365.0
-        actual_revenue = (6 - num_months_late) * (self.expected_yearly_revenue / 12)
-        return actual_revenue
+        actual_revenue = (6 - num_months_late) * (self.expected_yearly_revenue / 12.0)
+        return int(actual_revenue*100) / 100.0
