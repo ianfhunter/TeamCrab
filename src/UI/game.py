@@ -163,7 +163,7 @@ class Game:
         label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
         self.screen.blit(label, (100, label_pos))
         label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
-                             1, (238, 255, 53))
+                             1, (0, 0, 0))
         self.screen.blit(label, (320, label_pos))
 
     def draw_sites(self):
