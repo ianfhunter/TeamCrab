@@ -1,6 +1,7 @@
 import random
 from Task import Task
 import datetime
+from global_config import config
 
 def calculate_actual_cost(expected_cost):
     ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
@@ -85,7 +86,7 @@ class Module(object):
         work_hours_total = 0
         for task in self.completed_tasks + self.tasks:
             work_hours_total += task.expected_cost/team_size
-            task.deadline = start_date + datetime.timedelta(days=work_hours_total/8, hours=work_hours_total%8)
+            task.deadline = start_date + datetime.timedelta(days=work_hours_total/config["developer_daily_effort"], hours=work_hours_total%config["developer_daily_effort"])
         self.deadline = self.tasks[-1].deadline
 
     def expected_cost(self):

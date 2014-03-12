@@ -153,7 +153,7 @@ to generate html documentation use
 2. Feature #9 - Process simulator
   * Simply start the game with the sample game file (this happens automatically at the moment).
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
-  * This output is of the form "Module: module\_name Task: task\_name - Actual Progress: x - expected Progress: y" where x and y are floating point values.
+  * This output is of the form "Module: module\_name Task: task\_name - Effort: x - Expected Cost: y - Actual Cost: z" where x and z are floating point values.
   * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
@@ -184,7 +184,7 @@ to generate html documentation use
   * This is so it can be seen when a module is falling behind schedule.
   * This can be seen in the trace - Actual Progress - how much work a team has actually done on the module - compared to Expected Progress - how much work a team should have done with no random element.
 9. Feature #11 - Problem Simulator
-  * TODO
+  * If a problem occurs, the site at which it occurs will be reported in the trace, as well as the nature of the problem. e.g. Problem occured at Belarus Problem: Module failed to deploy properly
 10. Feature #7 - Inquiry Interface
   * TODO
 

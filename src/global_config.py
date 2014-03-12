@@ -48,3 +48,13 @@ cultures = {
     "Belarusian" : (1, "Belarusian", "high", "east", "low", "Belarusian", "Outcome"),
 
 }
+
+global_distance = {
+
+    "low" : 1,
+    "medium_low" : 2,
+    "medium_high" : 3,
+    "high" : 4,
+    
+
+}

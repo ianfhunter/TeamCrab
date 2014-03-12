@@ -1,6 +1,7 @@
 from Module import Module
 from Location import Location
 import datetime
+from global_config import config
 
 class Project():
     def __init__(self, name, method, budget, revenue_tier):
@@ -30,7 +31,7 @@ class Project():
                     if team_cost > max_team_cost:
                         max_team_cost = team_cost
             nominal_schedule = max_team_cost / dev_effort_val
-            self.delivery_date = self.start_time + datetime.timedelta(days=nominal_schedule/8)
+            self.delivery_date = self.start_time + datetime.timedelta(days=nominal_schedule/config["developer_daily_effort"])
 
     def days_behind_schedule(self):
         # Returns a number of days late, divide by 30 to get number of months late
@@ -58,7 +59,7 @@ class Project():
             num_developers += location.current_size
             total_daily_cost += (location.salary * developer_effort_day * location.current_size)
         total_effort_hours = ((float(total_module_effort) / (float(developer_effort_day) * float(num_developers)) * 1.24))
-        total_effort_days = (total_effort_hours/8) + 1
+        total_effort_days = (total_effort_hours/config["developer_daily_effort"]) + 1
         return (float(total_effort_days) * float(total_daily_cost))
 
     def actual_budget(self):

@@ -61,7 +61,21 @@ class Game:
         self.engine.pause()
         self.inquired = not self.inquired
         self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data)
-        print self.inquiry
+        while(self.inquired):
+            self.inquiry.draw()
+
+            #events
+            sleep(self.config["ui_refresh_period_seconds"])
+            # Handle all events.
+            for event in pygame.event.get():
+                # Tell PGU about all events.
+                self.inquiry.app.event(event)
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                    self.inquired = False
+                    self.engine.resume() 
+                # Handle quitting.
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    os._exit(1)
 
     def run(self):
         ''' Handles all input events and goes to sleep.'''

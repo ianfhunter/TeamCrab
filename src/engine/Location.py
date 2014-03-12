@@ -1,5 +1,5 @@
 from Team import Team
-from global_config import cultures, config
+from global_config import cultures, config, global_distance
 import random
 import math
 
@@ -63,39 +63,39 @@ class Location(object):
         #TODO these distances are made up and need to be adjusted based on map scale
         distance = math.sqrt(math.pow(self.coordinates[0] - loc.coordinates[0], 2)+math.pow(self.coordinates[1] - loc.coordinates[1], 2))
         if distance >= 200:
-            return 4.0
+            return global_distance["high"]
         if distance >= 50:
-            return 3.0
+            return global_distance["medium_high"]
         if distance >= 10:
-            return 2.0
-        return 1.0
+            return global_distance["medium_low"]
+        return global_distance["low"]
 
     def temp_distance(self, loc):
         temporal = abs(self.time_zone - loc.time_zone)
         if temporal > 12:
             temporal = 24 - temporal
         if temporal <= 3:
-            return 1.0
+            return global_distance["low"]
         if temporal <= 5:
-            return 2.0
+            return global_distance["medium_low"]
         if temporal <= 8:
-            return 3.0
-        return 4.0
+            return global_distance["medium_high"]
+        return global_distance["high"]
 
     def cult_distance(self, loc):
         culture = 0.0
         if cultures[self.culture][1] != cultures[loc.culture][1]:
-            culture += 4.0
+            culture += global_distance["high"]
         if cultures[self.culture][2] != cultures[loc.culture][2]:
-            culture += 3.0
+            culture += global_distance["medium_high"]
         if cultures[self.culture][3] != cultures[loc.culture][3]:
-            culture += 3.0
+            culture += global_distance["medium_high"]
         if cultures[self.culture][4] != cultures[loc.culture][4]:
-            culture += 3.0
+            culture += global_distance["medium_high"]
         if cultures[self.culture][5] != cultures[loc.culture][5]:
-            culture += 2.0
+            culture += global_distance["medium_low"]
         if cultures[self.culture][6] != cultures[loc.culture][6]:
-            culture += 1.0
+            culture += global_distance["low"]
         return culture
 
     def dist_g(self, loc):
