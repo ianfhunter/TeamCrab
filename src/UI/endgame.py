@@ -23,6 +23,8 @@ class EndGame:
         report = {}
         report["score"] = self.project.game_score()
         report["total_time"] = str(self.project.current_time - self.project.start_time)
+        report["nominal_end_time"] = str(self.project.delivery_date)
+        report["actual_end_time"] = str(self.project.current_time)
         report["days_behind_schedule"] = self.project.days_behind_schedule()
         report["expected_budget"] = self.project.expected_budget(self.config["developer_daily_effort"])
         report["actual_budget"] = self.project.actual_budget()
@@ -32,8 +34,8 @@ class EndGame:
 
         # Generate table to compare estimated/actual effort broken down by module
         effort_table = []
-        effort_table.append(['Team', 'Module', 'Team', 'Estimated cost', 'Actual cost', 'Wall clock', 'Productive'])
-        effort_table.append(['Name', 'Name',   'Size', '(man hrs)',      '(man hrs)',   'time (hrs)', 'time (hrs)'])
+        effort_table.append(['Team', 'Module', 'Team', 'Estimated cost', 'Actual cost',      'Wall clock', 'Productive'])
+        effort_table.append(['Name', 'Name',   'Size', '(man hrs)',      '(man hrs)',        'time (hrs)', 'time (hrs)'])
         total_estimated = 0
         total_actual = 0
         for location in self.project.locations:
@@ -97,6 +99,12 @@ class EndGame:
         # Total time elapsed
         time = report["total_time"]
         label = font.render("You finished the project in: " + str(time) + " hours", 1, (0, 0, 0))
+        self.screen.blit(label, (80, 80))
+
+        # Nominal vs actual end times
+        nominal_end = report["nominal_end_time"]
+        actual_end = report["actual_end_time"]
+        label = font.render("Nominal delivery date: " + str(nominal_end) + "/ actual: " + str(actual_end), 1, (0, 0, 0))
         self.screen.blit(label, (80, 100))
 
         # Game score
