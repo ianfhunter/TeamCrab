@@ -74,7 +74,7 @@ def main():
     sScreen = start_screen.Start_Screen(config,screen)
     project = sScreen.run()
 
-    glob_game = game.Game(project, config,screen)
+    glob_game = game.Game(project, config, screen, simeng)
 
     #begin simulator
     frontend = FrontEndThread(glob_game,project)

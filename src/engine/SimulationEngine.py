@@ -108,4 +108,10 @@ def run_engine(game, proj,c_args):
 
         # Main logic of the simulator will go here
 
-    
+def pause():
+    global timer
+    timer.stop()
+
+def resume():
+    global timer
+    timer.start()
