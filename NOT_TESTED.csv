@@ -1,3 +1,9 @@
-filename,       function,       reason
-tests/*         *               These are unit tests, it makes no sense to test them
+filename,                   function,           reason
+tests/*                     *                   These are unit tests, it makes no sense to test them.
+
+
+src/UI/start_screen.py      *                   These files just draw UI elements onscreen and make no sense to test.
+src/UI/endgame.py           *                   These files just draw UI elements onscreen and make no sense to test.
+src/UI/game.py              *                   These files just draw UI elements onscreen and make no sense to test.
+src/UI/logic.py             write_endgame_json  This function just calls python stdlib and JSON lib and thus makes no sense to test.
 
