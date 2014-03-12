@@ -60,9 +60,6 @@ class Module(object):
                 self.overall_task_progress += self.tasks[0].actual_cost
                 self.completed_tasks.append(self.tasks[0])
                 self.tasks.pop(0)
-                if len(self.tasks) == 0:
-                    print "LAST REMOVED"
-                    print str(self.progress) + " " + str(self.overall_task_progress) + " " + str(self.actual_cost)
 
         # If the current task has reached its deadline then the module is not on time
         if self.tasks:
