@@ -3,6 +3,7 @@ import os
 from pgu import gui
 from time import sleep
 import endgame,inquiry
+from global_config import cultures
 
 glob_game = None
 
@@ -189,16 +190,18 @@ class Game:
 
                 if not failing:
                     if team.module:
-                        # Locations with issues causing a time delay
-                        if not team.module.is_on_time:
-                            button.style.background = pygame.image.load(
-                                self.config["yellow_button_path"])
-                        # Location that needs an intervention before it can
-                        # progress any further
-                        if team.module.stalled:
-                            button.style.background = \
-                                pygame.image.load(self.config["red_button_path"])
-                            failing = True
+                        # If the culture is dishonest then always show as green
+                        if cultures[site.culture][0]:
+                            # Locations with issues causing a time delay
+                            if not team.module.is_on_time:
+                                button.style.background = pygame.image.load(
+                                    self.config["yellow_button_path"])
+                            # Location that needs an intervention before it can
+                            # progress any further
+                            if team.module.stalled:
+                                button.style.background = \
+                                    pygame.image.load(self.config["red_button_path"])
+                                failing = True
 
             #lowest priority display.
             if inactive:
