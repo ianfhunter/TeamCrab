@@ -80,12 +80,14 @@ class Start_Screen:
         my_list = gui.List(width=700,height=360,name="scenario_details")
         my_list.add(gui.Label("Scenario Details:"))
 
+        my_list.add(gui.Label("Expected Revenue - $" + str(self.sel_val.expected_revenue())))
+
         for location in self.sel_val.locations:
             my_list.add(gui.Label("    " +location.name + ":"))
             for itr,team in enumerate(location.teams):
-                my_list.add(gui.Label("        Team "+ str(itr+1) + ":"))
+                my_list.add(gui.Label("        Team "+ str(itr+1) +"("+str(team.size)+" Persons)" + ":"))
                 for module in team.modules:
-                    my_list.add(gui.Label("            Module - "+ module.name))
+                    my_list.add(gui.Label("            Module - "+ module.name + " [" + str(module.expected_cost) + " Expected Cost (Person Hours)]"))
 
 
 
