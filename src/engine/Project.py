@@ -47,6 +47,11 @@ class Project():
     # NOTE: IMPORTANT - This calculation doesn't take into account developer wages
     # An adjustment was made below to account for this, rounding up a day.
     def expected_budget(self):
+        '''
+        Calculates expected budget.
+
+        @untestable -  This relies on a value from the global config which is likely to change often so it cannot be veried properly.
+        '''
         total_module_effort = 0.0
         for module in self.modules:
             total_module_effort += module.expected_cost

@@ -21,47 +21,47 @@ class Inquiry:
         self.firstOptions = True
         self.firstScroll = True
 
-    '''
-    Changes active site when an site is chosen to be inquired.
-
-    @untestable - function manipulates user interface, makes no sense to test.
-    '''
     def choose_inquiry_site(self,site):
+        '''
+        Changes active site when an site is chosen to be inquired.
+
+        @untestable - function manipulates user interface, makes no sense to test.
+        '''
         self.inquiry_site = site
         self.inquiry_type = None
         self.firstScroll = True
         if self.contain.find("report_details"):
             self.contain.remove(self.contain.find("report_details"))
 
-    '''
-    Sets the type of inquiry in UI.
-
-    @untestable - function manipulates user interface, makes no sense to test.
-    '''
     def do_inquiry(self,inquiry_type):
+        '''
+        Sets the type of inquiry in UI.
+
+        @untestable - function manipulates user interface, makes no sense to test.
+        '''
         self.inquiry_type = inquiry_type
         self.firstScroll = True
         if self.contain.find("report_details"):
             self.contain.remove(self.contain.find("report_details"))
 
-    '''
-    Refreshes the inquiry interface screen.
-
-    @untestable - Just draws UI elements onscreen, makes no sense to test.
-    '''
     def refresh_screen(self):
+        '''
+        Refreshes the inquiry interface screen.
+
+        @untestable - Just draws UI elements onscreen, makes no sense to test.
+        '''
         self.app.init(self.contain)
         self.app.paint(self.screen)
         self.app.update(self.screen)
 
         pygame.display.flip()
 
-    '''
-    Draws details of an inquiry onscreen.
-
-    @untestable - Just draws UI elements onscreen, makes no sense to test.
-    '''
     def draw_inquiry(self):
+        '''
+        Draws details of an inquiry onscreen.
+
+        @untestable - Just draws UI elements onscreen, makes no sense to test.
+        '''
         pygame.draw.rect(self.screen, 0xFAFCA4,
                             (100,20,650,410))
         pygame.draw.line(self.screen, 0x000000, (250,20), (250,430))
@@ -242,19 +242,19 @@ class Inquiry:
                                     for x in team.module.completed_tasks:
                                         my_list.add(gui.Label(x))
 
-                            if team.module.is_on_time:
-                                my_list.add(gui.Label("On schedule for the current task")) 
-                            else:
-                                my_list.add(gui.Label("delayed for the current task"))  
+                                if team.module.is_on_time:
+                                    my_list.add(gui.Label("On schedule for the current task")) 
+                                else:
+                                    my_list.add(gui.Label("delayed for the current task"))  
 
                     self.contain.add(my_list,info_x,y_offset+50)
 
-    '''
-    Draws UI for inquiry interface.
-
-    @untestable - Just draws UI elements onscreen, makes no sense to test.
-    '''
     def draw(self):
-        ''' The parent draw function of the end game screen .'''
+        '''
+        Draws UI for inquiry interface.
+        The parent draw function of the end game screen.
+
+        @untestable - Just draws UI elements onscreen, makes no sense to test.
+        '''
         self.draw_inquiry()
         self.refresh_screen()

@@ -1,9 +1,9 @@
 import json
 
-'''
-Calculates the total estimated and actual person hours of effort expended in a project `project'.
-'''
 def total_person_hours(project):
+    '''
+    Calculates the total estimated and actual person hours of effort expended in a project `project'.
+    '''
     total_estimated = 0
     total_actual = 0
     for location in project.locations:
@@ -14,10 +14,10 @@ def total_person_hours(project):
                 total_actual += module.hours_taken
     return (total_estimated, total_actual)
 
-'''
-Formats a line of the endgame report dump.
-'''
 def report_table_line(team, module, size, estimate, actual, cost, wall, productive):
+    '''
+    Formats a line of the endgame report dump.
+    '''
     s = ""
     s += team + (" " * (15 - (len(team))))
     s += module + (" " * (13 - len(module)))
@@ -29,11 +29,10 @@ def report_table_line(team, module, size, estimate, actual, cost, wall, producti
     s += str(productive)
     return s
 
-'''
-Generates endgame report for the project `project'.
-'''
 def generate_report(project):
-    ''' Generate table with information about the end of the game '''
+    '''
+    Generates endgame report for the project `project'.
+    '''
     report = {}
     report["score"] = project.game_score()
     report["total_time"] = str(project.current_time - project.start_time)
@@ -70,11 +69,11 @@ def generate_report(project):
     
     return report
 
-'''
-Writes the endgame report, given a report `report'
-
-@untestable - This function is just a call to the python standard library and thus makes no sense to test.
-'''
 def write_endgame_json(report):
+    '''
+    Writes the endgame report, given a report `report'
+    
+    @untestable - This function is just a call to the python standard library and thus makes no sense to test.
+    '''
     outfile = open('report.json', 'w')
     outfile.write(json.dumps(report, indent=4))
