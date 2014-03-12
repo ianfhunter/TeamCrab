@@ -50,17 +50,11 @@ class Project():
     # NOTE: IMPORTANT - This calculation doesn't take into account developer wages
     # An adjustment was made below to account for this, rounding up a day.
     def expected_budget(self):
-        total_module_effort = 0
-        total_daily_cost = 0  # in $CURRENCY
+        total_module_effort = 0.0
         for module in self.modules:
             total_module_effort += module.expected_cost
-        num_developers = 0
-        for location in self.locations:
-            num_developers += location.current_size
-            total_daily_cost += (location.salary * config["developer_daily_working_hours"] * location.current_size)
-        total_effort_hours = ((float(total_module_effort) / (float(config["developer_daily_effort"]) * float(num_developers)) * 1.24))
-        total_effort_days = (total_effort_hours/config["developer_daily_effort"]) + 1.0
-        return (float(total_effort_days) * float(total_daily_cost))
+        total_effort_days = total_module_effort / config["developer_daily_effort"]  * 1.24
+        return total_effort_days * config["developer_daily_cost"]
 
     def actual_budget(self):
         return self.budget

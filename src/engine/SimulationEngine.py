@@ -36,11 +36,10 @@ def calc_progress(gmt_time):
         local_time = (gmt_time.hour + location.time_zone) % 24
         for team in location.teams:
             if team.module:
-                team.module.total_hours += 1
-            if local_time >= 9 and local_time <= 9 + config["developer_daily_working_hours"]:
-                project.cash -= (team.salary*team.size)
-                project.budget += (team.salary*team.size)
+                team.module.total_hours += 1     
             if local_time >= 9 and local_time <= 9 + config["developer_daily_effort"]:
+                project.cash -= config["developer_daily_cost"] * team.size
+                project.budget += config["developer_daily_cost"] * team.size
                 team.calc_progress(gmt_time)
                 if team.module:
                     if location.calc_fail(project.home_site):

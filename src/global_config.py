@@ -10,8 +10,8 @@ config = {
         "developer_period_effort_value" : 1,
         # How many productive work hours a developer has in one work day (8 hours)
         "developer_daily_effort" : 4,
-        # Total number of hours a developer works in one day
-        "developer_daily_working_hours" : 8,
+        # Cost of a developer per day
+        "developer_daily_cost" : 200,
         # Real-life seconds per game hour
         "game_speed" : 0.4,
         # Base likelihood value that a site will encounter a "problem" caused by the problem simulator
