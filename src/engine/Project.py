@@ -8,7 +8,7 @@ class Project():
         self.name = name
         self.development_method = method
         self.delivery_date = None
-        self.budget = budget
+        self.budget = 0
         self.cash = budget
         self.expected_yearly_revenue = revenue_tier.expected_yearly_profits()
         self.modules = list()
@@ -49,7 +49,7 @@ class Project():
     #  [sum(module estimated effort) /  (avg_developer_effort_day * num_developers)] * 1.24
     # NOTE: IMPORTANT - This calculation doesn't take into account developer wages
     # An adjustment was made below to account for this, rounding up a day.
-    def expected_budget(self, developer_effort_day):
+    def expected_budget(self):
         total_module_effort = 0
         total_daily_cost = 0  # in $CURRENCY
         for module in self.modules:
@@ -58,8 +58,8 @@ class Project():
         for location in self.locations:
             num_developers += location.current_size
             total_daily_cost += (location.salary * config["developer_daily_working_hours"] * location.current_size)
-        total_effort_hours = ((float(total_module_effort) / (float(developer_effort_day) * float(num_developers)) * 1.24))
-        total_effort_days = (total_effort_hours/config["developer_daily_effort"]) + 1
+        total_effort_hours = ((float(total_module_effort) / (float(config["developer_daily_effort"]) * float(num_developers)) * 1.24))
+        total_effort_days = (total_effort_hours/config["developer_daily_effort"]) + 1.0
         return (float(total_effort_days) * float(total_daily_cost))
 
     def actual_budget(self):

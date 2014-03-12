@@ -24,7 +24,7 @@ class EndGame:
         report["score"] = self.project.game_score()
         report["total_time"] = str(self.project.current_time - self.project.start_time)
         report["days_behind_schedule"] = self.project.days_behind_schedule()
-        report["expected_budget"] = self.project.expected_budget(self.config["developer_daily_effort"])
+        report["expected_budget"] = self.project.expected_budget()
         report["actual_budget"] = self.project.actual_budget()
         report["expected_revenue"] = self.project.expected_revenue()
         report["actual_revenue"] = self.project.actual_revenue()
