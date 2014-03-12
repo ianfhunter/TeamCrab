@@ -68,9 +68,10 @@ class TestModule(unittest.TestCase):
     def test_calc_deadline(self):
         module = Module('test_module', 600)
         start_time = datetime.datetime(2014,1,1,0,0,0)
-        deadline = datetime.datetime(2014,1,8,4,0,0)
+        deadline = datetime.datetime(2014,1,16,0,0,0)
 
         module.calc_deadline(start_time, 10)
+        print module.deadline
         self.assertTrue(module.deadline == deadline)
 
         module.calc_deadline(start_time, 600)
