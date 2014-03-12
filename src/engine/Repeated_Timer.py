@@ -4,6 +4,9 @@ from threading import Timer
 
 
 class Repeated_Timer():
+    ''' Creates a timer and starts, stops and runs an event at a given interval.
+    @untestable -This module relies on timers and spawning threads which are unpredictable in a testing environment.
+    '''
     def __init__(self, interval, function, *args, **kwargs):
         self._timer = None
         self.interval = interval

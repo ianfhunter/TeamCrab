@@ -4,6 +4,9 @@ import random
 import math
 
 class Location(object):
+    '''
+    A class representing a location in the simulator.
+    '''
 
     def __init__(self, name, time, culture, cap, cost, coordinates):
         self.name = name
@@ -15,6 +18,7 @@ class Location(object):
         self.salary = cost
         self.specialists = list()
         self.coordinates = coordinates
+
 
     def add_team(self, team):
         ''' Adds a team to this location if there is enough space for them.
@@ -53,6 +57,9 @@ class Location(object):
         return total
 
     def num_modules(self):
+        '''
+        Returns the number of active modules in this location.
+        '''
         total = 0
         for team in self.teams:
             if team.module: 
@@ -60,6 +67,9 @@ class Location(object):
         return total
 
     def geo_distance(self, loc):
+        '''
+        Calculates geographic distance between a site and the home location.
+        '''
         #TODO these distances are made up and need to be adjusted based on map scale
         distance = math.sqrt(math.pow(self.coordinates[0] - loc.coordinates[0], 2)+math.pow(self.coordinates[1] - loc.coordinates[1], 2))
         if distance >= 200:
@@ -71,6 +81,9 @@ class Location(object):
         return global_distance["low"]
 
     def temp_distance(self, loc):
+        '''
+        Returns the temporal distance between a location and the home location.
+        '''
         temporal = abs(self.time_zone - loc.time_zone)
         if temporal > 12:
             temporal = 24 - temporal
@@ -83,6 +96,9 @@ class Location(object):
         return global_distance["high"]
 
     def cult_distance(self, loc):
+        '''
+        Returns the cultural distance between a location and the home location.
+        '''
         culture = 0.0
         if cultures[self.culture][1] != cultures[loc.culture][1]:
             culture += global_distance["high"]
@@ -99,9 +115,15 @@ class Location(object):
         return culture
 
     def dist_g(self, loc):
+        '''
+        Global distance: the sum of the geographical, temporal and cultural difference between a location and the home site.
+        '''
         return self.geo_distance(loc) + self.temp_distance(loc) + self.cult_distance(loc)
 
     def calc_fail(self, loc):
+        '''
+        Returns whether one communication between the home site and a location will fail based on "global distance".
+        '''
         d_glo = self.dist_g(loc)
         p_fail = config["fail_rate"] * (d_glo / (1 + d_glo))
         if random.random() <= p_fail:

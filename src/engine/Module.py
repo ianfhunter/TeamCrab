@@ -85,6 +85,11 @@ class Module(object):
         return self.hours_taken
 
     def add_problem(self):
+        '''
+        Adds a problem to this task.
+
+        @untestable - There is a random element involved which cannot be controlled and will effect the output of the function.
+        '''
         if self.tasks:
             if random.randint(0, 1) is 1:
                 

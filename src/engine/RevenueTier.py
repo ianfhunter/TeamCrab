@@ -1,5 +1,7 @@
 '''
 From e-mail "[CS4098] Iteration 2 post-mortem (please read carefully)":
+
+@untestable - Simple static data holders, don't need tests as they would be pointless.
 '''
 class RevenueTier:
     def expected_yearly_profits(self):

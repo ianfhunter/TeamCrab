@@ -8,7 +8,7 @@ import threading
 from time import sleep
 import argparse
 
-from engine import SimulationEngine as simeng
+from engine import SimulationEngine
 from games import test_game as populate
 from UI import game, endgame, start_screen
 
@@ -42,20 +42,20 @@ class FrontEndThread(threading.Thread):
         self.game.run()
 
 class BackEndThread(threading.Thread):
-    def __init__(self, game, proj,cmd_args):
+    def __init__(self, game, proj,cmd_args, engine):
         threading.Thread.__init__(self)
         self.proj = proj
         self.game = game
         self.cmd_args = cmd_args
+        self.simeng = engine
 
     def run(self):
-        simeng.run_engine(self.game, self.proj,self.cmd_args)
+        self.simeng.run_engine(self.game, self.proj,self.cmd_args)
 
 def main():
     #setup standard stuff
     enable_vsync()
     pygame.init()
-
 
     parser = argparse.ArgumentParser(description='Software Engineering Simulator')
     parser.add_argument('-q','--quiet', help='supress process simulator logging',action='store_true')
@@ -74,11 +74,14 @@ def main():
     sScreen = start_screen.Start_Screen(config,screen)
     project = sScreen.run()
 
-    glob_game = game.Game(project, config, screen, simeng)
+    # Create the simulator engine
+    engine = SimulationEngine.SimulationEngine()
+
+    glob_game = game.Game(project, config, screen, engine)
     project.cash = project.expected_budget()
     #begin simulator
-    frontend = FrontEndThread(glob_game,project)
-    backend = BackEndThread(glob_game,project,cmd_args)
+    frontend = FrontEndThread(glob_game, project)
+    backend = BackEndThread(glob_game, project, cmd_args, engine)
     frontend.start()
     backend.start()
     backend.join()
