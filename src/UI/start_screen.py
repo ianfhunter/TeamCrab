@@ -20,13 +20,10 @@ class Start_Screen:
                                      height=self.config["screenY"])
         self.font = pygame.font.SysFont("Helvetica", 15)
 
-    '''
-    Runs the start screen, redrawing while the screen is focused.
-
-    @untestable
-    '''
     def run(self):
-        ''' Handles all input events and goes to sleep.'''
+        '''Handles all input events and goes to sleep.
+        @untestable
+        '''
         self.complete = False
         self.draw()
         while True:
@@ -41,26 +38,18 @@ class Start_Screen:
             else:
                 self.draw()
 
-    '''
-    Looks for changes to the start screen and redraws it.
-
-    @untestable
-    '''
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
+        
+        @untestable - UI redrawing code.
         '''
         pygame.display.flip()
 
-
-    '''
-    Updates the currently selectable scenario.
-    Simple attribute setter so not tested.
-
-    @untestable
-    '''
     def update_scenario_choice(self,selection):
-        ''' Callback for changing scenarios with PGU select element'''
+        ''' Callback for changing scenarios with PGU select element
+        @untestable - UI redrawing code.
+        '''
         self.sel_val = scenarios.get_scenarios().get(selection.value)
 
 
