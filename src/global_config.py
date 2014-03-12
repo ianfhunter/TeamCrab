@@ -48,12 +48,3 @@ cultures = {
     "Belarusian" : (1, "Belarusian", "high", "east", "low", "Belarusian", "Outcome"),
 
 }
-
-problems = {
-    #description,delay
-    1: ("a site falls behind more than 25% on a task", .50),
-    2: ("module fails to integrate properly", .85),
-    3: ("module fails system tests", .60),
-    4: ("module or product fails acceptance tests (fails to meet real requirements)", 1.00),
-    5: ("module fails to deploy correctly", .45),
-}

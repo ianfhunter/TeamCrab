@@ -1,7 +1,6 @@
 import random
 from Task import Task
 import datetime
-from global_config import problems
 
 def calculate_actual_cost(expected_cost):
     ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
@@ -65,13 +64,26 @@ class Module(object):
         if self.tasks:
             if current_time >= self.tasks[0].deadline:
                 self.is_on_time = False
+        
+        expected_completion = float(self.progress) / self.expected_cost
+        actual_completion = float(self.progress) / self.actual_cost
+        if actual_completion + 0.25 < expected_completion:
+            # Add 50% to the "estimated time"
+            self.expected_cost *= 1.5
+            for task in self.completed_tasks + self.tasks:
+                task.expected_cost *= 1.5
+
+            self.calc_deadline(self.start_date, self.assigned_team_size)
+            self.problems_occured.append('Problem: Fallen behind more than 25% on a task')
 
     def calc_deadline(self, start_date, team_size):
         ''' Calculates the deadline for this module and stores it in self.deadline
         This also sets the deadlines for all tasks in this module
         '''
+        self.start_date = start_date
+        self.assigned_team_size = team_size
         work_hours_total = 0
-        for task in self.tasks:
+        for task in self.completed_tasks + self.tasks:
             work_hours_total += task.expected_cost/team_size
             task.deadline = start_date + datetime.timedelta(days=work_hours_total/8, hours=work_hours_total%8)
         self.deadline = self.tasks[-1].deadline
@@ -141,4 +153,4 @@ class Module(object):
 
                 self.problems_occured.append('Module failed to deploy properly')
                 return 'Module failed to deploy properly'
-
+        return None
