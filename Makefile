@@ -1,6 +1,7 @@
 .PHONY: all test clean install uninstall
-version = RC1_rc4
-install_dir = /opt/SESimulator_v$(version)
+version = RC1_rc5
+install_pyc_prefix = /opt
+install_sh_prefix = /usr/local/bin
 
 build:
 	python -m compileall src
@@ -15,19 +16,20 @@ build:
 all:
 test:
 	$(MAKE) build
-	@nosetests -I ^notunit_ -I importme.py -w test engine; if [ $$? -eq 0 ] ; \
+	@nosetests -I ^notunit_ -I importme.py -w test engine UI; if [ $$? -eq 0 ] ; \
 	then echo "All tests passed!" ; else echo "Tests failed"; fi
+	@rm bin/global_config.pyc
 
 install:
 	$(MAKE) build
-	mkdir -p $(install_dir)
-	mkdir -p $(install_dir)/bin
-	mkdir -p $(install_dir)/media
-	cp -R bin/* $(install_dir)/bin
-	cp -R media/* $(install_dir)/media
-	cp src/SESimulator.sh /usr/local/bin/SESimulator
-	chmod +x /usr/local/bin/SESimulator
-	cp src/SESimulator.desktop /usr/share/applications/
+	mkdir -p $(install_pyc_prefix)/SESimulator_v$(version)
+	mkdir -p $(install_pyc_prefix)/SESimulator_v$(version)/bin
+	mkdir -p $(install_pyc_prefix)/SESimulator_v$(version)/media
+	cp -R bin/* $(install_pyc_prefix)/SESimulator_v$(version)/bin
+	cp -R media/* $(install_pyc_prefix)/SESimulator_v$(version)/media
+	cp src/SESimulator.sh $(install_sh_prefix)/SESimulator
+	@echo "#!/bin/bash \np=$(install_pyc_prefix)" | cat - $(install_sh_prefix)/SESimulator > temp && mv temp $(install_sh_prefix)/SESimulator
+	chmod +x $(install_sh_prefix)/SESimulator
 	@echo Installation complete!
 
 clean:
@@ -35,14 +37,18 @@ clean:
 	@echo Build cleaned!
 
 uninstall:
-	rm -rf $(install_dir)/*
-	rmdir $(install_dir)
-	rm /usr/share/applications/SESimulator.desktop
+	rm -rf $(install_pyc_prefix)/SESimulator_v$(version)/*
+	rmdir $(install_pyc_prefix)/SESimulator_v$(version)
 	@echo SESimulator has been uninstalled!
 
 uninstall-script:
-	rm /usr/local/bin/SESimulator
+	rm $(install_sh_prefix)/SESimulator
 
 run:
 	python bin/SESimulator.pyc
 
+docs:
+	cd src; pydoc -w ./
+	mkdir -p docs
+	mv src/*.html docs/
+	find src -name *.pyc -delete

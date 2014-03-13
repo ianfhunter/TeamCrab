@@ -5,7 +5,7 @@ Software Engineering Simulator
 
 In which you are a production manager in charge of various global software teams and you must try to complete your product with maximal cost efficiency.
 
-![Build Status](https://magnum.travis-ci.com/ianfhunter/TeamCrab.png?token=XVnqqNujPPiH7bQNyxKk&branch=master)
+![Master Branch Build Status](https://magnum.travis-ci.com/ianfhunter/TeamCrab.png?token=XVnqqNujPPiH7bQNyxKk&branch=master)
 
 ## Requirements:
 The project uses python 2.7 to run. The following packages are required and can be installed via apt:
@@ -29,14 +29,16 @@ The file provides the following targets:
 * clean
 * install
 * uninstall
+* uninstall-script
+* run
+* docs
 
 The build target compiles each of the .py source files in the src directory into corresponding .pyc files in the bin 
 directory (it will create the bin directory first if it does not already exist). The built project can then be run locally
-via the command "./bin/SESimulator.pyc".
+via the command "make run".
 
 The test target will build the project as outlined above and then perform the unit tests which are in the test directory.
-At the moment there are no tests since the project is only at a zero velocity release, so this target will perform the
-same function as build for the time being.
+All tests are contained within the test/ directory and any items that cannot be tested have been listed in NOT_TESTED.csv and have corresponding reasons for their exclusion.
 
 The clean target deletes all the files in the bin directory.
 
@@ -52,8 +54,29 @@ can take an optional argument "--simv version" to specify which version of the g
 multiple versions installed). If this flag is not specified then the script will load the newest version of the
 game to be installed.
 
-The uninstall target simply removes all SESimulator files from /opt and /usr/local/bin. It will only uninstall
+The uninstall target simply removes all SESimulator files from /opt. It will only uninstall
 the version of the game that this source tree contains.
+
+The uninstall-script target will delete the run script in /usr/local/bin. It is assumed that make uninstall
+has been run for all installed versions of the game, since this target will not remove any game files from
+/opt.
+
+The run target will simply call "python bin/SESimulator.pyc" in the local directory. It can be used for quickly
+running a local build.
+
+Finally, the docs target will generate pydocs for the all source files in the src directory and place them
+into the docs directory.
+
+### How to install in a different directory
+As mentioned above, the game will install by default in /opt and /usr/local/bin. This can be changed by passing
+two different variables to make install. As an example, if you wanted to install the game so that the run script
+is in /bin and the game files to be in /bin/SE_sim then you could run:
+
+make install install_pyc_prefix=/bin/SE_sim install_sh_prefix=/bin
+
+Here the install_pyc_prefix value is the directory into which the SESimulator_$(version) directory containing all the game pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
+Multiple versions of the game can be installed in this way. The --simv flag mentioned above can be used to access different
+versions of the game installed into the same directory.
 
 ## Writing unit tests
 The following is a simple example of the form a unit test should take in the test directory
@@ -116,17 +139,35 @@ def function():
     Code
 ```
 to generate html documentation use
-``` pydoc -w Module.file ```
+``` pydoc -w Module.file ``` or the provided 'make docs' command
 
 
 ## Inspection of Features
 1. Feature #17 - Master configuration file
-  * The master configuration file is in the form of a Python file which is interpreted by the game, kept in global_config.py. It contains a dictionary of key/value pairs for configuration values.
+  * The master configuration file is in the form of a Python file which is interpreted by the game, kept in global_config.py.
+  * It contains a dictionary of key/value pairs for configuration values.
+  * To modify this file, you must modify the version in bin/global_config.py if running straight from the project repository/tarfile.
+  * After the simulator has been installed, you must modify global_config.py in the install path in order to see changes reflected.
+  * An obvious value to change is bar_colour: change this to ffffff to see a white bar at the bottom of the screen instead of grey.
+  * We were asked to have both of the following to be configurable in the master config:
+    - average cost of a developer-day across all sites
+    - cost of developer-day at each site
+  * However, since one is dependent on the other we chose to make the average configurable and then calculate site vaule as a simple function of the average.
+  * Each configurable parameter has corressponding comments above it to aid any user changes
+
 2. Feature #9 - Process simulator
-  * Simply start the game with the sample game file (this happens automatically at the moment).
+  * Simply start the game with a chosen scenario from the start screen .
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
-  * This output is of the form "Module: module\_name Task: task\_name - Actual Progress: x - expected Progress: y" where x and y are floating point values.
-  * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
+  * This output is of the form:
+    "Module: Front end - Current Effort Expended: x ph - Expected Total Effort: y ph - Actual Total Effort: x ph (ph = person-hours)"
+        where x, y and z are numerical values in Person Hours.
+        Current Effort Expended = the amount of actual effort in person hrs that a team has expended so far.
+        Expected Total Effort = the amount of actual effort estimated for this module to be completed.
+        Actual Total Effort = the actual amount of effort that will be required to complete this module, given the +-25% variance.
+  * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "d-m-y h:mm GMT".
+  * IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
+    * This is caused by the problem simulator feature - since a problem has occurred, the site's Actual Total Effort (the total effort necessary to complete this module) is increased and therefore can be outside the initial range of 75% - 125% of the estimate.
+    * Further information about the game trace can be seen below. 
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
   * Green represents sites that are progressing at a rate that is satisfactory (not under 75% of estimated progress)
@@ -135,26 +176,46 @@ to generate html documentation use
   * Grey represents sites that are inactive - waiting on a dependency or completed. They are not supposed to be doing anything.
   * Changes between colours indicate a change in status information in line with the above statuses.
   * Sites are clickable to view more detailed information about a site.
+  * Clicking the ? in the top-right shows detailed information about what the colours of sites mean. you can close the window with the X in the top right corner.
 4. Feature #20 - Default scenarios
   * To choose a provided scenario, launch the game and select one from the dropdown list.
+  * To inspect a chosen scenario, press the Details button to see information about the sites, modules and more.
+  * To start the game press the Select button
   * If no scenario is selected, the default scenario is the first item in the dropdown list.
 5. Feature #14 - End of game report 
-  * Start the game with the sample game file (this happens automatically at the moment).
+  * Start the game with any chosen game file.
   * Wait until the end of the game.
-  * A summary of the report will be displayed on the screen, with the full report written to report.csv in the game's working directory.
+  * A summary of the report will be displayed on the screen, with the full report written to report.json in the game's working directory (the same directory as SESimulator.py)
 6. Feature #5 - Nominal schedule calculator
    * The nominal deadline is the sum of all the efforts estimated for each module, divided by a default developer-period effort value.
-   * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen
+   * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen. It can also be seen in the end game summary so a user can compare their own time to it
    * Each scenario has its own nominal deadline
 7. Feature #3 - Game score calc. 
   * Play a game through until the end-game screen.
   * Your game score is shown.
   * Game score is calculated by "score = remaining_budget + [(6 - number_of_months_behind_schedule) * (yearly_revenue / 12)]".
 8. Feature #8 - Module Completion calc.
-  * This is currently not implemented as specified. 
-  * Instead of taking the base and modifying the required amount by up to +/- 25%, the amount of work done by a team is modified by up to +/- 25% each hour worked. 
-  * This is so it can be seen when a module is falling behind schedule.
-  * This can be seen in the trace - Actual Progress - how much work a team has actually done on the module - compared to Expected Progress - how much work a team should have done with no random element.
+  * When a module is set up, its base cost is taken and modified by up to +/-25% of its base cost.
+  * This is shown in the game trace as the variation between Expected Total Cost and Actual Total Cost.
+  * It is also shown in the end game screen with Estimated Cost and Actual Cost.
+  * NOTE: the Problem Simulator can further modify the Actual Cost resulting in a varation of greater then 25%
+9. Feature #11 - Problem Simulator
+  * Start the game with one of the sample scenarios.
+  * By its nature, this feature is difficult to inspect since it runs in the background as part of the game engine.
+  * If a problem occurs, the site at which it occurs will be reported in the console trace, as well as the nature 
+    of the problem. e.g. Problem occured at Belarus Problem: Module failed to deploy properly
+  * Depending on the nature of the problem, the Actual Cost of the module will be increased by the appropriate amount. 
+10. Feature #7 - Inquiry Interface
+  * To open the inquiry interface, click the 'inquiries' button in the bottom right corner.
+  * Select a site to give inquiries to by clicking on the text links
+  * Choose a type of inquiry to issue and select corresponding button. Each inquiry will hold up developers at a site for the displayed amount of time
+  * Results of the inquiry for each team at the site are shown in the text box below the buttons.
+  * There are 5 different types of inquiry
+     1.  Ask sites if they are on schedule or not. Dishonest sites will always report that they are on schedule
+     2.  Ask sites the status of their assigned modules. Dishonest sites report list of modules with 'on schedule' for all; others report actual status
+     3.  Ask sites for a list of their completed tasks - All sites report actual tasks completed, but not status of other tasks (in progress or late)
+     4.  A video conference - All sites report actual tasks completed; Asian & Russian sites report other tasks with 50% accuracy
+     5.  Visit the site - All sites provide accurate list of completed, on-schedule, and late tasks
 
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.
@@ -165,27 +226,45 @@ The progress of each module currently being worked on is printed every turn that
 "working". Teams are considered to be working from 9:00 to 17:00 local time. An example of the output
 of the progress of a module is:
 
-"Module: Sample Module - Actual Progress: 42.7 - Expected Progress: 45.0 - Target End Progress: 50"
+"Module: Sample Module - Current Effort Expended: 60.0 ph - Expected Total Effort: 800 ph - Actual Total Effort: 968.0 ph (ph = person-hours)"
 
 First the name of the module is printed. After this, there are 3 values related to the progress of the
-module. In this context, progress means the amount of person-hours that have been put into the module
-so far. The "Actual Progress" is the number of hours of work that have actually been put into the
-module so far. The "Expected Progress" is the number of hours of work that should have been put in
-based on estimates. The "Target End Progress" is the total number of hours that need to be put into
-the module for it to be completed fully.
+module.
+Current Effort Expended is the amount of actual effort in person hrs that a team has expended so far.
+Expected Total Effort is the amount of actual effort in person hrs estimated for this module to be completed.
+Actual Total Effort is the actual amount of effort in person hrs that will be required to complete this module, given the +-25% variance.
 
 When a module is completed, a message will be printed to the console. For example, "Team C's module has
 completed".
 
 When a team has no module assigned during a working hour and are sitting idle, a warning will be printed
 to the console. For example, "Warning: Team Team B has no module assigned".
+ 
+IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
+This is caused by the problem simulator feature and is not an error in game logic.
 
-##Attributions:
+## Untested functions
+
+Functions and classes that are untested for legitimate reasons (calls to external libraries, UI drawing functions, for example) are marked with the @untestable attribute in their documentation string. An example of this would be:
+
+```
+'''
+Foos the Bar `bar'.
+
+@untestable - just a call to external library baz.
+'''
+def foo_bar(bar):
+    return baz(bar)
+```
+
+## Attributions:
 * Map Image - http://dezignus.com/vector-world-map/#more-912
 * Man Icon - Man by Tamiko Young from The Noun Project http://thenounproject.com/term/man/12173/
 * Gear Icon - Gear by Reed Enger from The Noun Project
 * Clock Icon - Clock by Nicholas Burroughs from The Noun Project
 * Target Icon - Target by Laurent Patain from The Noun Project 
 * Location Icon - Designed by Vladimir Dubinin from the Noun Project
-
-
+* People Icon - Designed by Sagiev Farid from the Noun Project
+* Question Icon - Designed by Mateo Zlatar from the Noun Project
+* Coloured Buttons modifed from the existing PGU buttons by Ian
+* Any icons not mentioned were either in the public domain or designed by a member of the team

@@ -3,6 +3,7 @@ import unittest
 from Team import Team
 from Task import Task
 from Module import Module
+import datetime
 
 class TestTask(unittest.TestCase):
 
@@ -10,25 +11,23 @@ class TestTask(unittest.TestCase):
         pass
 
     def test_constructor(self):
-        team = Team('test_team', 30, 25, 10)
-        self.assertTrue(team.name == 'test_team' and team.efficiency == 30 and team.salary == 25 and team.size == 10)
+        team = Team('test_team', 25, 10)
+        self.assertTrue(team.name == 'test_team' and team.salary == 25 and team.size == 10)
 
     def test_calc_progress(self):
-        team = Team('test_team', 30, 25, 10)
+        current_time = datetime.datetime(2014,1,1,0,0,0)
+        team = Team('test_team', 25, 10)
         module = Module('test_module', 800)
+        module.calc_deadline(current_time, 10)
         team.module = module
 
         while team.module and not team.module.completed:
-            team.calc_progress(1)
+            current_time += datetime.timedelta(hours=1)
+            team.calc_progress(current_time)
 
         self.assertTrue(team.completed_modules and team.completed_modules[0] == module)
 
-    def test_random_element(self):
-        team = Team('test_team', 30, 25, 10)
-        
-        for i in range(30):
-            val = team.random_element(i)
-            self.assertTrue(val >= i*0.75 and val <= i*1.25)
+
 
 if __name__ == '__main__':
     unittest.main()

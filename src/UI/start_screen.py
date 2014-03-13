@@ -21,11 +21,13 @@ class Start_Screen:
         self.font = pygame.font.SysFont("Helvetica", 15)
 
     def run(self):
-        ''' Handles all input events and goes to sleep.'''
+        '''Handles all input events and goes to sleep.
+        @untestable
+        '''
         self.complete = False
         self.draw()
         while True:
-            sleep(self.config["sleep_duration"])
+            sleep(self.config["ui_refresh_period_seconds"])
             # Handle all events.
             for event in pygame.event.get():
                 self.app.event(event)
@@ -39,17 +41,66 @@ class Start_Screen:
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
+        
+        @untestable - UI redrawing code.
         '''
         pygame.display.flip()
 
     def update_scenario_choice(self,selection):
-        ''' Callback for changing scenarios with PGU select element'''
+        ''' Callback for changing scenarios with PGU select element
+        @untestable - UI redrawing code.
+        '''
         self.sel_val = scenarios.get_scenarios().get(selection.value)
 
+
+
+    '''
+    Displays info about the selected scenario so users can make more informed choices
+    This is UI code and untestable
+
+    @untestable
+    '''
+    def show_scenario(self):
+        ''' Callback for changing scenarios with PGU select element'''
+        if self.contain.find("scenario_details"):
+            self.contain.remove(self.contain.find("scenario_details"))
+        
+
+        my_list = gui.List(width=700,height=360,name="scenario_details")
+        my_list.add(gui.Label("Scenario Details:"))
+
+        my_list.add(gui.Label("Expected Revenue - $" + str(self.sel_val.expected_revenue())))
+
+        for location in self.sel_val.locations:
+            my_list.add(gui.Label("    " +location.name + ":"))
+            for itr,team in enumerate(location.teams):
+                my_list.add(gui.Label("        Team "+ str(itr+1) +"("+str(team.size)+" Persons)" + ":"))
+                for module in team.modules:
+                    my_list.add(gui.Label("            Module - "+ module.name + " [" + str(module.expected_cost) + " Expected Cost (Person Hours)]"))
+
+
+
+
+        self.contain.add(my_list,70,90)
+        self.app.init(self.contain)
+
+
+
+    '''
+    Flags that the start screen setup is completed.
+    Simple attribute setter so not tested.
+
+    '''
     def complete_setup(self):
         self.complete = True
         return
 
+    '''
+    Draws the possible scenarios onscreen in a selection box.
+
+    This is UI code and untestable.
+    @untestable
+    '''
     def draw_choices(self):
         ''' Takes different scenarios and puts them in the selection gui element '''
 #        choices = ["Eastern European Teams", "Asia-Based Development", "Worldwide Development"]
@@ -62,13 +113,21 @@ class Start_Screen:
             for itr,label in enumerate(choices):
                 sel.add(label,label)
             sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
+
             #button
+            button = gui.Button("Details")
+            button.connect(gui.CLICK, self.show_scenario)
+            self.contain.add(button, 570, 60)
+            self.contain.add(sel, 170, 60)
+
+
             button = gui.Button("Submit")
             button.connect(gui.CLICK, self.complete_setup)
+            self.contain.add(button, 650, 60)
 
-            self.contain.add(button, 500, 180)
-            self.contain.add(sel, 100, 180)
+            #scrolls
             self.app.init(self.contain)
+
 
 
         font = pygame.font.SysFont("Veranda", 40)
@@ -80,6 +139,11 @@ class Start_Screen:
 
         #select APP
 
+    '''
+    Draws the start screen onscreen.
+
+    This is UI code and untestable.
+    '''
     def draw(self):
         ''' Redraws all of the map screen. '''
         pygame.draw.rect(self.screen, self.config["background_colour"],

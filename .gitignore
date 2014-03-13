@@ -1,8 +1,9 @@
 # Compiled Python files 
 *.pyc
 
-# The build directory
+# The build and docs directories
 bin
+docs
 
 # Pydocs generated files
 *.html

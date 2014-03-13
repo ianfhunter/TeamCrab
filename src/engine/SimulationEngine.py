@@ -5,92 +5,97 @@ import threading
 import datetime
 from time import sleep
 from Repeated_Timer import Repeated_Timer
+from global_config import config
 
 from UI import game
 from global_config import config
 
-# gmt_time is represented as a list [hours, day, month, year]
-gmt_time = datetime.datetime(2014,1,1,0,0,0)
-finished = False
-project = None
-game_obj = None
-
-def all_finished():
-    ''' Returns True when all modules in all modules have completed, False otherwise
+class SimulationEngine():
+    ''' @untestable - Would require running an entire scenario in the game to test
     '''
-    global project
-    for module in project.modules:
-        if not module.completed:
-            return False
-    return True
+    def __init__(self):
+        # gmt_time is represented as a list [hours, day, month, year]
+        self.gmt_time = datetime.datetime(2014,1,1,0,0,0)
+        self.finished = False
+        self.project = None
+        self.game_obj = None
 
-def calc_progress(gmt_time):
-    ''' This function calculates the progress of each module assigned to each team 
-    if the team is currently working. A team is considered to be working between 
-    9:00 and 17:00 local time.
-    '''
-    global project
-    global cmd_args
-    for location in project.locations:
-        local_time = (gmt_time.hour + location.time_zone) % 24
-        if local_time >= 9 and local_time <= 17:
+    def all_finished(self):
+        ''' Returns True when all modules in all modules have completed, False otherwise
+        '''
+        for module in self.project.modules:
+            if not module.completed:
+                return False
+        return True
+
+    def calc_progress(self):
+        ''' This function calculates the progress of each module assigned to each team 
+        if the team is currently working. A team is considered to be working from 
+        9:00 for a number of hours based on "developer_daily_effort".
+        '''
+        for location in self.project.locations:
+            local_time = (self.gmt_time.hour + location.time_zone) % 24
             for team in location.teams:
-                project.cash -= (team.salary*team.size)
-                team.calc_progress(location.calc_mod())
                 if team.module:
-                    if not cmd_args["P_SUPPRESS"]:
-                        print 'Module:', team.module.name, '- Actual Progress:', \
-                            str(team.module.progress), '- Expected Progress:', \
-                            str(team.module.expected_progress), '- Target End Progress:', \
-                            str(team.module.cost)
-                else:
-                    if not cmd_args["P_SUPPRESS"]:
-                        print 'Warning: Team ' + team.name + ' has no module assigned.'
+                    team.module.total_hours += 1     
+                if local_time >= 9 and local_time <= 9 + config["developer_daily_effort"]:
+                    self.project.cash -= config["developer_hourly_cost"] * team.size
+                    self.project.budget += config["developer_hourly_cost"] * team.size
+                    team.calc_progress(self.gmt_time)
+                    if team.module:
+                        if location.calc_fail(self.project.home_site):
+                            problem = team.module.add_problem()
+                            if problem and not self.cmd_args["P_SUPPRESS"]:
+                                print "Problem occured at", location.name
+                                print "Problem:", problem
+                        if not self.cmd_args["P_SUPPRESS"]:
+                            print 'Module:', team.module.name, '- Current Effort Expended:', \
+                                str(team.module.progress), 'ph - Expected Total Effort:', \
+                                str(team.module.expected_cost), 'ph - Actual Total Effort:', \
+                                str(team.module.actual_cost), 'ph (ph = person-hours)'
+                    else:
+                        if not self.cmd_args["P_SUPPRESS"]:
+                            print 'Warning: Team ' + team.name + ' has no module assigned.'
 
 
-def progress_time():
-    ''' This function is called every x seconds to "progress" the game by 1 hour.
-    '''
-    global gmt_time
-    gmt_time += datetime.timedelta(hours=1)
+    def progress_time(self):
+        ''' This function is called every x seconds to "progress" the game by 1 hour.
+        '''
+        self.gmt_time += datetime.timedelta(hours=1)
 
-    global cmd_args
-    if not cmd_args["P_SUPPRESS"]:
-        print str(gmt_time.day) + "-" + str(gmt_time.month) + "-" + str(gmt_time.year) + " " + str(gmt_time.hour) + ":00 GMT"
+        if not self.cmd_args["P_SUPPRESS"]:
+            print str(self.gmt_time.day) + "-" + str(self.gmt_time.month) + "-" + str(self.gmt_time.year) + " " + str(self.gmt_time.hour) + ":00 GMT"
 
-    calc_progress(gmt_time)
+        self.calc_progress()
 
-    global project
-    global game_obj
+        self.project.current_time += datetime.timedelta(hours=1)    #add to overall
 
-    project.current_time += datetime.timedelta(hours=1)    #add to overall
+        self.game_obj.update(self.project)  # Tell UI to update
 
-    game_obj.update(project)  # Tell UI to update
-
-    global finished
-    finished = all_finished()
+        self.finished = self.all_finished()
+        if self.finished:
+            self.timer.stop()
 
 
-def run_engine(game, proj,c_args):
-    ''' Runs the backend engine for the game.
-    '''
-    global cmd_args
-    cmd_args = c_args
+    def run_engine(self, game, proj,c_args):
+        ''' Runs the backend engine for the game.
+        '''
+        self.cmd_args = c_args
+        self.project = proj
 
-    global project
-    project = proj
+        self.project.calc_nominal_schedule()
 
-    project.calc_nominal_schedule(config["developer_period_effort_value"])
-
-    global game_obj
-    game_obj = game
+        self.game_obj = game
 
 
-    thread_time = (0, 0)
-    timer = Repeated_Timer(0.5, progress_time)
+        thread_time = (0, 0)
+        self.timer = Repeated_Timer(config["game_speed"], self.progress_time)
 
-    while not finished:
-        sleep(10)
-        # Main logic of the simulator will go here
+        while not self.finished:
+            sleep(1)
 
-    timer.stop()
+    def pause(self):
+        self.timer.stop()
+
+    def resume(self):
+        self.timer.start()

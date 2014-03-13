@@ -2,9 +2,8 @@ import pygame
 import os
 from pgu import gui
 from time import sleep
-import endgame
-
-#from engine import SimulationEngine
+import endgame,inquiry
+from global_config import cultures
 
 glob_game = None
 
@@ -13,7 +12,7 @@ root_dir = os.path.join(this_dir, '../..')
 
 
 class Game:
-    def __init__(self, project_data, game_config,screen):
+    def __init__(self, project_data, game_config, screen, engine):
         glob_game = self
         self.project_data = project_data
         self.config = game_config
@@ -21,7 +20,20 @@ class Game:
         self.endscreen = None
         self.gameover = False
 
+        self.inquiry = None         #inquiry object
+        self.inquired = None        #boolean
+        self.inquiry_site = None
+        self.inquiry_type = None
+
+        self.info_legend = False
+
         self.selected_site = None
+
+        self.engine = engine
+
+        self.buttonsNeedDrawing = True
+        self.exitLegendNeedDrawing = True
+
 
         self.screen = screen
         self.app = gui.App()
@@ -31,59 +43,165 @@ class Game:
         self.font = pygame.font.SysFont("Helvetica", 15)
 
     def endgame(self, project):
-        ''' Bring up the game over screen on the next draw().'''
+        '''
+        Draws endgame screen over game screen.
+        Bring up the game over screen on the next draw.
+
+        @untestable - just draws UI so not testable.
+        '''
         self.gameover = True
         self.endscreen = endgame.EndGame(self.screen, self.config, project)
 
     def locationClick(self, site):
+        '''
+        Event handler for when user clicks a location
+
+        @untestable - just draws UI so not testable.
+        '''
         if not self.endscreen:
             print "Site Clicked!", site.coordinates
             self.selected_site = site
             self.draw_detailed_site_info(self.font)
 
-    def pauseClick(self):
-        ''' Menu button to bring up new dialog, changes variables for next
-        update().'''
+    def info_legend_clicked(self):
+        ''' Callback for when info legend is clicked.
 
-        print("Pause Clicked!")
-        if not self.endscreen:
-            self.endscreen = endgame.EndGame(self.screen, self.config, self.project_data)
-        elif not self.gameover:
-            self.endscreen = None
-            self.firstDraw = True  # Redraw main screen fully once we exit.
+        @untestable - just draws UI so not testable.
+        '''
+        self.info_legend = not self.info_legend
 
-    def run(self):
-        ''' Handles all input events and goes to sleep.'''
-        self.draw()
-        while True:
-            sleep(self.config["sleep_duration"])
+    def inquire(self):
+        '''
+        Draws inquiry interface screen.
+
+        @untestable - just draws UI so not testable.
+        '''
+        #toggle window
+        self.inquired = not self.inquired
+        self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data)
+        self.engine.pause()
+
+        while(self.inquired):
+
+            self.inquiry.draw()
+            sleep(self.config["ui_refresh_period_seconds"])
             # Handle all events.
             for event in pygame.event.get():
-                # Tell PGU about all events.
-                self.app.event(event)
-                # Handle quitting.
 
+                # Tell PGU about all events.
+                self.inquiry.app.event(event)
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                    self.inquired = False
+                    self.engine.resume() 
+                    break
+                # Handle quitting.
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     os._exit(1)
 
+
+    def run(self):
+        '''
+        Handles all input events and goes to sleep.
+
+        @untestable - just draws UI so not testable.
+        '''
+        self.draw()
+        while True:
+            sleep(self.config["ui_refresh_period_seconds"])
+
+            if not self.inquired:
+                # Handle all events.
+                for event in pygame.event.get():
+                    # Tell PGU about all events.
+                    if self.endscreen:
+                        self.endscreen.app.event(event)
+                    else:
+                        self.app.event(event)
+       
+                    if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                        self.inquired = False
+                        self.engine.resume() 
+                    # Handle quitting.
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        os._exit(1)
+
     def update(self, project):
         """ Retrieves updated information from the backend and redraws the
-        screen. """
+        screen. 
+
+        @untestable - just draws UI so not testable.
+        """
         self.project_data = project
         if self.endscreen:
             self.endscreen.draw()  # Draw the endgame screen when pause pressed
         else:
             self.draw()
 
+
+    def draw_info_button(self):
+        '''
+        Draws info button onscreen.
+
+        @untestable - just draws UI so not testable.
+        '''
+        if self.info_legend:
+            #show legend
+            pygame.draw.rect(self.screen, 0xA0ECFF,
+                            (670,10,170,110))    
+            font = pygame.font.SysFont("Helvetica", 10)
+            info_x = 680
+
+            label = font.render("Green: Active & On Schedule", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 30))
+            label = font.render("Yellow: Active & Delayed", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 50))
+            label = font.render("Red: Stalled, Needs Intervention", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 70))
+            label = font.render("Grey: Inactive / Concluded", 1, (0, 0, 0))
+            self.screen.blit(label, (info_x, 90))
+
+            #dont touch those style settings. very, very hax
+            if self.buttonsNeedDrawing:
+
+                button = gui.Button("",width=14,height=28)
+                button.connect(gui.CLICK, self.info_legend_clicked)
+                button.style.background = \
+                    pygame.image.load(self.config["cancel_icon_path"])
+
+                self.contain.add(button, 820, 0)
+                self.app.init(self.contain)
+                self.app.paint(self.screen)
+            self.exitLegendNeedDrawing = True
+        else:
+            #show question mark icon
+            #dont touch those style settings. very, very hax
+            if self.exitLegendNeedDrawing:
+                self.exitLegendNeedDrawing = False
+                button = gui.Button("",width=14,height=28)
+                button.connect(gui.CLICK, self.info_legend_clicked)
+                button.style.background = \
+                    pygame.image.load(self.config["question_icon_path"])
+
+                self.contain.add(button, 810, 10)
+                self.app.init(self.contain)
+                self.app.paint(self.screen)
+        
+
     def draw_world_map(self):
-        """ Draws the world map onscreen."""
+        '''
+        Draws world map onscreen.
+
+        @untestable - just draws UI so not testable.
+        '''
         worldMap = pygame.image.load(self.config["map_path"])
         self.screen.blit(worldMap, (0, 0))
 
     def draw_bottom_bar(self, font):
-        """Draws bottom bar, taking screen geometry from global config file.
+        '''Draws bottom bar, taking screen geometry from global config file.
         Draws statistics about progress, balance, etc on the bottom bar.
-        """
+
+        @untestable - just draws UI so not testable.
+        '''
         # TODO: Info to be retrieved from backend, currently dummy data.
         bar_height = self.config["bottom_bar_height"]
         x = self.config["screenX"]
@@ -96,22 +214,30 @@ class Game:
         # Overlay balance & statistics on bottom bar.
         label_pos = y - bar_height
         if self.project_data.cash >= 0:
-            label = font.render("$"+str(self.project_data.cash), 1, (0, 255, 0))
+            label = font.render("$"+str(self.project_data.cash), 1, (14, 106, 0))
         else:
-            label = font.render("-$"+str(self.project_data.cash), 1, (255, 0, 0))
+            label = font.render("-$"+str(self.project_data.cash*-1), 1, (255, 0, 0))
         self.screen.blit(label, (20, label_pos))
         cur_time =self.project_data.current_time
         label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
         self.screen.blit(label, (100, label_pos))
         label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
-                             1, (238, 255, 53))
+                             1, (38, 0, 255))
         self.screen.blit(label, (320, label_pos))
 
     def draw_sites(self):
-        ''' Draws dots showing sites around the world map.
         '''
+        Draws circles indications site locations onscreen.
+
+        @untestable - just draws UI so not testable.
+        '''
+
         for index, site in enumerate(self.project_data.locations):
-            button = gui.Button(" ")
+
+            if self.buttonsNeedDrawing:
+                button = gui.Button(" ",name=site.name)
+            else:
+                button = self.contain.find(site.name)
             # Note: Styling buttons via images requires that a _surface_
             # be passed in.
             button.style.background = pygame.image.load(
@@ -122,51 +248,53 @@ class Game:
             failing = False
             for team in site.teams:
                  
- #Changed as modules now assigned to teams rather then tasks and modules do not have dependancies at this time.
- #if a module is running, it is not stalled waiting on dependencies or waiting on another.
- #print team.modules[0] ,":",team.module                
+             #Changed as modules now assigned to teams rather then tasks and modules do not have dependancies at this time.
+             #if a module is running, it is not stalled waiting on dependencies or waiting on another.
+             #print team.modules[0] ,":",team.module            
                 if team.module:
                     inactive = False
 
                 if not failing:
                     if team.module:
-                        # Locations with issues causing a time delay
-                        if not team.module.is_on_time():
-                            button.style.background = pygame.image.load(
-                                self.config["yellow_button_path"])
-                        # Location that needs an intervention before it can
-                        # progress any further
-                        if team.module.stalled:
-                            button.style.background = \
-                                pygame.image.load(self.config["red_button_path"])
-                            failing = True
+                        # If the culture is dishonest then always show as green
+                        if cultures[site.culture][0]:
+                            # Locations with issues causing a time delay
+                            if not team.module.is_on_time:
+                                button.style.background = pygame.image.load(
+                                    self.config["yellow_button_path"])
+                            # Location that needs an intervention before it can
+                            # progress any further
+                            if team.module.stalled:
+                                button.style.background = \
+                                    pygame.image.load(self.config["red_button_path"])
+                                failing = True
 
             #lowest priority display.
             if inactive:
                 button.style.background = \
                     pygame.image.load(self.config["grey_button_path"])
 
-
-            button.connect(gui.CLICK, self.locationClick, site)
-            self.contain.add(button, site.coordinates[0], site.coordinates[1])
-
-            self.app.init(self.contain)
-            self.app.paint(self.screen)
+            if self.buttonsNeedDrawing:
+                button.connect(gui.CLICK, self.locationClick, site)
+                self.contain.add(button, site.coordinates[0], site.coordinates[1])    
+                self.app.init(self.contain)
 
     def draw_detailed_site_info(self, font):
         ''' Draws detailed info about the currently selected site.
-        '''
 
+        @untestable - just draws UI so not testable.
+        '''
         y = 300
 
         # Draw plain background.
         pygame.draw.rect(self.screen, self.config["background_colour"],
-                         (0, 285, 200, 175))
+                         (0, 280, 200, 180))
 
         if self.selected_site is None:
             label = font.render("No site selected", 1, (0, 0, 0))
             self.screen.blit(label, (40, y))
         else:
+    
             site = self.selected_site
 
             workerIcon = pygame.image.load(self.config["location_icon_path"])
@@ -181,17 +309,19 @@ class Game:
                                 " Team(s)", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 30))
 
-            cogIcon = pygame.image.load(self.config["cog_icon_path"])
-            self.screen.blit(cogIcon, (1, 360))
-            efficiency = site.average_efficiency()
-            label = font.render(str(efficiency) + "% Efficiency (Avg)", 1,
+            peepIcon = pygame.image.load(self.config["peep_icon_path"])
+            self.screen.blit(peepIcon, (1, 360))
+            population = 0
+            for team in self.selected_site.teams:
+                population += team.size
+            label = font.render(str(population) + "  People ", 1,
                                 (0, 0, 0))
             self.screen.blit(label, (40, y + 65))
 
             clockIcon = pygame.image.load(self.config["clock_icon_path"])
             self.screen.blit(clockIcon, (1, 395))
             progress = int(site.total_module_progress())
-            label = font.render(str(progress) + " Hours (Total)", 1, (0, 0, 0))
+            label = font.render(str(progress) + "h Effort Expended", 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 100))
 
             #TODO: Potentially change this if multiple modules at one site.
@@ -199,48 +329,58 @@ class Game:
             self.screen.blit(targetIcon, (1, 430))
             num_on_time = site.num_modules_on_schedule()
             num_modules = site.num_modules()
-            label = font.render(str(num_on_time) + "/" + str(num_modules) +    
-                                " Modules On Schedule", 1, (0, 0, 0))
+            if num_modules - num_on_time == 0:
+                status = "On Schedule"
+            else:
+                status = "Delayed"
+            label = font.render(status, 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
     def draw_pause_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
-        '''
-        # TODO: Real implementation for button action, currently dummy action.
-        button = gui.Button("Menu")
-        button.connect(gui.CLICK, self.pauseClick)
 
-        self.contain.add(button, self.config["menuX"], self.config["menuY"])
-        self.app.init(self.contain)
-        self.app.paint(self.screen)
+        @untestable - just draws UI so not testable.
+        '''
+        if self.buttonsNeedDrawing:
+            # TODO: Real implementation for button action, currently dummy action.
+            button = gui.Button("Inquiries")
+            button.connect(gui.CLICK, self.inquire)
+
+            self.contain.add(button, self.config["menuX"], self.config["menuY"])
+            self.app.init(self.contain)
 
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
-        '''
-        if self.firstDraw:
-            pygame.display.flip()
-            self.firstDraw = False
-        else:
-            pygame.display.update((0, 460, 850, 20))  # Bottom bar
-            pygame.display.update((0, 290, 200, 175))  # Grey box
 
-            for site in self.project_data.locations:
-                (xpos, ypos) = site.coordinates
-                pygame.display.update((xpos - 5, ypos - 5, xpos + 5, ypos + 5))
+        @untestable - just draws UI so not testable.
+        '''
+        #This is getting complicated and we dont really need it as it 
+        self.app.paint(self.screen)
+
+        if self.inquired:
+            pygame.display.update((0, 280, 200, 180))
+        else:
+            pygame.display.flip()
 
     def draw(self):
-        ''' Redraws all of the map screen. '''
+        '''
+        Redraws all of map screen.
+
+        @untestable - just draws UI so not testable.
+        '''
         font = pygame.font.SysFont("Helvetica", 15)
 
         ''' empty widget container - fix to memory leak
         (I tried to update the objects rather than recreating them, but it
         seems like we'd have trouble maintaining it) '''
-        self.contain.widgets = []
+        #self.contain.widgets = []
 
         self.draw_world_map()
         self.draw_bottom_bar(self.font)
         self.draw_sites()
         self.draw_detailed_site_info(self.font)
         self.draw_pause_button()
+        self.draw_info_button()
         self.refresh_screen()
+        self.buttonsNeedDrawing = False
