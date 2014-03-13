@@ -214,7 +214,7 @@ class Game:
         # Overlay balance & statistics on bottom bar.
         label_pos = y - bar_height
         if self.project_data.cash >= 0:
-            label = font.render("$"+str(self.project_data.cash), 1, (0, 255, 0))
+            label = font.render("$"+str(self.project_data.cash), 1, (14, 106, 0))
         else:
             label = font.render("-$"+str(self.project_data.cash*-1), 1, (255, 0, 0))
         self.screen.blit(label, (20, label_pos))
@@ -222,7 +222,7 @@ class Game:
         label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
         self.screen.blit(label, (100, label_pos))
         label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
-                             1, (0, 0, 0))
+                             1, (38, 0, 255))
         self.screen.blit(label, (320, label_pos))
 
     def draw_sites(self):
