@@ -255,3 +255,5 @@ def foo_bar(bar):
 * Location Icon - Designed by Vladimir Dubinin from the Noun Project
 * People Icon - Designed by Sagiev Farid from the Noun Project
 * Question Icon - Designed by Mateo Zlatar from the Noun Project
+* Coloured Buttons modifed from the existing PGU buttons by Ian
+* Any icons not mentioned were either in the public domain or designed by a member of the team

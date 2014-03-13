@@ -91,74 +91,73 @@ class Module(object):
         @untestable - There is a random element involved which cannot be controlled and will effect the output of the function.
         '''
         if self.tasks:
-            if random.randint(0, 1) is 1:
-                
-                # Add 50% to the "estimated time"
-                self.actual_cost *= 1.5
-                for task in self.completed_tasks + self.tasks:
-                    task.actual_cost *= 1.5
+            if self.tasks[0].name == 'design' or self.tasks[0].name == 'implementation':
+                # Repeat the task
+                self.actual_cost *= 1.15
+                self.tasks[0].actual_cost *= 2
 
                 self.problems_occured.append('Problem: Fallen behind more than 25% on a task')
                 return 'Fallen behind more than 25% on a task'
 
-            else:
-                if self.tasks[0].name == 'integration':
-                    # Add unit_tests and implementation back onto the tasks list
-                    self.tasks.insert(0, self.completed_tasks.pop())
-                    self.tasks.insert(0, self.completed_tasks.pop())
+            elif self.tasks[0].name == 'unit_test':
+                # Go back to the start of the implementation task
+                self.tasks.insert(0, self.completed_tasks.pop())
 
-                    # Update the actual cost of this module and all tasks
-                    self.actual_cost = int(self.actual_cost * 1.85)
-                    for i in range(6):
-                        self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
-                    self.tasks[1].actual_cost = int(self.actual_cost/100.0*10.0) # Unit tests
+                # Update the actual cost of this module and repeated tasks
+                self.actual_cost *= 1.25
+                self.tasks[0].actual_cost *= 2
+                self.tasks[1].actual_cost *= 2
 
-                    self.problems_occured.append('Module failed to integrate properly')
-                    return 'Module failed to integrate properly'
+                self.problems_occured.append('Module failed unit tests')
+                return 'Module failed unit tests'
 
-                elif self.tasks[0].name == 'system_test':
-                    # Add integration back onto the tasks list
-                    self.tasks.insert(0, self.completed_tasks.pop())
+            elif self.tasks[0].name == 'integration':
+                # Add unit_tests and implementation back onto the tasks list
+                self.tasks.insert(0, self.completed_tasks.pop())
+                self.tasks.insert(0, self.completed_tasks.pop())
 
-                    # Update the actual cost of this module and all tasks
-                    self.actual_cost = int(self.actual_cost * 1.6)
-                    for i in range(4):
-                        self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 1.4)
+                for i in range(3):
+                    self.tasks[i].actual_cost *= 2
 
-                    self.problems_occured.append('Module failed system tests')
-                    return 'Module failed system tests'
+                self.problems_occured.append('Module failed to integrate properly')
+                return 'Module failed to integrate properly'
 
-                elif self.tasks[0].name == 'acceptance_test':
-                    # Add all tasks back onto the tasks list
-                    for i in range(6):
-                        self.tasks.insert(0, self.completed_tasks.pop())
+            elif self.tasks[0].name == 'system_test':
+                # Add integration back onto the tasks list
+                self.tasks.insert(0, self.completed_tasks.pop())
 
-                    # Update the actual cost of this module and all tasks
-                    self.actual_cost = int(self.actual_cost * 2)
-                    for i in range(6):
-                        self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
-                    self.tasks[2].actual_cost = int(self.actual_cost/100.0*10.0) # Unit tests
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 1.3)
+                for i in range(2):
+                    self.tasks[i].actual_cost *= 2
 
-                    self.problems_occured.append('Module failed acceptance tests')
-                    return 'Module failed acceptance tests'
+                self.problems_occured.append('Module failed system tests')
+                return 'Module failed system tests'
 
-                elif self.tasks[0].name == 'deployment':
-                    # Add system tests back onto the tasks list
+            elif self.tasks[0].name == 'acceptance_test':
+                # Add all tasks back onto the tasks list
+                for i in range(6):
                     self.tasks.insert(0, self.completed_tasks.pop())
 
-                    # Update the actual cost of this module and all tasks
-                    self.actual_cost = int(self.actual_cost * 1.45)
-                    for i in range(3):
-                        self.tasks[i].actual_cost = int(self.actual_cost/100.0*15.0)
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 2)
+                for i in range(6):
+                    self.tasks[i].actual_cost *= 2
 
-                    self.problems_occured.append('Module failed to deploy properly')
-                    return 'Module failed to deploy properly'
-                else: 
-                    # Add 50% to the "estimated time"
-                    self.actual_cost *= 1.5
-                    for task in self.completed_tasks + self.tasks:
-                        task.actual_cost *= 1.5
+                self.problems_occured.append('Module failed acceptance tests')
+                return 'Module failed acceptance tests'
 
-                    self.problems_occured.append('Problem: Fallen behind more than 25% on a task')
-                    return 'Fallen behind more than 25% on a task'
+            elif self.tasks[0].name == 'deployment':
+                # Add system tests back onto the tasks list
+                self.tasks.insert(0, self.completed_tasks.pop())
+
+                # Update the actual cost of this module and all tasks
+                self.actual_cost = int(self.actual_cost * 1.3)
+                for i in range(2):
+                    self.tasks[i].actual_cost *= 2
+
+                self.problems_occured.append('Module failed to deploy properly')
+                return 'Module failed to deploy properly'
         return None
