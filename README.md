@@ -139,7 +139,7 @@ def function():
     Code
 ```
 to generate html documentation use
-``` pydoc -w Module.file ```
+``` pydoc -w Module.file ``` or the provided 'make docs' command
 
 
 ## Inspection of Features
@@ -153,6 +153,7 @@ to generate html documentation use
     - average cost of a developer-day across all sites
     - cost of developer-day at each site
   * However, since one is dependent on the other we chose to make the average configurable and then calculate site vaule as a simple function of the average.
+  * Each configurable parameter has corressponding comments above it to aid any user changes
 
 2. Feature #9 - Process simulator
   * Simply start the game with the sample game file (this happens automatically at the moment).
