@@ -199,7 +199,10 @@ to generate html documentation use
   * It is also shown in the end game screen with Estimated Cost and Actual Cost.
   * NOTE: the Problem Simulator can further modify the Actual Cost resulting in a varation of greater then 25%
 9. Feature #11 - Problem Simulator
-  * If a problem occurs, the site at which it occurs will be reported in the trace, as well as the nature of the problem. e.g. Problem occured at Belarus Problem: Module failed to deploy properly
+  * Start the game with one of the sample scenarios.
+  * By its nature, this feature is difficult to inspect since it runs in the background as part of the game engine.
+  * If a problem occurs, the site at which it occurs will be reported in the console trace, as well as the nature 
+    of the problem. e.g. Problem occured at Belarus Problem: Module failed to deploy properly
   * Depending on the nature of the problem, the Actual Cost of the module will be increased by the appropriate amount. 
 10. Feature #7 - Inquiry Interface
   * To open the inquiry interface, click the 'inquiries' button in the bottom right corner.
