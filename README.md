@@ -5,7 +5,7 @@ Software Engineering Simulator
 
 In which you are a production manager in charge of various global software teams and you must try to complete your product with maximal cost efficiency.
 
-![Build Status](https://magnum.travis-ci.com/ianfhunter/TeamCrab.png?token=XVnqqNujPPiH7bQNyxKk&branch=master)
+![Master Branch Build Status](https://magnum.travis-ci.com/ianfhunter/TeamCrab.png?token=XVnqqNujPPiH7bQNyxKk&branch=master)
 
 ## Requirements:
 The project uses python 2.7 to run. The following packages are required and can be installed via apt:
@@ -38,8 +38,7 @@ directory (it will create the bin directory first if it does not already exist).
 via the command "make run".
 
 The test target will build the project as outlined above and then perform the unit tests which are in the test directory.
-At the moment there are no tests since the project is only at a zero velocity release, so this target will perform the
-same function as build for the time being.
+All tests are contained within the test/ directory and any items that cannot be tested have been listed in NOT_TESTED.csv and have corresponding reasons for their exclusion.
 
 The clean target deletes all the files in the bin directory.
 
@@ -75,8 +74,7 @@ is in /bin and the game files to be in /bin/SE_sim then you could run:
 
 make install install_pyc_prefix=/bin/SE_sim install_sh_prefix=/bin
 
-Here the install_pyc_prefix value is the directory into which the SESimulator_$(version) directory containing all the game
-pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
+Here the install_pyc_prefix value is the directory into which the SESimulator_$(version) directory containing all the game pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
 Multiple versions of the game can be installed in this way. The --simv flag mentioned above can be used to access different
 versions of the game installed into the same directory.
 
