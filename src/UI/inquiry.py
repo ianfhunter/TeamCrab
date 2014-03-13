@@ -223,10 +223,10 @@ class Inquiry:
                                     my_list.add(gui.Label("We have not completed any tasks."))
                                 else:
                                     for task in team.module.completed_tasks:
-                                        my_list.add(gui.Label(x.name))
+                                        my_list.add(gui.Label(task.name))
 
                             if self.inquiry_site.culture[0] == 0:
-                                if randint(0,1) == 0:
+                                if random.randint(0,1) == 0:
                                     #continue to lie
                                     my_list.add(gui.Label("We are on schedule for the current task"))
                                 else:
