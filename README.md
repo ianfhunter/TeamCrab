@@ -167,6 +167,7 @@ to generate html documentation use
   * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "d-m-y h:mm GMT".
   * IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
     * This is caused by the problem simulator feature - since a problem has occurred, the site's Actual Total Effort (the total effort necessary to complete this module) is increased and therefore can be outside the initial range of 75% - 125% of the estimate.
+    * Further information about the game trace can be seen below. 
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
   * Green represents sites that are progressing at a rate that is satisfactory (not under 75% of estimated progress)
@@ -207,7 +208,7 @@ to generate html documentation use
 10. Feature #7 - Inquiry Interface
   * To open the inquiry interface, click the 'inquiries' button in the bottom right corner.
   * Select a site to give inquiries to by clicking on the text links
-  * Choose a type of inquiry to issue and select corresponding button.
+  * Choose a type of inquiry to issue and select corresponding button. Each inquiry will hold up developers at a site for the displayed amount of time
   * Results of the inquiry for each team at the site are shown in the text box below the buttons.
   * There are 5 different types of inquiry
      1.  Ask sites if they are on schedule or not. Dishonest sites will always report that they are on schedule
