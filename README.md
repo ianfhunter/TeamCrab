@@ -166,7 +166,7 @@ to generate html documentation use
         Actual Total Effort = the actual amount of effort that will be required to complete this module, given the +-25% variance.
   * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
   * IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
-    * This is caused by the problem simulator feature and is not an error in game logic.
+    * This is caused by the problem simulator feature - since a problem has occurred, the site's Actual Total Effort (the total effort necessary to complete this module) is increased and therefore can be outside the initial range of 75% - 125% of the estimate.
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
   * Green represents sites that are progressing at a rate that is satisfactory (not under 75% of estimated progress)
@@ -242,7 +242,7 @@ This is caused by the problem simulator feature and is not an error in game logi
 
 ## Untested functions
 
-Functions that are untested for legitimate reasons (calls to external libraries, UI drawing functions, for example) are marked with the @untestable attribute in their documentation string. An example of this would be:
+Functions and classes that are untested for legitimate reasons (calls to external libraries, UI drawing functions, for example) are marked with the @untestable attribute in their documentation string. An example of this would be:
 
 ```
 '''
