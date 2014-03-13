@@ -11,6 +11,8 @@ from UI import game
 from global_config import config
 
 class SimulationEngine():
+    ''' @untestable - Would require running an entire scenario in the game to test
+    '''
     def __init__(self):
         # gmt_time is represented as a list [hours, day, month, year]
         self.gmt_time = datetime.datetime(2014,1,1,0,0,0)
