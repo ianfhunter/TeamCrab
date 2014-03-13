@@ -151,6 +151,12 @@ to generate html documentation use
   * To modify this file, you must modify the version in bin/global_config.py if running straight from the project repository/tarfile.
   * After the simulator has been installed, you must modify global_config.py in the install path in order to see changes reflected.
   * An obvious value to change is bar_colour: change this to ffffff to see a white bar at the bottom of the screen instead of grey.
+  * We were asked to have both of the following to be configurable in the master config:
+    - average cost of a developer-day across all sites
+    - cost of developer-day at each site
+  * However, since one is dependent on the other we chose to make the average configurable and then calculate site vaule as a simple function of the average.
+
+(substitute X and Y obviously)
 2. Feature #9 - Process simulator
   * Simply start the game with the sample game file (this happens automatically at the moment).
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
