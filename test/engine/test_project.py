@@ -3,6 +3,7 @@ import unittest
 from Project import Project
 from RevenueTier import LowRevenueTier, MediumRevenueTier, HighRevenueTier
 import datetime
+from global_config import config
 
 class TestProject(unittest.TestCase):
 
@@ -39,17 +40,23 @@ class TestProject(unittest.TestCase):
         project = Project('test_project', 'Agile', 200000, MediumRevenueTier())
         project.delivery_date = datetime.datetime(2014,1,3,0,0,0)
         project.current_time = datetime.datetime(2014,1,3,0,0,0)
+        tmp = project.cash
+        project.cash = 0
 
         score = project.game_score()
-        self.assertTrue(score == 2699996)
+        self.assertTrue(score == 2500000)
 
-        project.current_time = datetime.datetime(2014,1,1,0,0,0)
+        project.cash = 10000
+        project.current_time = datetime.datetime(2014,1,2,0,0,0)
         score = project.game_score()
-        self.assertTrue(score == 2727773)
+        self.assertTrue(score == 2523698)
 
-        project.current_time = datetime.datetime(2014,1,9,0,0,0)
+        project.cash = -10000
+        project.current_time = datetime.datetime(2014,1,4,0,0,0)
         score = project.game_score()
-        self.assertTrue(score == 2616662)
+        self.assertTrue(score == 2473801)
+
+        tmp = project.cash
 
     def test_actual_budget(self):
         project = Project('test_project', 'Agile', 200000, LowRevenueTier())
