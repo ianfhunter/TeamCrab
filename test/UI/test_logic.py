@@ -8,6 +8,7 @@ from engine import Location
 from engine import RevenueTier
 from engine import Team
 from UI import logic
+from global_config import config
 
 class TestModule(unittest.TestCase):
 
@@ -36,7 +37,7 @@ class TestModule(unittest.TestCase):
 
         # Calculate total hours
         total, junk = logic.total_person_hours(p)
-        self.assertTrue(total == 200 + 100)
+        self.assertTrue(total == (200 + 100) * config["developer_period_effort_value"])
 
     def test_report_table_line(self):
         # This is how a correctly formatted output looks

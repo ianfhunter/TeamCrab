@@ -17,7 +17,7 @@ class TestProject(unittest.TestCase):
 
     def test_calc_nominal_schedule(self):
         project = Project('test_project', 'Agile', 45000, LowRevenueTier())
-        project.calc_nominal_schedule(10)
+        project.calc_nominal_schedule()
         self.assertTrue(project.delivery_date == datetime.datetime(2014,1,1,0,0,0))
 
     def test_days_behind_schedule(self):

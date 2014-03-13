@@ -11,7 +11,7 @@ def total_person_hours(project):
     for location in project.locations:
         for team in location.teams:
             for module in team.completed_modules:
-                estimated_hours = module.expected_cost / team.size
+                estimated_hours = module.expected_cost / team.size * config["developer_period_effort_value"]
                 total_estimated += estimated_hours    
                 total_actual += module.hours_taken
     return (total_estimated, total_actual)
@@ -60,7 +60,7 @@ def generate_report(project):
                 actual = int(module.actual_cost)
                 wall = module.wall_clock_time()
                 productive = module.productive_time_on_task()
-                dollars = int(math.ceil(float(actual) /config["developer_daily_effort"] )* config["developer_daily_cost"])
+                dollars = int(actual * config["developer_hourly_cost"])
                 effort_table.append([team.name, module.name, team.size, expected, actual, dollars, wall, productive])
                 total_estimated += expected
                 total_actual += actual

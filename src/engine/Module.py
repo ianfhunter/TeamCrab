@@ -74,7 +74,7 @@ class Module(object):
         self.assigned_team_size = team_size
         work_hours_total = 0
         for task in self.completed_tasks + self.tasks:
-            work_hours_total += task.expected_cost/team_size
+            work_hours_total += task.expected_cost/team_size*config["developer_period_effort_value"]
             task.deadline = start_date + datetime.timedelta(days=work_hours_total/config["developer_daily_effort"], hours=work_hours_total%config["developer_daily_effort"])
         self.deadline = self.tasks[-1].deadline
 

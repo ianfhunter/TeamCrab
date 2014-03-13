@@ -36,12 +36,11 @@ class SimulationEngine():
         for location in self.project.locations:
             local_time = (self.gmt_time.hour + location.time_zone) % 24
             for team in location.teams:
-                if local_time is 9:
-                    self.project.cash -= config["developer_daily_cost"] * team.size
-                    self.project.budget += config["developer_daily_cost"] * team.size
                 if team.module:
                     team.module.total_hours += 1     
                 if local_time >= 9 and local_time <= 9 + config["developer_daily_effort"]:
+                    self.project.cash -= config["developer_hourly_cost"] * team.size
+                    self.project.budget += config["developer_hourly_cost"] * team.size
                     team.calc_progress(self.gmt_time)
                     if team.module:
                         if location.calc_fail(self.project.home_site):
@@ -84,7 +83,7 @@ class SimulationEngine():
         self.cmd_args = c_args
         self.project = proj
 
-        self.project.calc_nominal_schedule(config["developer_period_effort_value"])
+        self.project.calc_nominal_schedule()
 
         self.game_obj = game
 

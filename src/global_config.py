@@ -6,12 +6,12 @@ root_dir = os.path.join(os.path.dirname(__file__), '../')
 config = {
         # Game parameters
         "ui_refresh_period_seconds" : 0.05,
-        # How much effort a developer puts out for every productive work hour
-        "developer_period_effort_value" : 1,
-        # How many productive work hours a developer has in one work day (8 hours)
-        "developer_daily_effort" : 4,
+        # How much a developer's effort is devided by for every productive work hour
+        "developer_period_effort_value" : 2,
+        # How many work hours a developer has in one work day 
+        "developer_daily_effort" : 8,
         # Cost of a developer per day
-        "developer_daily_cost" : 200,
+        "developer_hourly_cost" : 100,
         # Adjustment to expected budget:
         "budget_mod" : 1.24,
         # Penalty to score if project goes over budget

@@ -16,7 +16,7 @@ class Project():
         self.start_time = datetime.datetime(2014,1,1,0,0,0)
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
 
-    def calc_nominal_schedule(self, dev_effort_val):
+    def calc_nominal_schedule(self):
         if self.development_method == 'Agile':
             max_team_cost = 0
             for location in self.locations:
@@ -27,7 +27,7 @@ class Project():
                         team_cost += module.expected_cost/team.size
                     if team_cost > max_team_cost:
                         max_team_cost = team_cost
-            nominal_schedule = max_team_cost / dev_effort_val
+            nominal_schedule = max_team_cost * config["developer_period_effort_value"]
             self.delivery_date = self.start_time + datetime.timedelta(days=nominal_schedule/config["developer_daily_effort"])
 
     def days_behind_schedule(self):
@@ -56,8 +56,8 @@ class Project():
         total_module_effort = 0.0
         for module in self.modules:
             total_module_effort += module.expected_cost
-        total_effort_days = (total_module_effort / config["developer_daily_effort"])  * config["budget_mod"]
-        return total_effort_days * config["developer_daily_cost"]
+        total_effort_hours = total_module_effort *config["developer_period_effort_value"]  * config["budget_mod"]
+        return total_effort_hours * config["developer_hourly_cost"]
 
     def actual_budget(self):
         return self.budget

@@ -1,4 +1,6 @@
 
+from global_config import config
+
 
 class Team(object):
     def __init__(self, name, salary, size):
@@ -25,7 +27,7 @@ class Team(object):
         self.module.stalled = False
         if not self.module.completed:
             self.module.hours_taken += 1
-            self.module.progress_module(self.size, current_time)
+            self.module.progress_module(self.size/config["developer_period_effort_value"], current_time)
 
             if self.module.progress >= self.module.actual_cost:
                 print self.name + '\'s module has completed!'
