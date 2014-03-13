@@ -182,6 +182,7 @@ class Inquiry:
                             if not team.module:
                                 on_or_off = "We aren't working on anything at the moment" 
                             else:
+                                team.module.actual_cost = team.module.actual_cost + 1
                                 if self.inquiry_site.culture[0] == 0:
                                     on_or_off = "We are on schedule."
                                 else:
@@ -199,6 +200,8 @@ class Inquiry:
                             if not team.module:
                                 my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
+                                team.module.actual_cost = team.module.actual_cost + 4
+
                                 if len(team.module.completed_tasks) == 0:
                                     my_list.add(gui.Label("We have not completed any tasks."))
                                 else:
@@ -214,11 +217,13 @@ class Inquiry:
                             if not team.module:
                                 my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
+                                team.module.actual_cost = team.module.actual_cost + 16
+
                                 if len(team.module.completed_tasks) == 0:
                                     my_list.add(gui.Label("We have not completed any tasks."))
                                 else:
-                                    for x in team.module.completed_tasks:
-                                        my_list.add(gui.Label(x))
+                                    for task in team.module.completed_tasks:
+                                        my_list.add(gui.Label(x.name))
 
                             if self.inquiry_site.culture[0] == 0:
                                 if randint(0,1) == 0:
@@ -239,11 +244,12 @@ class Inquiry:
                             if not team.module:
                                 my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
+                                team.module.actual_cost = team.module.actual_cost + 56
                                 if len(team.module.completed_tasks) == 0:
                                     my_list.add(gui.Label("We have not completed any tasks."))
                                 else:
-                                    for x in team.module.completed_tasks:
-                                        my_list.add(gui.Label(x))
+                                    for task in team.module.completed_tasks:
+                                        my_list.add(gui.Label(task.name))
 
                                 if team.module.is_on_time:
                                     my_list.add(gui.Label("On schedule for the current task")) 
