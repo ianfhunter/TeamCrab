@@ -182,12 +182,12 @@ to generate html documentation use
   * To start the game press the Select button
   * If no scenario is selected, the default scenario is the first item in the dropdown list.
 5. Feature #14 - End of game report 
-  * Start the game with the sample game file (this happens automatically at the moment).
+  * Start the game with any chosen game file.
   * Wait until the end of the game.
   * A summary of the report will be displayed on the screen, with the full report written to report.json in the game's working directory (the same directory as SESimulator.py)
 6. Feature #5 - Nominal schedule calculator
    * The nominal deadline is the sum of all the efforts estimated for each module, divided by a default developer-period effort value.
-   * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen
+   * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen. It can also be seen in the end game summary so a user can compare their own time to it
    * Each scenario has its own nominal deadline
 7. Feature #3 - Game score calc. 
   * Play a game through until the end-game screen.
