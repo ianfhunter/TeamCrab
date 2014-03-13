@@ -34,13 +34,13 @@ def load_game():
     project.locations.append(new_dehli)
 
     # Create three modules and assign each one to a single location
-    cam_api = Module('Traffic camera API', 600)
+    cam_api = Module('Traffic cam', 600)
     project.locations[0].teams[0].modules.append(cam_api)
 
 
     project.modules.append(cam_api)
 
-    infra = Module('Backend infrastructure', 1200)
+    infra = Module('Backend infra', 1200)
     project.locations[1].teams[0].modules.append(infra)
 
 
