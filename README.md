@@ -154,7 +154,6 @@ to generate html documentation use
     - cost of developer-day at each site
   * However, since one is dependent on the other we chose to make the average configurable and then calculate site vaule as a simple function of the average.
 
-(substitute X and Y obviously)
 2. Feature #9 - Process simulator
   * Simply start the game with the sample game file (this happens automatically at the moment).
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
