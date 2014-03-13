@@ -55,7 +55,7 @@ class Project():
         total_module_effort = 0.0
         for module in self.modules:
             total_module_effort += module.expected_cost
-        total_effort_days = (total_module_effort / config["developer_daily_effort"])  * 1.24
+        total_effort_days = (total_module_effort / config["developer_daily_effort"])  * config["budget_mod"]
         return total_effort_days * config["developer_daily_cost"]
 
     def actual_budget(self):

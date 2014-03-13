@@ -12,6 +12,10 @@ config = {
         "developer_daily_effort" : 4,
         # Cost of a developer per day
         "developer_daily_cost" : 200,
+        # Adjustment to expected budget:
+        "budget_mod" : 1.24,
+        # Penalty to score if project goes over budget
+        "cash_penalty" : 1.25,
         # Real-life seconds per game hour
         "game_speed" : 0.4,
         # Base likelihood value that a site will encounter a "problem" caused by the problem simulator

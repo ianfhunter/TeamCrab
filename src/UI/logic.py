@@ -1,4 +1,6 @@
 import json
+from global_config import config 
+import math
 
 def total_person_hours(project):
     '''
@@ -58,7 +60,7 @@ def generate_report(project):
                 actual = int(module.actual_cost)
                 wall = module.wall_clock_time()
                 productive = module.productive_time_on_task()
-                dollars = int(actual * location.salary)
+                dollars = int(math.ceil(float(actual) /config["developer_daily_effort"] )* config["developer_daily_cost"])
                 effort_table.append([team.name, module.name, team.size, expected, actual, dollars, wall, productive])
                 total_estimated += expected
                 total_actual += actual
