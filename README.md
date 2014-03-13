@@ -188,12 +188,13 @@ to generate html documentation use
   * Your game score is shown.
   * Game score is calculated by "score = remaining_budget + [(6 - number_of_months_behind_schedule) * (yearly_revenue / 12)]".
 8. Feature #8 - Module Completion calc.
-  * This is currently not implemented as specified. 
-  * Instead of taking the base and modifying the required amount by up to +/- 25%, the amount of work done by a team is modified by up to +/- 25% each hour worked. 
-  * This is so it can be seen when a module is falling behind schedule.
-  * This can be seen in the trace - Actual Progress - how much work a team has actually done on the module - compared to Expected Progress - how much work a team should have done with no random element.
+  * When a module is set up, its base cost is taken and modified by up to +/-25% of its base cost.
+  * This is shown in the game trace as the variation between Expected Total Cost and Actual Total Cost.
+  * It is also shown in the end game screen with Estimated Cost and Actual Cost.
+  * NOTE: the Problem Simulator can further modify the Actual Cost resulting in a varation of greater then 25%
 9. Feature #11 - Problem Simulator
   * If a problem occurs, the site at which it occurs will be reported in the trace, as well as the nature of the problem. e.g. Problem occured at Belarus Problem: Module failed to deploy properly
+  * Depending on the nature of the problem, the Actual Cost of the module will be increased by the appropriate amount. 
 10. Feature #7 - Inquiry Interface
   * To open the inquiry interface, click the 'inquiries' button in the bottom right corner.
   * Select a site to give inquiries to by clicking on the text links
