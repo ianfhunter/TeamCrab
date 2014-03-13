@@ -50,7 +50,6 @@ class Inquiry:
     @untestable - Just draws UI elements onscreen, makes no sense to test.
     '''
     def refresh_screen(self):
-        self.app.init(self.contain)
         self.app.paint(self.screen)
         self.app.update(self.screen)
 
@@ -78,6 +77,8 @@ class Inquiry:
                 l.connect(gui.CLICK, self.choose_inquiry_site,site)
                 my_list.add(l)            
                 self.contain.add(l, start_x + 5, start_y + 20 +(20* (itr+1) ))
+            self.app.init(self.contain)
+
 
         info_x = 250 + 5
         font = pygame.font.SysFont("Helvetica", 18)
@@ -148,6 +149,8 @@ class Inquiry:
             if self.firstOptions:
                 #make sure doesnt add next time
                 self.firstOptions = False
+                self.app.init(self.contain)
+
 
 
             if self.inquiry_type:
@@ -199,8 +202,8 @@ class Inquiry:
                                 if len(team.module.completed_tasks) == 0:
                                     my_list.add(gui.Label("We have not completed any tasks."))
                                 else:
-                                    for x in team.module.completed_tasks:
-                                        my_list.add(gui.Label(x))
+                                    for task in team.module.completed_tasks:
+                                        my_list.add(gui.Label(task.name))
 
                         if self.inquiry_type == "video_conf":
                             my_list.add(gui.Label("Completed Tasks:"))
@@ -248,6 +251,8 @@ class Inquiry:
                                     my_list.add(gui.Label("delayed for the current task"))  
 
                     self.contain.add(my_list,info_x,y_offset+50)
+                    self.app.init(self.contain)
+
 
     '''
     Draws UI for inquiry interface.
