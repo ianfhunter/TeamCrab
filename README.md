@@ -156,7 +156,7 @@ to generate html documentation use
   * Each configurable parameter has corressponding comments above it to aid any user changes
 
 2. Feature #9 - Process simulator
-  * Simply start the game with the sample game file (this happens automatically at the moment).
+  * Simply start the game with a chosen scenario from the start screen .
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
   * This output is of the form:
     "Module: Front end - Current Effort Expended: x ph - Expected Total Effort: y ph - Actual Total Effort: x ph (ph = person-hours)"
@@ -164,7 +164,7 @@ to generate html documentation use
         Current Effort Expended = the amount of actual effort in person hrs that a team has expended so far.
         Expected Total Effort = the amount of actual effort estimated for this module to be completed.
         Actual Total Effort = the actual amount of effort that will be required to complete this module, given the +-25% variance.
-  * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "[hours, minutes]".
+  * The time at GMT is also printed on each turn, it is shown as a 24 hour clock in the form "d-m-y h:mm GMT".
   * IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
     * This is caused by the problem simulator feature and is not an error in game logic.
 3. Feature #6 - Status display
@@ -175,9 +175,11 @@ to generate html documentation use
   * Grey represents sites that are inactive - waiting on a dependency or completed. They are not supposed to be doing anything.
   * Changes between colours indicate a change in status information in line with the above statuses.
   * Sites are clickable to view more detailed information about a site.
-  * Clicking the ? in the top-right shows detailed information about what the colours of sites mean
+  * Clicking the ? in the top-right shows detailed information about what the colours of sites mean. you can close the window with the X in the top right corner.
 4. Feature #20 - Default scenarios
   * To choose a provided scenario, launch the game and select one from the dropdown list.
+  * To inspect a chosen scenario, press the Details button to see information about the sites, modules and more.
+  * To start the game press the Select button
   * If no scenario is selected, the default scenario is the first item in the dropdown list.
 5. Feature #14 - End of game report 
   * Start the game with the sample game file (this happens automatically at the moment).
