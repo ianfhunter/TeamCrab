@@ -66,7 +66,7 @@ class Start_Screen:
             self.contain.remove(self.contain.find("scenario_details"))
         
 
-        my_list = gui.List(width=700,height=360,name="scenario_details")
+        my_list = gui.List(width=700,height=275,name="scenario_details")
         my_list.add(gui.Label("Scenario Details:"))
 
         my_list.add(gui.Label("Expected Revenue - $" + str(self.sel_val.expected_revenue())))
@@ -81,7 +81,7 @@ class Start_Screen:
 
 
 
-        self.contain.add(my_list,70,90)
+        self.contain.add(my_list,70,190)
         self.app.init(self.contain)
 
 
@@ -107,32 +107,41 @@ class Start_Screen:
         choices =  scenarios.get_scenarios()
 
 
-        if self.contain.widgets == []:
+        bar_position = 160
+        if self.contain.widgets == []:            
+
             #selection
             sel = gui.Select()
             for itr,label in enumerate(choices):
                 sel.add(label,label)
             sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
+            self.contain.add(sel, 205, bar_position )
 
             #button
             button = gui.Button("Details")
             button.connect(gui.CLICK, self.show_scenario)
-            self.contain.add(button, 570, 60)
-            self.contain.add(sel, 170, 60)
+            self.contain.add(button, 605, bar_position )
 
 
             button = gui.Button("Submit")
             button.connect(gui.CLICK, self.complete_setup)
-            self.contain.add(button, 650, 60)
+            self.contain.add(button, 685, bar_position )
 
             #scrolls
             self.app.init(self.contain)
 
 
+        self.screen.blit(pygame.image.load(self.config["start_background_path"]),(0,0))
+        self.screen.blit(pygame.image.load(self.config["logo_path"]),(380,0))
+        
 
-        font = pygame.font.SysFont("Veranda", 40)
-        label = font.render("Scenario Choice", 1, (0, 0, 0))
-        self.screen.blit(label, (300, 0))
+        font = pygame.font.Font(self.config["bellerose_font"], 40)
+        label = font.render("Software Engineering Simulator", 1, (0, 0, 0))
+        self.screen.blit(label, (200, bar_position -80))
+
+        font = pygame.font.Font(self.config["bellerose_font"], 28)
+        label = font.render("Scenarios:", 1, (0, 0, 0))
+        self.screen.blit(label, (85, bar_position -25))
 
 
         self.app.paint(self.screen)

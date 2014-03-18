@@ -28,7 +28,13 @@ config = {
         "background_colour" : 0xdedede,
         # File paths
         "root_dir" : root_dir,
-        # If changing the icons, keep the same image dimensions. vector images are not supported.
+        
+        # If changing the images, keep the same image dimensions. vector images are not supported.
+        #Start Screen:
+        "start_background_path" : os.path.join(root_dir, "media/start_background.png"),
+        "logo_path" : os.path.join(root_dir, "media/logo.png"),
+        "bellerose_font" :os.path.join(root_dir, "media/Bellerose.ttf"),
+
         "map_path" : os.path.join(root_dir, "media/map.png"),
         "cancel_icon_path" : os.path.join(root_dir,"media/cancel.png"),
         "question_icon_path" : os.path.join(root_dir,"media/question.png"),
