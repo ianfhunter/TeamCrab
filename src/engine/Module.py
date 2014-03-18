@@ -51,31 +51,36 @@ class Module(object):
         as well. If a task has reached its deadline then self.is_on_time will be updated appropriately.
         '''
         self.progress += progress
-        
+
         # If the current task has completed then progress to the next task and place this one on the completed_tasks list
         if self.tasks:
             if self.progress >= (self.overall_task_progress + self.tasks[0].actual_cost):
-                if current_time <= self.tasks[0].deadline:
-                    self.is_on_time = True
+                # if current_time <= self.tasks[0].deadline:
+                #    self.is_on_time = True
                 self.overall_task_progress += self.tasks[0].actual_cost
+                self.is_on_time = self.progress < self.expected_cost  # 649 > 600
                 self.completed_tasks.append(self.tasks[0])
                 self.tasks.pop(0)
 
         # If the current task has reached its deadline then the module is not on time
-        if self.tasks:
-            if current_time >= self.tasks[0].deadline:
-                self.is_on_time = False
-        
+        # if self.sasks:
+            #if current_time >= self.tasks[0].deadline:
+            #    self.is_on_time = False
+
     def calc_deadline(self, start_date, team_size):
         ''' Calculates the deadline for this module and stores it in self.deadline
         This also sets the deadlines for all tasks in this module
         '''
+        hours_per_day = config["developer_daily_effort"] / config["developer_period_effort_value"]
+
         self.start_date = start_date
         self.assigned_team_size = team_size
         work_hours_total = 0
         for task in self.completed_tasks + self.tasks:
-            work_hours_total += task.expected_cost/team_size*config["developer_period_effort_value"]
-            task.deadline = start_date + datetime.timedelta(days=work_hours_total/config["developer_daily_effort"], hours=work_hours_total%config["developer_daily_effort"])
+            work_hours_total += task.expected_cost/team_size*hours_per_day
+            task.deadline = start_date \
+                + datetime.timedelta(days=work_hours_total/hours_per_day,
+                                   hours=work_hours_total%hours_per_day)
         self.deadline = self.tasks[-1].deadline
 
     def wall_clock_time(self):
