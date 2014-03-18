@@ -113,7 +113,6 @@ class Start_Screen:
             #selection
             sel = gui.Select()
             sel.value = scenarios.get_scenarios().keys()[0]
-            print scenarios.get_scenarios()
             for itr,label in enumerate(choices):
                 sel.add(label, label)
             sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
