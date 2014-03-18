@@ -156,42 +156,44 @@ class Inquiry:
             if self.inquiry_type:
                 if self.firstScroll:
                     self.firstScroll = False
-
                     my_list = gui.List(width=480,height=160,name="report_details")
-
                     my_list.add(gui.Label("Inquiry Results:"))
-
                     for team in self.inquiry_site.teams:
                         my_list.add(gui.Label("Team " + team.name))
 
+                        #Are you on Schedule?
                         if self.inquiry_type == "on_schedule":
-                            #if onschedule s = "", else "not "
                             if not team.module:
-                                on_or_off = "We aren't working on anything at the moment" 
+                                my_list.add(gui.Label("We aren't working on anything at the moment" ))
                             else:
                                 if self.inquiry_site.culture[0] == 0:
-                                    on_or_off = "Yes, We are on schedule."
+                                    my_list.add(gui.Label("Yes, We are on schedule."))
                                 else:
                                     if team.module.is_on_time:
-                                        on_or_off = "Yes, We are on schedule."
+                                        my_list.add(gui.Label("Yes, We are on schedule."))
                                     else:
-                                        on_or_off = "No, We are not on schedule."
+                                        my_list.add(gui.Label("No, We are not on schedule."))
 
-                            my_list.add(gui.Label(on_or_off))
+                        #What is your status?
                         if self.inquiry_type == "status":
                             if not team.module:
-                                on_or_off = "We aren't working on anything at the moment" 
+                                my_list.add(gui.Label("We aren't working on anything at the moment" ))
                             else:
                                 team.module.actual_cost = team.module.actual_cost + 1
                                 if self.inquiry_site.culture[0] == 0:
-                                    on_or_off = "We are on schedule."
+                                    my_list.add(gui.Label( "We are on schedule."))
                                 else:
                                     if team.module.is_on_time:
-                                        on_or_off = "We are on schedule."
+                                        my_list.add(gui.Label("We are on schedule."))
                                     else:
-                                        on_or_off = "We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems."
+                                        my_list.add(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
 
-                            my_list.add(gui.Label(on_or_off))
+                                        #Problems
+                                        my_list.add("Problems:")
+                                        for prob in team.module.problems_occured:
+                                            my_list.add(gui.Label(prob))
+
+                        #List your completed tasks.
                         if self.inquiry_type == "list_c_tasks":
                             my_list.add(gui.Label("Completed Tasks:"))
                             for module in team.completed_modules:                                
@@ -208,7 +210,10 @@ class Inquiry:
                                     for task in team.module.completed_tasks:
                                         my_list.add(gui.Label(task.name))
 
+
+                        #Host Video Conference
                         if self.inquiry_type == "video_conf":
+                            #Completed Tasks
                             my_list.add(gui.Label("Completed Tasks:"))
                             for module in team.completed_modules:                                
                                 for task in module.completed_tasks:
@@ -218,13 +223,10 @@ class Inquiry:
                                 my_list.add(gui.Label("We are not working on a module at the moment."))
                             else:
                                 team.module.actual_cost = team.module.actual_cost + 16
-
                                 if len(team.module.completed_tasks) == 0:
                                     my_list.add(gui.Label("We have not completed any tasks."))
-                                else:
-                                    for task in team.module.completed_tasks:
-                                        my_list.add(gui.Label(task.name))
 
+                            #Current Tasks
                             if self.inquiry_site.culture[0] == 0:
                                 if random.randint(0,1) == 0:
                                     #50% chance of continuing to lie
@@ -233,13 +235,22 @@ class Inquiry:
                                     if team.module.is_on_time:
                                         my_list.add(gui.Label("We are on schedule for the current task - " + team.module.name)) 
                                     else:
-                                        my_list.add(gui.Label("We are delayed for the current task - " + team.module.name))  
+                                        my_list.add(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                        #Problems
+                                        my_list.add("Problems:")
+                                        for prob in team.module.problems_occured:
+                                            my_list.add(gui.Label(prob))
+
                             else:
                                 #honest team
                                 if team.module.is_on_time:
                                     my_list.add(gui.Label("We are on schedule for the current task - " + team.module.name)) 
                                 else:
-                                    my_list.add(gui.Label("We are delayed for the current task - " + team.module.name))  
+                                    my_list.add(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                    #Problems
+                                    my_list.add("Problems:")
+                                    for prob in team.module.problems_occured:
+                                        my_list.add(gui.Label(prob))
 
 
                         if self.inquiry_type == "visit":
@@ -261,7 +272,11 @@ class Inquiry:
                                 if team.module.is_on_time:
                                     my_list.add(gui.Label("On schedule for the current task - "  + team.module.name)) 
                                 else:
-                                    my_list.add(gui.Label("delayed for the current task - " + team.module.name))  
+                                    my_list.add(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                    #Problems
+                                    my_list.add("Problems:")
+                                    for prob in team.module.problems_occured:
+                                        my_list.add(gui.Label(prob))
 
                     self.contain.add(my_list,info_x,y_offset+50)
                     self.app.init(self.contain)
