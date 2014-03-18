@@ -27,7 +27,7 @@ class Game:
 
         self.info_legend = False
 
-        self.selected_site = None
+        self.selected_site = self.project_data.home_site
 
         self.engine = engine
 
