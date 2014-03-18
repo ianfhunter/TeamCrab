@@ -49,7 +49,7 @@ class SimulationEngine():
                                 print "Problem occured at", location.name
                                 print "Problem:", problem
                         if not self.cmd_args["P_SUPPRESS"]:
-                            print 'Module:', team.module.name, '- Current Effort Expended:', \
+                            print 'Module:', team.module.name, '(', location.name, ')', '- Current Effort Expended:', \
                                 str(team.module.progress), 'ph - Expected Total Effort:', \
                                 str(team.module.expected_cost), 'ph - Actual Total Effort:', \
                                 str(team.module.actual_cost), 'ph (ph = person-hours)'
