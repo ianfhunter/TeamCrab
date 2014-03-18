@@ -227,13 +227,20 @@ class Inquiry:
 
                             if self.inquiry_site.culture[0] == 0:
                                 if random.randint(0,1) == 0:
-                                    #continue to lie
-                                    my_list.add(gui.Label("We are on schedule for the current task"))
+                                    #50% chance of continuing to lie
+                                    my_list.add(gui.Label("We are on schedule for the current task - " + team.module.name))
                                 else:
                                     if team.module.is_on_time:
-                                        my_list.add(gui.Label("We are on schedule for the current task")) 
+                                        my_list.add(gui.Label("We are on schedule for the current task - " + team.module.name)) 
                                     else:
-                                        my_list.add(gui.Label("We are delayed for the current task"))  
+                                        my_list.add(gui.Label("We are delayed for the current task - " + team.module.name))  
+                            else:
+                                #honest team
+                                if team.module.is_on_time:
+                                    my_list.add(gui.Label("We are on schedule for the current task - " + team.module.name)) 
+                                else:
+                                    my_list.add(gui.Label("We are delayed for the current task - " + team.module.name))  
+
 
                         if self.inquiry_type == "visit":
                             my_list.add(gui.Label("Completed Tasks:"))
@@ -252,9 +259,9 @@ class Inquiry:
                                         my_list.add(gui.Label(task.name))
 
                                 if team.module.is_on_time:
-                                    my_list.add(gui.Label("On schedule for the current task")) 
+                                    my_list.add(gui.Label("On schedule for the current task - "  + team.module.name)) 
                                 else:
-                                    my_list.add(gui.Label("delayed for the current task"))  
+                                    my_list.add(gui.Label("delayed for the current task - " + team.module.name))  
 
                     self.contain.add(my_list,info_x,y_offset+50)
                     self.app.init(self.contain)
