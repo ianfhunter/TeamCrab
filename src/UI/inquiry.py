@@ -5,7 +5,7 @@ from pgu import gui
 from time import sleep
 
 class Inquiry:
-    def __init__(self, screen, config, project):
+    def __init__(self, screen, config, project, site):
         self.config = config
         self.project = project
         self.screen = screen
@@ -14,7 +14,7 @@ class Inquiry:
         self.contain = gui.Container(width=self.config["screenX"],
                                      height=self.config["screenY"])
     
-        self.inquiry_site = None
+        self.inquiry_site = site
         self.inquiry_type = None
 
         self.firstDraw = True
@@ -63,37 +63,20 @@ class Inquiry:
         '''
         pygame.draw.rect(self.screen, 0xFAFCA4,
                             (100,20,650,410))
-        pygame.draw.line(self.screen, 0x000000, (250,20), (250,430))
 
-        start_x = 100
-        start_y = 20
+        info_x = 150
+        font = pygame.font.SysFont("Helvetica", 22)
+        smallfont = pygame.font.SysFont("Helvetica", 18)
 
-        if self.firstDraw:
-            self.firstDraw = False
-            my_list = gui.List(width=175, height=395)
-            s = ""
-            for itr,site in enumerate(self.project.locations):
-                l = gui.Label(site.name)
-                l.connect(gui.CLICK, self.choose_inquiry_site,site)
-                my_list.add(l)            
-                self.contain.add(l, start_x + 5, start_y + 20 +(20* (itr+1) ))
-            self.app.init(self.contain)
-
-
-        info_x = 250 + 5
-        font = pygame.font.SysFont("Helvetica", 18)
-
-        label = font.render( "Inquiries", 1, (0, 0, 0))
-        self.screen.blit(label, (info_x + 150, 20))
-        label = font.render( "Press Enter to close this window", 1, (0, 0, 0))
+        label = smallfont.render( "Press Enter to close this window", 1, (0, 0, 0))
         self.screen.blit(label, (info_x, 400))
 
         if self.inquiry_site:
             y_offset = 50
             font = pygame.font.SysFont("Helvetica", 24)
-            label = font.render(self.inquiry_site.name
+            label = font.render("Inquiries - {}".format(self.inquiry_site.name)
                      , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x, y_offset))
+            self.screen.blit(label, (350, y_offset))
 
             y_offset += 30
             if self.firstOptions:
@@ -104,7 +87,7 @@ class Inquiry:
             font = pygame.font.SysFont("Helvetica", 16)
             label = font.render("0 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -114,7 +97,7 @@ class Inquiry:
 
             label = font.render("0.1 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -124,7 +107,7 @@ class Inquiry:
 
             label = font.render("0.5 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -134,7 +117,7 @@ class Inquiry:
 
             label = font.render("2 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -144,7 +127,7 @@ class Inquiry:
 
             label = font.render("7 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             if self.firstOptions:
                 #make sure doesnt add next time
@@ -156,7 +139,7 @@ class Inquiry:
             if self.inquiry_type:
                 if self.firstScroll:
                     self.firstScroll = False
-                    my_list = gui.List(width=480,height=160,name="report_details")
+                    my_list = gui.List(width=560,height=200,name="report_details")
                     my_list.add(gui.Label("Inquiry Results:"))
                     for team in self.inquiry_site.teams:
                         my_list.add(gui.Label("Team " + team.name))
@@ -243,14 +226,17 @@ class Inquiry:
 
                             else:
                                 #honest team
-                                if team.module.is_on_time:
-                                    my_list.add(gui.Label("We are on schedule for the current task - " + team.module.name)) 
+                                if not team.module:
+                                    my_list.add(gui.Label("We are not working on a module at the moment."))
                                 else:
-                                    my_list.add(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
-                                    #Problems
-                                    my_list.add("Problems:")
-                                    for prob in team.module.problems_occured:
-                                        my_list.add(gui.Label(prob))
+                                    if team.module.is_on_time:
+                                        my_list.add(gui.Label("We are on schedule for the current task - " + team.module.name)) 
+                                    else:
+                                        my_list.add(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                        #Problems
+                                        my_list.add("Problems:")
+                                        for prob in team.module.problems_occured:
+                                            my_list.add(gui.Label(prob))
 
 
                         if self.inquiry_type == "visit":
@@ -278,7 +264,7 @@ class Inquiry:
                                     for prob in team.module.problems_occured:
                                         my_list.add(gui.Label(prob))
 
-                    self.contain.add(my_list,info_x,y_offset+50)
+                    self.contain.add(my_list,info_x,y_offset+30)
                     self.app.init(self.contain)
 
 

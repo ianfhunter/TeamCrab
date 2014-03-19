@@ -77,8 +77,10 @@ class Game:
         @untestable - just draws UI so not testable.
         '''
         #toggle window
+        site = self.selected_site
+
         self.inquired = not self.inquired
-        self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data)
+        self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data, site)
         self.engine.pause()
 
         while(self.inquired):
@@ -343,10 +345,10 @@ class Game:
         '''
         if self.buttonsNeedDrawing:
             # TODO: Real implementation for button action, currently dummy action.
-            button = gui.Button("Inquiries")
+            button = gui.Button("Make inquiry!")
             button.connect(gui.CLICK, self.inquire)
 
-            self.contain.add(button, self.config["menuX"], self.config["menuY"])
+            self.contain.add(button, 45, self.config["menuY"] - 190)
             self.app.init(self.contain)
 
     def refresh_screen(self):
