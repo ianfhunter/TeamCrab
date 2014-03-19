@@ -66,7 +66,7 @@ class Module(object):
             if current_time >= self.tasks[0].deadline:
                 self.is_on_time = False
         
-    def calc_deadline(self, start_date, team_size):
+    def calc_deadline(self, start_date, team_size, work_day_start):
         ''' Calculates the deadline for this module and stores it in self.deadline
         This also sets the deadlines for all tasks in this module
         '''
@@ -79,7 +79,8 @@ class Module(object):
             work_hours_total += task.expected_cost/team_size*config["developer_period_effort_value"]
             work_days_total = work_hours_total/config["developer_daily_effort"]
             days_total = work_days_total + (work_days_total/5)*2
-            task.deadline = start_date + datetime.timedelta(days=days_total, hours=work_hours_total%config["developer_daily_effort"])
+            task.deadline = start_date + datetime.timedelta(days=days_total, \
+                hours=work_day_start+(work_hours_total%config["developer_daily_effort"]))
         self.deadline = self.tasks[-1].deadline
 
     def wall_clock_time(self):

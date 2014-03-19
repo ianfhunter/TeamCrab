@@ -18,7 +18,7 @@ class TestTask(unittest.TestCase):
         current_time = datetime.datetime(2014,1,1,0,0,0)
         team = Team('test_team', 25, 10)
         module = Module('test_module', 800)
-        module.calc_deadline(current_time, 10)
+        module.calc_deadline(current_time, 10, 0)
         team.module = module
 
         while team.module and not team.module.completed:
