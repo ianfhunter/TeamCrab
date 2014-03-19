@@ -74,9 +74,11 @@ class Inquiry:
         if self.inquiry_site:
             y_offset = 50
             font = pygame.font.SysFont("Helvetica", 24)
-            label = font.render("Inquiries - {}".format(self.inquiry_site.name)
+            bellerose_font = pygame.font.Font(self.config["bellerose_font"], 40)
+
+            label = bellerose_font.render("Inquiries - {}".format(self.inquiry_site.name)
                      , 1, (0, 0, 0))
-            self.screen.blit(label, (350, y_offset))
+            self.screen.blit(label, (300, y_offset - 50))
 
             y_offset += 30
             if self.firstOptions:
