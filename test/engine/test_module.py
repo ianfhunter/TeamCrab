@@ -57,7 +57,7 @@ class TestModule(unittest.TestCase):
     def test_progress_module(self):
         module = Module('test_module', 600)
         current_time = datetime.datetime(2014,1,1,0,0,0)
-        module.calc_deadline(current_time, 10)
+        module.calc_deadline(current_time, 10, 0)
 
         for i in range(60):
             current_time += datetime.timedelta(hours=1)
@@ -68,13 +68,13 @@ class TestModule(unittest.TestCase):
     def test_calc_deadline(self):
         module = Module('test_module', 600)
         start_time = datetime.datetime(2014,1,1,0,0,0)
-        deadline = datetime.datetime(2014,1,16,0,0,0)
+        deadline = datetime.datetime(2014,1,22,0,0,0)
 
-        module.calc_deadline(start_time, 10)
+        module.calc_deadline(start_time, 10, 0)
         print module.deadline
         self.assertTrue(module.deadline == deadline)
 
-        module.calc_deadline(start_time, 600)
+        module.calc_deadline(start_time, 600, 0)
         self.assertTrue(module.deadline == start_time)
 
     def test_wall_clock_time(self):

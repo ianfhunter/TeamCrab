@@ -23,7 +23,7 @@ class Project():
                 for team in location.teams:
                     last_deadline = self.start_time
                     for module in team.modules:
-                        module.calc_deadline(last_deadline, team.size)
+                        module.calc_deadline(last_deadline, team.size, 9+location.time_zone)
                         last_deadline = module.deadline
                         print last_deadline
                     if last_deadline > project_deadline:
