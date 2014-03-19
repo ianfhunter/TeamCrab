@@ -261,7 +261,7 @@ class Inquiry:
                                     inquiry_result.append(gui.Label("We have not completed any tasks."))
                                 else:
                                     for task in team.module.completed_tasks:
-                                        inquiry_result.append(gui.Label(module.name + " - " + task.name))
+                                        inquiry_result.append(gui.Label(team.module.name + " - " + task.name))
 
                                 if team.module.is_on_time:
                                     inquiry_result.append(gui.Label("On schedule for the current task - "  + team.module.name)) 
