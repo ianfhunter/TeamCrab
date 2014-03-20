@@ -17,11 +17,11 @@ config = {
         # Penalty to score if project goes over budget
         "cash_penalty" : 1.25,
         # Real-life seconds per game hour
-        "game_speed" : 0.4,
+        "game_speed" : 0.1,
         # Base likelihood value that a site will encounter a "problem" caused by the problem simulator
         # Used with global distance to adjust problem rates. 0.01 = 1%
         # Note: global distances influences the actual problem rate in conjunction with this rate
-        "fail_rate" : 0.01,
+        "fail_rate" : 0.0,
         # UI colours
         "site_colour" : 0x2C8718,
         "bar_colour" : 0x9b9b9b,

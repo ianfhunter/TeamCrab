@@ -6,15 +6,9 @@ def total_person_hours(project):
     '''
     Calculates the total estimated and actual person hours of effort expended in a project `project'.
     '''
-    total_estimated = 0
-    total_actual = 0
-    for location in project.locations:
-        for team in location.teams:
-            for module in team.completed_modules:
-                estimated_hours = module.expected_cost / team.size * config["developer_period_effort_value"]
-                total_estimated += estimated_hours    
-                total_actual += module.hours_taken
-    return (total_estimated, total_actual)
+    total_estimated = project.expected_budget() / config["developer_hourly_cost"]
+    total_actual = project.actual_budget() / config["developer_hourly_cost"]
+    return (int(total_estimated), int(total_actual))
 
 def report_table_line(team, module, size, estimate, actual, cost, wall, productive):
     '''
@@ -45,12 +39,12 @@ def generate_report(project):
     report["actual_budget"] = project.actual_budget()
     report["expected_revenue"] = project.expected_revenue()
     report["actual_revenue"] = project.actual_revenue()
-    report["endgame_cash"] = project.cash + project.actual_revenue()
+    report["endgame_cash"] = project.game_score()
 
     # Generate table to compare estimated/actual effort broken down by module
     effort_table = []
-    effort_table.append(['Team', 'Module', 'Team', 'Estimated cost', 'Actual cost', 'Module', 'Wall clock', 'Productive'])
-    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',      '(man hrs)',   'Cost $', 'time (hrs)', 'time (hrs)'])
+    effort_table.append(['Team', 'Module', 'Team', 'Expected Effort', 'Actual Effort', 'Module', 'Wall clock', 'Staff Time'])
+    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',       '(man hrs)',     'Cost $', 'time (hrs)', 'time (hrs)'])
     total_estimated = 0
     total_actual = 0
     for location in project.locations:
@@ -59,8 +53,8 @@ def generate_report(project):
                 expected = int(module.expected_cost)
                 actual = int(module.actual_cost)
                 wall = module.wall_clock_time()
-                productive = module.productive_time_on_task()
-                dollars = int(actual * config["developer_hourly_cost"])
+                productive = module.productive_time_on_task() * team.size
+                dollars = int(productive * config["developer_hourly_cost"] )
                 effort_table.append([team.name, module.name, team.size, expected, actual, dollars, wall, productive])
                 total_estimated += expected
                 total_actual += actual
