@@ -34,28 +34,29 @@ class SimulationEngine():
         9:00 for a number of hours based on "developer_daily_effort".
         '''
         for location in self.project.locations:
-            local_time = (self.gmt_time.hour + location.time_zone) % 24
+            local_time = self.gmt_time + datetime.timedelta(hours=location.time_zone)
             for team in location.teams:
                 if team.module:
-                    team.module.total_hours += 1     
-                if local_time >= 9 and local_time <= 9 + config["developer_daily_effort"]:
-                    self.project.cash -= config["developer_hourly_cost"] * team.size
-                    self.project.budget += config["developer_hourly_cost"] * team.size
-                    team.calc_progress(self.gmt_time)
-                    if team.module:
-                        if location.calc_fail(self.project.home_site):
-                            problem = team.module.add_problem()
-                            if problem and not self.cmd_args["P_SUPPRESS"]:
-                                print "Problem occured at", location.name
-                                print "Problem:", problem
-                        if not self.cmd_args["P_SUPPRESS"]:
-                            print 'Module:', team.module.name, '- Current Effort Expended:', \
-                                str(team.module.progress), 'ph - Expected Total Effort:', \
-                                str(team.module.expected_cost), 'ph - Actual Total Effort:', \
-                                str(team.module.actual_cost), 'ph (ph = person-hours)'
-                    else:
-                        if not self.cmd_args["P_SUPPRESS"]:
-                            print 'Warning: Team ' + team.name + ' has no module assigned.'
+                    team.module.total_hours += 1
+                if local_time.weekday() < 5:     
+                    if local_time.hour >= 9 and local_time.hour <= 9 + config["developer_daily_effort"]:
+                        self.project.cash -= config["developer_hourly_cost"] * team.size
+                        self.project.budget += config["developer_hourly_cost"] * team.size
+                        team.calc_progress(self.gmt_time)
+                        if team.module:
+                            if location.calc_fail(self.project.home_site):
+                                problem = team.module.add_problem()
+                                if problem and not self.cmd_args["P_SUPPRESS"]:
+                                    print "Problem occured at", location.name
+                                    print "Problem:", problem
+                            if not self.cmd_args["P_SUPPRESS"]:
+                                print 'Module:', team.module.name, ' (',  location.name ,')', '- Current Effort Expended:', \
+                                    str(team.module.progress), 'ph - Expected Total Effort:', \
+                                    str(team.module.expected_cost), 'ph - Actual Total Effort:', \
+                                    str(team.module.actual_cost), 'ph (ph = person-hours)'
+                        else:
+                            if not self.cmd_args["P_SUPPRESS"]:
+                                print 'Warning: Team ' + team.name + ' has no module assigned.'
 
 
     def progress_time(self):
@@ -84,6 +85,7 @@ class SimulationEngine():
         self.project = proj
 
         self.project.calc_nominal_schedule()
+        self.project.cash = self.project.expected_budget()
 
         self.game_obj = game
 

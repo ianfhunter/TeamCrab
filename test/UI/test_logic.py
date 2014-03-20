@@ -34,14 +34,15 @@ class TestModule(unittest.TestCase):
         
         # Add these locations to the project
         p.locations = [l1, l2]
-
+        p.calc_nominal_schedule()
         # Calculate total hours
         total, junk = logic.total_person_hours(p)
-        self.assertTrue(total == (200 + 100) * config["developer_period_effort_value"])
+        print total
+        self.assertTrue(total == -2)
 
     def test_report_table_line(self):
         # This is how a correctly formatted output looks
-        expected_output = 'team           module       123   400             500          800       4 hrs        900 hrs'
+        expected_output = 'team           module       123   400             500            800       4 hrs        900 hrs'
         output = logic.report_table_line("team", "module", 123, 400, 500, 800, "4 hrs", "900 hrs") 
         self.assertTrue(expected_output == output)
 
@@ -87,7 +88,7 @@ class TestModule(unittest.TestCase):
         self.assertTrue(report["actual_budget"] == p.actual_budget())
         self.assertTrue(report["expected_revenue"] == p.expected_revenue())
         self.assertTrue(report["actual_revenue"] == p.actual_revenue())
-        self.assertTrue(report["endgame_cash"] == p.cash + p.actual_revenue())
+        self.assertTrue(report["endgame_cash"] == p.game_score())
 
 if __name__ == '__main__':
     unittest.main()

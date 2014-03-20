@@ -159,7 +159,7 @@ to generate html documentation use
   * Simply start the game with a chosen scenario from the start screen .
   * Output from the process simulator will automatically be displayed in the console every game hour as each task progresses
   * This output is of the form:
-    "Module: Front end - Current Effort Expended: x ph - Expected Total Effort: y ph - Actual Total Effort: x ph (ph = person-hours)"
+    "Module: Front end (Module Location) - Current Effort Expended: x ph - Expected Total Effort: y ph - Actual Total Effort: x ph (ph = person-hours)"
         where x, y and z are numerical values in Person Hours.
         Current Effort Expended = the amount of actual effort in person hrs that a team has expended so far.
         Expected Total Effort = the amount of actual effort estimated for this module to be completed.
@@ -185,7 +185,7 @@ to generate html documentation use
 5. Feature #14 - End of game report 
   * Start the game with any chosen game file.
   * Wait until the end of the game.
-  * A summary of the report will be displayed on the screen, with the full report written to report.json in the game's working directory (the same directory as SESimulator.py)
+  * A summary of the report will be displayed on the screen, with the full report written to report.txt in the game's working directory (the same directory as SESimulator.py)
 6. Feature #5 - Nominal schedule calculator
    * The nominal deadline is the sum of all the efforts estimated for each module, divided by a default developer-period effort value.
    * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen. It can also be seen in the end game summary so a user can compare their own time to it
@@ -226,7 +226,7 @@ The progress of each module currently being worked on is printed every turn that
 "working". Teams are considered to be working from 9:00 to 17:00 local time. An example of the output
 of the progress of a module is:
 
-"Module: Sample Module - Current Effort Expended: 60.0 ph - Expected Total Effort: 800 ph - Actual Total Effort: 968.0 ph (ph = person-hours)"
+"Module: Sample Module ( Module Location ) - Current Effort Expended: 60.0 ph - Expected Total Effort: 800 ph - Actual Total Effort: 968.0 ph (ph = person-hours)"
 
 First the name of the module is printed. After this, there are 3 values related to the progress of the
 module.

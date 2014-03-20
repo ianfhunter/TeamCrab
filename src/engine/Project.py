@@ -18,17 +18,16 @@ class Project():
 
     def calc_nominal_schedule(self):
         if self.development_method == 'Agile':
-            max_team_cost = 0
+            project_deadline = self.start_time
             for location in self.locations:
                 for team in location.teams:
-                    team_cost = 0
+                    last_deadline = self.start_time
                     for module in team.modules:
-                        module.calc_deadline(self.start_time, team.size)
-                        team_cost += module.expected_cost/team.size
-                    if team_cost > max_team_cost:
-                        max_team_cost = team_cost
-            nominal_schedule = max_team_cost * config["developer_period_effort_value"]
-            self.delivery_date = self.start_time + datetime.timedelta(days=nominal_schedule/config["developer_daily_effort"])
+                        module.calc_deadline(last_deadline, team.size, 9-location.time_zone)
+                        last_deadline = module.deadline
+                    if last_deadline > project_deadline:
+                        project_deadline = last_deadline
+            self.delivery_date = project_deadline
 
     def days_behind_schedule(self):
         # Returns a number of days late, divide by 30 to get number of months late
@@ -53,11 +52,18 @@ class Project():
 
         @untestable -  This relies on a value from the global config which is likely to change often so it cannot be veried properly.
         '''
-        total_module_effort = 0.0
-        for module in self.modules:
-            total_module_effort += module.expected_cost
-        total_effort_hours = total_module_effort *config["developer_period_effort_value"]  * config["budget_mod"]
-        return total_effort_hours * config["developer_hourly_cost"]
+        days = 0
+        start = self.start_time
+        while start <= self.delivery_date:
+            if start.weekday() < 5:    
+                days += 1
+            start += datetime.timedelta(days=1)
+        hours = (days*config["developer_daily_effort"]) +self.delivery_date.hour - 9
+        staff = 0
+        for location in self.locations:
+            for team in location.teams:
+                staff += team.size
+        return hours * staff * config["developer_hourly_cost"] * config["budget_mod"]
 
     def actual_budget(self):
         return self.budget

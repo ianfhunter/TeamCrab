@@ -27,7 +27,7 @@ class Game:
 
         self.info_legend = False
 
-        self.selected_site = None
+        self.selected_site = self.project_data.home_site
 
         self.engine = engine
 
@@ -77,8 +77,10 @@ class Game:
         @untestable - just draws UI so not testable.
         '''
         #toggle window
+        site = self.selected_site
+
         self.inquired = not self.inquired
-        self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data)
+        self.inquiry = inquiry.Inquiry(self.screen, self.config, self.project_data, site)
         self.engine.pause()
 
         while(self.inquired):
@@ -217,13 +219,13 @@ class Game:
             label = font.render("$"+str(self.project_data.cash), 1, (14, 106, 0))
         else:
             label = font.render("-$"+str(self.project_data.cash*-1), 1, (255, 0, 0))
-        self.screen.blit(label, (20, label_pos))
+        self.screen.blit(label, (10, label_pos))
         cur_time =self.project_data.current_time
-        label = font.render(cur_time.strftime("%d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
+        label = font.render(cur_time.strftime("%a %d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
         self.screen.blit(label, (100, label_pos))
         label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
                              1, (38, 0, 255))
-        self.screen.blit(label, (320, label_pos))
+        self.screen.blit(label, (350, label_pos))
 
     def draw_sites(self):
         '''
@@ -343,10 +345,10 @@ class Game:
         '''
         if self.buttonsNeedDrawing:
             # TODO: Real implementation for button action, currently dummy action.
-            button = gui.Button("Inquiries")
+            button = gui.Button("Make inquiry!")
             button.connect(gui.CLICK, self.inquire)
 
-            self.contain.add(button, self.config["menuX"], self.config["menuY"])
+            self.contain.add(button, 45, self.config["menuY"] - 190)
             self.app.init(self.contain)
 
     def refresh_screen(self):

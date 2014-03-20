@@ -58,7 +58,7 @@ class EndGame:
 
         # Person hours
         estimated_hours, actual_hours = logic.total_person_hours(self.project)
-        label = font.render("Total person hours used: " + str(actual_hours) +
+        label = font.render("Total Staff Time: " + str(actual_hours) +
             " (estimate " + str(estimated_hours) + ")", 1, (0, 0, 0))
         self.screen.blit(label, (80, 140))
 

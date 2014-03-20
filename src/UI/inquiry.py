@@ -5,7 +5,7 @@ from pgu import gui
 from time import sleep
 
 class Inquiry:
-    def __init__(self, screen, config, project):
+    def __init__(self, screen, config, project, site):
         self.config = config
         self.project = project
         self.screen = screen
@@ -14,7 +14,7 @@ class Inquiry:
         self.contain = gui.Container(width=self.config["screenX"],
                                      height=self.config["screenY"])
     
-        self.inquiry_site = None
+        self.inquiry_site = site
         self.inquiry_type = None
 
         self.firstDraw = True
@@ -63,37 +63,22 @@ class Inquiry:
         '''
         pygame.draw.rect(self.screen, 0xFAFCA4,
                             (100,20,650,410))
-        pygame.draw.line(self.screen, 0x000000, (250,20), (250,430))
 
-        start_x = 100
-        start_y = 20
+        info_x = 150
+        font = pygame.font.SysFont("Helvetica", 22)
+        smallfont = pygame.font.SysFont("Helvetica", 18)
 
-        if self.firstDraw:
-            self.firstDraw = False
-            my_list = gui.List(width=175, height=395)
-            s = ""
-            for itr,site in enumerate(self.project.locations):
-                l = gui.Label(site.name)
-                l.connect(gui.CLICK, self.choose_inquiry_site,site)
-                my_list.add(l)            
-                self.contain.add(l, start_x + 5, start_y + 20 +(20* (itr+1) ))
-            self.app.init(self.contain)
-
-
-        info_x = 250 + 5
-        font = pygame.font.SysFont("Helvetica", 18)
-
-        label = font.render( "Inquiries", 1, (0, 0, 0))
-        self.screen.blit(label, (info_x + 150, 20))
-        label = font.render( "Press Enter to close this window", 1, (0, 0, 0))
+        label = smallfont.render( "Press Enter to close this window", 1, (0, 0, 0))
         self.screen.blit(label, (info_x, 400))
 
         if self.inquiry_site:
             y_offset = 50
             font = pygame.font.SysFont("Helvetica", 24)
-            label = font.render(self.inquiry_site.name
+            bellerose_font = pygame.font.Font(self.config["bellerose_font"], 40)
+
+            label = bellerose_font.render("Inquiries - {}".format(self.inquiry_site.name)
                      , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x, y_offset))
+            self.screen.blit(label, (300, y_offset - 50))
 
             y_offset += 30
             if self.firstOptions:
@@ -104,7 +89,7 @@ class Inquiry:
             font = pygame.font.SysFont("Helvetica", 16)
             label = font.render("0 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -114,7 +99,7 @@ class Inquiry:
 
             label = font.render("0.1 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -124,7 +109,7 @@ class Inquiry:
 
             label = font.render("0.5 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -134,7 +119,7 @@ class Inquiry:
 
             label = font.render("2 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             y_offset += 20
             if self.firstOptions:
@@ -144,7 +129,7 @@ class Inquiry:
 
             label = font.render("7 Working Days"
                     , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365, y_offset))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             if self.firstOptions:
                 #make sure doesnt add next time
@@ -152,111 +137,148 @@ class Inquiry:
                 self.app.init(self.contain)
 
 
-
+            hel_font = pygame.font.SysFont("Helvetica", 12)
             if self.inquiry_type:
+                inquiry_result = []
                 if self.firstScroll:
                     self.firstScroll = False
-
-                    my_list = gui.List(width=480,height=160,name="report_details")
-
-                    my_list.add(gui.Label("Inquiry Results:"))
-
+                    my_list = gui.List(width=560,height=200,name="report_details")
+                    inquiry_result.append(gui.Label("Inquiry Results:"))
                     for team in self.inquiry_site.teams:
-                        my_list.add(gui.Label("Team " + team.name))
+                        inquiry_result.append(gui.Label("Team " + team.name))
 
+                        #Are you on Schedule?
                         if self.inquiry_type == "on_schedule":
-                            #if onschedule s = "", else "not "
                             if not team.module:
-                                on_or_off = "We aren't working on anything at the moment" 
+                                inquiry_result.append(gui.Label("We aren't working on anything at the moment" ))
                             else:
                                 if self.inquiry_site.culture[0] == 0:
-                                    on_or_off = "Yes, We are on schedule."
+                                    inquiry_result.append(gui.Label("Yes, We are on schedule."))
                                 else:
                                     if team.module.is_on_time:
-                                        on_or_off = "Yes, We are on schedule."
+                                        inquiry_result.append(gui.Label("Yes, We are on schedule."))
                                     else:
-                                        on_or_off = "No, We are not on schedule."
+                                        inquiry_result.append(gui.Label("No, We are not on schedule."))
 
-                            my_list.add(gui.Label(on_or_off))
+
+                        #What is your status?
                         if self.inquiry_type == "status":
                             if not team.module:
-                                on_or_off = "We aren't working on anything at the moment" 
+                                inquiry_result.append(gui.Label("We aren't working on anything at the moment" ))
                             else:
                                 team.module.actual_cost = team.module.actual_cost + 1
                                 if self.inquiry_site.culture[0] == 0:
-                                    on_or_off = "We are on schedule."
+                                    inquiry_result.append(gui.Label( "We are on schedule."))
                                 else:
                                     if team.module.is_on_time:
-                                        on_or_off = "We are on schedule."
+                                        inquiry_result.append(gui.Label("We are on schedule."))
                                     else:
-                                        on_or_off = "We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems."
+                                        inquiry_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
 
-                            my_list.add(gui.Label(on_or_off))
+                                        # #Problems
+                                        # inquiry_result.append(gui.Label("Problems:"))
+                                        # for prob in team.module.problems_occured:
+                                        #     inquiry_result.append(gui.Label(prob))
+
+                        #List your completed tasks.
                         if self.inquiry_type == "list_c_tasks":
-                            my_list.add(gui.Label("Completed Tasks:"))
+                            inquiry_result.append(gui.Label("Completed Tasks:"))
+                            
+                            #Completed Modules.
                             for module in team.completed_modules:                                
                                 for task in module.completed_tasks:
-                                    my_list.add(gui.Label(module.name + " - " + task.name))
+                                    inquiry_result.append(gui.Label(module.name + " - " + task.name))
+
+                            #Completed Tasks of the Current Module
                             if not team.module:
-                                my_list.add(gui.Label("We are not working on a module at the moment."))
+                                inquiry_result.append(gui.Label("We are not working on a module at the moment."))
                             else:
                                 team.module.actual_cost = team.module.actual_cost + 4
 
                                 if len(team.module.completed_tasks) == 0:
-                                    my_list.add(gui.Label("We have not completed any tasks."))
+                                    inquiry_result.append(gui.Label("We have not completed any tasks."))
                                 else:
                                     for task in team.module.completed_tasks:
-                                        my_list.add(gui.Label(task.name))
+                                        inquiry_result.append(gui.Label(team.module.name + " - " + task.name))
 
+
+                        #Host Video Conference
                         if self.inquiry_type == "video_conf":
-                            my_list.add(gui.Label("Completed Tasks:"))
+                            #Completed Modules
+                            inquiry_result.append(gui.Label("Completed Tasks:"))
                             for module in team.completed_modules:                                
                                 for task in module.completed_tasks:
-                                    my_list.add(gui.Label(module.name + " - " + task.name))
+                                    inquiry_result.append(gui.Label(module.name + " - " + task.name))
 
+                            #Completed Tasks of the Current Module
                             if not team.module:
-                                my_list.add(gui.Label("We are not working on a module at the moment."))
+                                inquiry_result.append(gui.Label("We are not working on a module at the moment."))
                             else:
                                 team.module.actual_cost = team.module.actual_cost + 16
-
                                 if len(team.module.completed_tasks) == 0:
-                                    my_list.add(gui.Label("We have not completed any tasks."))
+                                    inquiry_result.append(gui.Label("We have not completed any tasks."))
                                 else:
                                     for task in team.module.completed_tasks:
-                                        my_list.add(gui.Label(task.name))
+                                        inquiry_result.append(gui.Label(team.module.name + " - " + task.name))
 
-                            if self.inquiry_site.culture[0] == 0:
-                                if random.randint(0,1) == 0:
-                                    #continue to lie
-                                    my_list.add(gui.Label("We are on schedule for the current task"))
+
+                                #Current Task & If we are on schedule for it.
+                                #Dishonest Culture
+                                if self.inquiry_site.culture[0] == 0:
+                                    if random.randint(0,1) == 0:
+                                        #50% chance of continuing to lie
+                                        inquiry_result.append(gui.Label("We are on schedule for the current task: " + team.module.name + " - " + team.module.tasks[0].name))
+                                    else:
+                                        if team.module.is_on_time:
+                                            inquiry_result.appendd(gui.Label("We are on schedule for the current task : " + team.module.name + " - " + team.module.tasks[0].name)) 
+                                        else:
+                                            inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                            #Problems
+                                            inquiry_result.append(gui.Label("Problems:"))
+                                            for prob in team.module.problems_occured:
+                                                inquiry_result.append(gui.Label(prob))
+                                #Honest Culture
                                 else:
                                     if team.module.is_on_time:
-                                        my_list.add(gui.Label("We are on schedule for the current task")) 
+                                        inquiry_result.append(gui.Label("We are on schedule for the current task: " + team.module.name + " - " + team.module.tasks[0].name)) 
                                     else:
-                                        my_list.add(gui.Label("We are delayed for the current task"))  
+                                        inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                        #Problems
+                                        inquiry_result.append(gui.Label("Problems:"))
+                                        for prob in team.module.problems_occured:
+                                            inquiry_result.append(gui.Label(prob))
+
 
                         if self.inquiry_type == "visit":
-                            my_list.add(gui.Label("Completed Tasks:"))
+                            inquiry_result.append(gui.Label("Completed Tasks:"))
                             for module in team.completed_modules:                                
                                 for task in module.completed_tasks:
-                                    my_list.add(gui.Label(module.name + " - " + task.name))
+                                    inquiry_result.append(gui.Label(module.name + " - " + task.name))
 
                             if not team.module:
-                                my_list.add(gui.Label("We are not working on a module at the moment."))
+                                inquiry_result.append(gui.Label("We are not working on a module at the moment."))
                             else:
                                 team.module.actual_cost = team.module.actual_cost + 56
                                 if len(team.module.completed_tasks) == 0:
-                                    my_list.add(gui.Label("We have not completed any tasks."))
+                                    inquiry_result.append(gui.Label("We have not completed any tasks."))
                                 else:
                                     for task in team.module.completed_tasks:
-                                        my_list.add(gui.Label(task.name))
+                                        inquiry_result.append(gui.Label(team.module.name + " - " + task.name))
 
                                 if team.module.is_on_time:
-                                    my_list.add(gui.Label("On schedule for the current task")) 
+                                    inquiry_result.append(gui.Label("On schedule for the current task - "  + team.module.name)) 
                                 else:
-                                    my_list.add(gui.Label("delayed for the current task"))  
+                                    inquiry_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                    #Problems
+                                    inquiry_result.append(gui.Label("Problems:"))
+                                    for prob in team.module.problems_occured:
+                                        inquiry_result.append(gui.Label(prob))
 
-                    self.contain.add(my_list,info_x,y_offset+50)
+                    for label in inquiry_result:
+                        label.set_font(hel_font)
+                        my_list.add(label)
+
+                    self.contain.add(my_list,info_x,y_offset+30)
                     self.app.init(self.contain)
 
 
