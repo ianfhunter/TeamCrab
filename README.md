@@ -185,7 +185,7 @@ to generate html documentation use
 5. Feature #14 - End of game report 
   * Start the game with any chosen game file.
   * Wait until the end of the game.
-  * A summary of the report will be displayed on the screen, with the full report written to report.json in the game's working directory (the same directory as SESimulator.py)
+  * A summary of the report will be displayed on the screen, with the full report written to report.txt in the game's working directory (the same directory as SESimulator.py)
 6. Feature #5 - Nominal schedule calculator
    * The nominal deadline is the sum of all the efforts estimated for each module, divided by a default developer-period effort value.
    * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen. It can also be seen in the end game summary so a user can compare their own time to it

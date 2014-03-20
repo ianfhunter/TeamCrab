@@ -37,7 +37,7 @@ class TestModule(unittest.TestCase):
 
         # Calculate total hours
         total, junk = logic.total_person_hours(p)
-        self.assertTrue(total == (200 + 100) * config["developer_period_effort_value"])
+        self.assertTrue(total == 0)
 
     def test_report_table_line(self):
         # This is how a correctly formatted output looks
@@ -87,7 +87,7 @@ class TestModule(unittest.TestCase):
         self.assertTrue(report["actual_budget"] == p.actual_budget())
         self.assertTrue(report["expected_revenue"] == p.expected_revenue())
         self.assertTrue(report["actual_revenue"] == p.actual_revenue())
-        self.assertTrue(report["endgame_cash"] == p.cash + p.actual_revenue())
+        self.assertTrue(report["endgame_cash"] == p.game_score())
 
 if __name__ == '__main__':
     unittest.main()

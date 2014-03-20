@@ -1,4 +1,6 @@
+import csv
 import json
+import copy
 from global_config import config 
 import math
 
@@ -43,8 +45,8 @@ def generate_report(project):
 
     # Generate table to compare estimated/actual effort broken down by module
     effort_table = []
-    effort_table.append(['Team', 'Module', 'Team', 'Expected Effort', 'Actual Effort', 'Module', 'Wall clock', 'Staff Time'])
-    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',       '(man hrs)',     'Cost $', 'time (hrs)', 'time (hrs)'])
+    effort_table.append(['Team', 'Module', 'Team', 'Expected Effort', 'Actual Effort  ', 'Module', 'Wall clock', 'Staff Time'])
+    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',       '(man hrs)',       'Cost $', 'time (hrs)', 'time (hrs)'])
     total_estimated = 0
     total_actual = 0
     for location in project.locations:
@@ -71,5 +73,14 @@ def write_endgame_json(report):
     
     @untestable - This function is just a call to the python standard library and thus makes no sense to test.
     '''
-    outfile = open('report.json', 'w')
-    outfile.write(json.dumps(report, indent=4))
+    end_report = copy.deepcopy(report)
+    table = end_report["effort_table"]
+    del end_report["effort_table"]
+    outfile = open('report.txt', 'w')
+    outfile.write(json.dumps(end_report, indent=4))
+    outfile.write('\n')
+
+    writer = csv.writer(outfile, delimiter=',')
+    writer.writerows(table)
+
+
