@@ -41,7 +41,7 @@ class TestModule(unittest.TestCase):
 
     def test_report_table_line(self):
         # This is how a correctly formatted output looks
-        expected_output = 'team           module       123   400             500          800       4 hrs        900 hrs'
+        expected_output = 'team           module       123   400             500            800       4 hrs        900 hrs'
         output = logic.report_table_line("team", "module", 123, 400, 500, 800, "4 hrs", "900 hrs") 
         self.assertTrue(expected_output == output)
 
