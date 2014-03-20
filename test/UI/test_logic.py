@@ -34,14 +34,15 @@ class TestModule(unittest.TestCase):
         
         # Add these locations to the project
         p.locations = [l1, l2]
-
+        p.calc_nominal_schedule()
         # Calculate total hours
         total, junk = logic.total_person_hours(p)
-        self.assertTrue(total == 0)
+        print total
+        self.assertTrue(total == -2)
 
     def test_report_table_line(self):
         # This is how a correctly formatted output looks
-        expected_output = 'team           module       123   400             500          800       4 hrs        900 hrs'
+        expected_output = 'team           module       123   400             500            800       4 hrs        900 hrs'
         output = logic.report_table_line("team", "module", 123, 400, 500, 800, "4 hrs", "900 hrs") 
         self.assertTrue(expected_output == output)
 

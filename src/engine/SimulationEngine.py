@@ -85,6 +85,7 @@ class SimulationEngine():
         self.project = proj
 
         self.project.calc_nominal_schedule()
+        self.project.cash = self.project.expected_budget()
 
         self.game_obj = game
 

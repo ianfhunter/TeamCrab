@@ -78,7 +78,8 @@ def main():
     engine = SimulationEngine.SimulationEngine()
 
     glob_game = game.Game(project, config, screen, engine)
-    project.cash = project.expected_budget()
+
+
     #begin simulator
     frontend = FrontEndThread(glob_game, project)
     backend = BackEndThread(glob_game, project, cmd_args, engine)
