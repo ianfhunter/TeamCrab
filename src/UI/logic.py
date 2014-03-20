@@ -21,7 +21,7 @@ def report_table_line(team, module, size, estimate, actual, cost, wall, producti
     s += module + (" " * (13 - len(module)))
     s += str(size) + (" " * (6 - (len(str(size)))))
     s += str(estimate) + (" " * (16 - (len(str(estimate)))))
-    s += str(actual) + (" " * (13 - (len(str(actual)))))
+    s += str(actual) + (" " * (15 - (len(str(actual)))))
     s += str(cost) + (" " * (10 - (len(str(cost)))))
     s += str(wall) + (" " * (13 - len(str(wall))))
     s += str(productive)
@@ -46,7 +46,7 @@ def generate_report(project):
     # Generate table to compare estimated/actual effort broken down by module
     effort_table = []
     effort_table.append(['Team', 'Module', 'Team', 'Expected Effort', 'Actual Effort  ', 'Module', 'Wall clock', 'Staff Time'])
-    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',       '(man hrs)',       'Cost $', 'time (hrs)', 'time (hrs)'])
+    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',       '(man hrs)  ',     'Cost $', 'time (hrs)', 'time (hrs)'])
     total_estimated = 0
     total_actual = 0
     for location in project.locations:

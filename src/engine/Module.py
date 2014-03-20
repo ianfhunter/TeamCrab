@@ -72,13 +72,13 @@ class Module(object):
         '''
         self.start_date = start_date
         self.assigned_team_size = team_size
-        work_hours_total = 0
-        work_days_total = 0
+        work_hours_total = 0.0
+        work_days_total = 0.0
         days_total = 0 # Days including weekends
         for task in self.completed_tasks + self.tasks:
             work_hours_total += task.expected_cost/team_size*config["developer_period_effort_value"]
             work_days_total = work_hours_total/config["developer_daily_effort"]
-            days_total = work_days_total + (work_days_total/5)*2
+            days_total = work_days_total + (work_days_total/5.0)*2.0
             print work_days_total ,":", work_hours_total
             print days_total
 
