@@ -14,7 +14,7 @@ class Module(object):
         self.name = name
         self.expected_cost = cost
         self.actual_cost = calculate_actual_cost(cost)
-        self.actual_cost_base = self.actual_cost
+        self.original_actual_cost = self.actual_cost
         self.modules = list()
         self.tasks = list()
         self.completed_tasks = list()
@@ -99,10 +99,10 @@ class Module(object):
         if self.tasks:
             if self.tasks[0].name == 'design' or self.tasks[0].name == 'implementation':
                 # Repeat the task
-                self.actual_cost *= 1.15
-                self.tasks[0].actual_cost *= 2
+                self.actual_cost = self.actual_cost + (self.original_actual_cost * 0.15)
+                self.tasks[0].actual_cost += self.tasks[0].original_actual_cost
 
-                self.problems_occured.append('Problem: Fallen behind more than 25% on a task')
+                self.problems_occured.append('Fallen behind more than 25% on a task')
                 return 'Fallen behind more than 25% on a task'
 
             elif self.tasks[0].name == 'unit_test':
@@ -110,9 +110,9 @@ class Module(object):
                 self.tasks.insert(0, self.completed_tasks.pop())
 
                 # Update the actual cost of this module and repeated tasks
-                self.actual_cost *= 1.25
-                self.tasks[0].actual_cost *= 2
-                self.tasks[1].actual_cost *= 2
+                self.actual_cost = self.actual_cost + self.tasks[0].original_actual_cost + self.tasks[1].original_actual_cost
+                self.tasks[0].actual_cost += self.tasks[0].original_actual_cost
+                self.tasks[1].actual_cost += self.tasks[1].original_actual_cost
 
                 self.problems_occured.append('Module failed unit tests')
                 return 'Module failed unit tests'
@@ -123,9 +123,9 @@ class Module(object):
                 self.tasks.insert(0, self.completed_tasks.pop())
 
                 # Update the actual cost of this module and all tasks
-                self.actual_cost = int(self.actual_cost * 1.4)
                 for i in range(3):
-                    self.tasks[i].actual_cost *= 2
+                    self.actual_cost += self.tasks[i].original_actual_cost
+                    self.tasks[i].actual_cost += self.tasks[i].original_actual_cost
 
                 self.problems_occured.append('Module failed to integrate properly')
                 return 'Module failed to integrate properly'
@@ -135,9 +135,9 @@ class Module(object):
                 self.tasks.insert(0, self.completed_tasks.pop())
 
                 # Update the actual cost of this module and all tasks
-                self.actual_cost = int(self.actual_cost * 1.3)
                 for i in range(2):
-                    self.tasks[i].actual_cost *= 2
+                    self.actual_cost += self.tasks[i].original_actual_cost
+                    self.tasks[i].actual_cost += self.tasks[i].original_actual_cost
 
                 self.problems_occured.append('Module failed system tests')
                 return 'Module failed system tests'
@@ -148,9 +148,9 @@ class Module(object):
                     self.tasks.insert(0, self.completed_tasks.pop())
 
                 # Update the actual cost of this module and all tasks
-                self.actual_cost = int(self.actual_cost * 2)
                 for i in range(6):
-                    self.tasks[i].actual_cost *= 2
+                    self.actual_cost += self.tasks[i].original_actual_cost
+                    self.tasks[i].actual_cost += self.tasks[i].original_actual_cost
 
                 self.problems_occured.append('Module failed acceptance tests')
                 return 'Module failed acceptance tests'
@@ -160,9 +160,9 @@ class Module(object):
                 self.tasks.insert(0, self.completed_tasks.pop())
 
                 # Update the actual cost of this module and all tasks
-                self.actual_cost = int(self.actual_cost * 1.3)
                 for i in range(2):
-                    self.tasks[i].actual_cost *= 2
+                    self.actual_cost += self.tasks[i].original_actual_cost
+                    self.tasks[i].actual_cost += self.tasks[i].original_actual_cost
 
                 self.problems_occured.append('Module failed to deploy properly')
                 return 'Module failed to deploy properly'

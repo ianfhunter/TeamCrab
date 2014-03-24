@@ -6,6 +6,7 @@ class Task(object):
         self.name = name
         self.expected_cost = expected_cost
         self.actual_cost = actual_cost
+        self.original_actual_cost = actual_cost
         self.deadline = None
         self.completed = False
         self.problems = list()
