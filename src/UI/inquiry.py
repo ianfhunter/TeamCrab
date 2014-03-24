@@ -234,7 +234,7 @@ class Inquiry:
                                         else:
                                             inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
                                             #Problems
-                                            inquiry_result.append(gui.Label("Problems:"))
+                                            inquiry_result.append(gui.Label("Problems for module " + team.module.name + ":"))
                                             for prob in team.module.problems_occured:
                                                 inquiry_result.append(gui.Label(prob))
                                 #Honest Culture
@@ -244,7 +244,7 @@ class Inquiry:
                                     else:
                                         inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
                                         #Problems
-                                        inquiry_result.append(gui.Label("Problems:"))
+                                        inquiry_result.append(gui.Label("Problems for module " + team.module.name + ":"))
                                         for prob in team.module.problems_occured:
                                             inquiry_result.append(gui.Label(prob))
 
@@ -270,7 +270,7 @@ class Inquiry:
                                 else:
                                     inquiry_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
                                     #Problems
-                                    inquiry_result.append(gui.Label("Problems:"))
+                                    inquiry_result.append(gui.Label("Problems for module " + team.module.name + ":"))
                                     for prob in team.module.problems_occured:
                                         inquiry_result.append(gui.Label(prob))
 

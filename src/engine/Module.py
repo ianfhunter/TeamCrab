@@ -102,8 +102,8 @@ class Module(object):
                 self.actual_cost = self.actual_cost + (self.original_actual_cost * 0.15)
                 self.tasks[0].actual_cost += self.tasks[0].original_actual_cost
 
-                self.problems_occured.append('Fallen behind more than 25% on a task')
-                return 'Fallen behind more than 25% on a task'
+                self.problems_occured.append('Fallen behind more than 25% on task: ' + self.tasks[0].name)
+                return 'Fallen behind more than 25% on task: ' + self.tasks[0].name
 
             elif self.tasks[0].name == 'unit_test':
                 # Go back to the start of the implementation task
