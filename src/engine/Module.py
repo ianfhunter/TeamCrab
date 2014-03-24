@@ -50,7 +50,7 @@ class Module(object):
         ''' Progress the module by the specified amount. This will progress tasks as necessary
         as well. If a task has reached its deadline then self.is_on_time will be updated appropriately.
         '''
-        self.progress += progress
+        self.progress += calculate_actual_cost(progress)
         
         # If the current task has completed then progress to the next task and place this one on the completed_tasks list
         if self.tasks:
