@@ -267,4 +267,6 @@ def foo_bar(bar):
 * People Icon - Designed by Sagiev Farid from the Noun Project
 * Question Icon - Designed by Mateo Zlatar from the Noun Project
 * Coloured Buttons modifed from the existing PGU buttons by Ian
+* Retro Sunbeams - http://www.vectorportal.com/subcategory/166/RETRO-SUN-RAYS-VECTORS.eps/ifile/11646/detailtest.asp
+* Bellerose Font - James M. Harris http://www.dafont.com/bellerose.font
 * Any icons not mentioned were either in the public domain or designed by a member of the team
