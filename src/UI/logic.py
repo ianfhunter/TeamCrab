@@ -8,7 +8,7 @@ def total_person_hours(project):
     '''
     Calculates the total estimated and actual person hours of effort expended in a project `project'.
     '''
-    total_estimated = project.expected_budget() / config["developer_hourly_cost"]
+    total_estimated = project.total_estimated_effort
     total_actual = project.actual_budget() / config["developer_hourly_cost"]
     return (int(total_estimated), int(total_actual))
 

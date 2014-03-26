@@ -15,6 +15,7 @@ class Project():
         self.locations = list()
         self.start_time = datetime.datetime(2014,1,1,0,0,0)
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
+        self.total_estimated_effort = 0
 
     def calc_nominal_schedule(self):
         if self.development_method == 'Agile':
@@ -56,8 +57,8 @@ class Project():
         total_module_effort = 0.0
         for module in self.modules:
             total_module_effort += module.expected_cost
-        total_effort_hours = total_module_effort *config["developer_period_effort_value"]  * config["budget_mod"]
-        return total_effort_hours * config["developer_hourly_cost"]
+        self.total_estimated_effort = total_module_effort *config["developer_period_effort_value"] 
+        return self.total_estimated_effort * config["developer_hourly_cost"] * config["budget_mod"]
 
 
     def actual_budget(self):
