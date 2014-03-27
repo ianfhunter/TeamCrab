@@ -333,6 +333,8 @@ class Game:
             num_modules = site.num_modules()
             if num_modules - num_on_time == 0:
                 status = "On Schedule"
+            elif not cultures[site.culture][0]:
+                status = "On Schedule" # Dishonest cultures always say they are on time
             else:
                 status = "Delayed"
             label = font.render(status, 1, (0, 0, 0))
