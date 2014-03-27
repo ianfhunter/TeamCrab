@@ -17,28 +17,30 @@ class TestModule(unittest.TestCase):
 
     def test_total_person_hours(self):
         # Create dummy project
-        p = Project.Project("Test Proj", "Agile", 1234, RevenueTier.LowRevenueTier())
+        p = Project.Project("Test Proj", "Agile", 1, RevenueTier.LowRevenueTier())
         
         # Add placeholder locations, teams, modules to project
         m1 = Module.Module("Test Mod 1", 200)
         t1 = Team.Team("TT", 1, 1)
         t1.completed_modules = [m1]
-        l1 = Location.Location("TestL", None, None, None, 123, None)
+        l1 = Location.Location("TestL", None, None, None, 1, None)
         l1.teams = [t1]
+        p.modules.append(m1)
         
         m2 = Module.Module("Test Mod 1", 100)
         t2 = Team.Team("TT", 1, 1)
         t2.completed_modules = [m2]
         l2 = Location.Location("TestL", None, None, None, 123, None)
         l2.teams = [t2]
+        p.modules.append(m2)
         
         # Add these locations to the project
         p.locations = [l1, l2]
-        p.calc_nominal_schedule()
         # Calculate total hours
+        p.expected_budget()
         total, junk = logic.total_person_hours(p)
-        print total
-        self.assertTrue(total == -2)
+        print p.expected_budget()
+        self.assertTrue(total == 600)
 
     def test_report_table_line(self):
         # This is how a correctly formatted output looks

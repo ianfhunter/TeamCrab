@@ -1,14 +1,13 @@
-import csv
 import json
 import copy
 from global_config import config 
-import math
+
 
 def total_person_hours(project):
     '''
     Calculates the total estimated and actual person hours of effort expended in a project `project'.
     '''
-    total_estimated = project.expected_budget() / config["developer_hourly_cost"]
+    total_estimated = project.total_estimated_effort
     total_actual = project.actual_budget() / config["developer_hourly_cost"]
     return (int(total_estimated), int(total_actual))
 
@@ -73,14 +72,8 @@ def write_endgame_json(report):
     
     @untestable - This function is just a call to the python standard library and thus makes no sense to test.
     '''
-    end_report = copy.deepcopy(report)
-    table = end_report["effort_table"]
-    del end_report["effort_table"]
-    outfile = open('report.txt', 'w')
-    outfile.write(json.dumps(end_report, indent=4))
-    outfile.write('\n')
 
-    writer = csv.writer(outfile, delimiter=',')
-    writer.writerows(table)
+    outfile = open('report.json', 'w')
+    outfile.write(json.dumps(report, indent=4))
 
 

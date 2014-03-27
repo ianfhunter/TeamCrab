@@ -217,6 +217,18 @@ to generate html documentation use
      4.  A video conference - All sites report actual tasks completed; Asian & Russian sites report other tasks with 50% accuracy
      5.  Visit the site - All sites provide accurate list of completed, on-schedule, and late tasks
 
+11. Feature #37 - Time Penalty
+  * Make time penalty 50% of original cost
+
+12. Feature #36 - Detailed site visit report
+  * Problems in the Inquiry Interface now list their Module & Task on which they have occurred.
+
+13. Feature #39 - Daily variation
+  * Each site's productivity varies hourly as specified by a master parameter.
+
+
+
+
 ## Game console trace
 When running the game, information related to the current progress of modules is displayed in the console.
 The game time is printed to the console every turn. A turn equates to an hour of work in the game. The time

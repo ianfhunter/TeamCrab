@@ -15,6 +15,7 @@ class Project():
         self.locations = list()
         self.start_time = datetime.datetime(2014,1,1,0,0,0)
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
+        self.total_estimated_effort = 0
 
     def calc_nominal_schedule(self):
         if self.development_method == 'Agile':
@@ -52,18 +53,13 @@ class Project():
 
         @untestable -  This relies on a value from the global config which is likely to change often so it cannot be veried properly.
         '''
-        days = 0
-        start = self.start_time
-        while start <= self.delivery_date:
-            if start.weekday() < 5:    
-                days += 1
-            start += datetime.timedelta(days=1)
-        hours = (days*config["developer_daily_effort"]) +self.delivery_date.hour - 9
-        staff = 0
-        for location in self.locations:
-            for team in location.teams:
-                staff += team.size
-        return hours * staff * config["developer_hourly_cost"] * config["budget_mod"]
+
+        total_module_effort = 0.0
+        for module in self.modules:
+            total_module_effort += module.expected_cost
+        self.total_estimated_effort = total_module_effort *config["developer_period_effort_value"] 
+        return self.total_estimated_effort * config["developer_hourly_cost"] * config["budget_mod"]
+
 
     def actual_budget(self):
         return self.budget
