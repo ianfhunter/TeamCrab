@@ -78,7 +78,11 @@ class Inquiry:
 
             label = bellerose_font.render("Inquiries - {}".format(self.inquiry_site.name)
                      , 1, (0, 0, 0))
-            self.screen.blit(label, (300, y_offset - 50))
+
+            #Centering
+            name_length = len("Inquiries - {}".format(self.inquiry_site.name))
+            name_length = name_length*10
+            self.screen.blit(label, (500 - name_length , y_offset - 50))
 
             y_offset += 30
             if self.firstOptions:
@@ -291,3 +295,4 @@ class Inquiry:
         '''
         self.draw_inquiry()
         self.refresh_screen()
+#        sleep(self.config["ui_refresh_period_seconds"])

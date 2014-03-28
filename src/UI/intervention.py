@@ -111,7 +111,12 @@ class Intervention:
 
             label = bellerose_font.render("Interventions - {}".format(self.intervention_site.name)
                      , 1, (0, 0, 0))
-            self.screen.blit(label, (300, y_offset - 50))
+
+            #Centering 
+            name_length = len("Interventions - {}".format(self.inquiry_site.name))
+            name_length = name_length*10
+
+            self.screen.blit(label, (500 - name_length, y_offset - 50))
 
             y_offset += 30
 

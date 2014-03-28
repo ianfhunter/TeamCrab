@@ -324,7 +324,7 @@ class Game:
 
         @untestable - just draws UI so not testable.
         '''
-        y = 300
+        y = 310
 
         # Draw plain background.
         pygame.draw.rect(self.screen, self.config["background_colour"],
@@ -337,36 +337,47 @@ class Game:
     
             site = self.selected_site
 
+            label_y = y # 5
+            y_inc = 30
+
             workerIcon = pygame.image.load(self.config["location_icon_path"])
-            self.screen.blit(workerIcon, (1, 290))
+            self.screen.blit(workerIcon, (1, label_y))
             label = font.render(site.name, 1, (0, 0, 0))
-            self.screen.blit(label, (40, y-5))
+            self.screen.blit(label, (40, label_y))
+
+            label_y += y_inc
 
             # Draw icons and accompanying text.
             workerIcon = pygame.image.load(self.config["man_icon_path"])
-            self.screen.blit(workerIcon, (1, 325))
+            self.screen.blit(workerIcon, (1, label_y))
             label = font.render(str(len(self.selected_site.teams)) +
                                 " Team(s)", 1, (0, 0, 0))
-            self.screen.blit(label, (40, y + 30))
+            self.screen.blit(label, (40, label_y))
+
+            label_y += y_inc
 
             peepIcon = pygame.image.load(self.config["peep_icon_path"])
-            self.screen.blit(peepIcon, (1, 360))
+            self.screen.blit(peepIcon, (1, label_y))
             population = 0
             for team in self.selected_site.teams:
                 population += team.size
             label = font.render(str(population) + "  People ", 1,
                                 (0, 0, 0))
-            self.screen.blit(label, (40, y + 65))
+            self.screen.blit(label, (40, label_y))
+
+            label_y += y_inc
 
             clockIcon = pygame.image.load(self.config["clock_icon_path"])
-            self.screen.blit(clockIcon, (1, 395))
+            self.screen.blit(clockIcon, (1, label_y))
             progress = int(site.total_module_progress())
             label = font.render(str(progress) + "h Effort Expended", 1, (0, 0, 0))
-            self.screen.blit(label, (40, y + 100))
+            self.screen.blit(label, (40, label_y))
+
+            label_y += y_inc
 
             #TODO: Potentially change this if multiple modules at one site.
             targetIcon = pygame.image.load(self.config["target_icon_path"])
-            self.screen.blit(targetIcon, (1, 430))
+            self.screen.blit(targetIcon, (1, label_y))
             num_on_time = site.num_modules_on_schedule()
             num_modules = site.num_modules()
             if num_modules - num_on_time == 0:
@@ -376,7 +387,7 @@ class Game:
             else:
                 status = "Delayed"
             label = font.render(status, 1, (0, 0, 0))
-            self.screen.blit(label, (40, y + 135))
+            self.screen.blit(label, (40, label_y))
 
     def draw_inquiry_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
@@ -385,10 +396,10 @@ class Game:
         '''
         if self.buttonsNeedDrawing:
             # TODO: Real implementation for button action, currently dummy action.
-            button = gui.Button("Make inquiry!")
+            button = gui.Button("Inquire!",width=75)
             button.connect(gui.CLICK, self.inquire)
 
-            self.contain.add(button, 45, self.config["menuY"] - 190)
+            self.contain.add(button, 4, self.config["menuY"] - 178)
             self.app.init(self.contain)
 
     def draw_intervention_button(self):
@@ -401,7 +412,7 @@ class Game:
             button = gui.Button("Intervene!")
             button.connect(gui.CLICK, self.intervene)
 
-            self.contain.add(button, 45, self.config["menuY"] - 230)
+            self.contain.add(button, 102, self.config["menuY"] - 178)
             self.app.init(self.contain)
 
 
