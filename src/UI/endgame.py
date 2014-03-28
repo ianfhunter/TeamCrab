@@ -20,6 +20,7 @@ class EndGame:
         self.hasList = False
         self.font = pygame.font.SysFont("Helvetica", 15)
         self.monofont = pygame.font.SysFont("monospace", 14)
+        self.bellerose_font = pygame.font.Font(self.config["bellerose_font"], 56)
         self.font_large = pygame.font.SysFont("Helvetica", 56)
 
     def refresh_screen(self):
@@ -35,10 +36,10 @@ class EndGame:
 
         font = self.font 
         monofont = self.monofont
-        font_large = self.font_large
+        bellerose_font = self.bellerose_font
 
-        label = font_large.render("Game Over.", 1, (0, 0, 0))
-        self.screen.blit(label, (260, 20))
+        label = bellerose_font.render("Game Over.", 1, (0, 0, 0))
+        self.screen.blit(label, (270, -20))
 
         # Total time elapsed
         time = report["total_time"]

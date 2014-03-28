@@ -2,7 +2,7 @@ import pygame
 import os
 from pgu import gui
 from time import sleep
-import endgame,inquiry
+import endgame,inquiry,intervention
 from global_config import cultures
 
 glob_game = None
@@ -24,6 +24,12 @@ class Game:
         self.inquired = None        #boolean
         self.inquiry_site = None
         self.inquiry_type = None
+
+        self.intervention = None         #inquiry object
+        self.intervened = None        #boolean
+        self.intervention_site = None
+        self.intervention_type = None
+
 
         self.info_legend = False
 
@@ -101,6 +107,37 @@ class Game:
                     os._exit(1)
 
 
+    def intervene(self):
+        '''
+        Draws intervention interface screen.
+
+        @untestable - just draws UI so not testable.
+        '''
+        #toggle window
+        site = self.selected_site
+
+        self.intervened = not self.intervened
+        self.intervention = intervention.Intervention(self.screen, self.config, self.project_data, site)
+        self.engine.pause()
+
+        while(self.intervened):
+
+            self.intervention.draw()
+            sleep(self.config["ui_refresh_period_seconds"])
+            # Handle all events.
+            for event in pygame.event.get():
+
+                # Tell PGU about all events.
+                self.intervention.app.event(event)
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                    self.intervened = False
+                    self.engine.resume() 
+                    break
+                # Handle quitting.
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    os._exit(1)
+
+
     def run(self):
         '''
         Handles all input events and goes to sleep.
@@ -111,7 +148,7 @@ class Game:
         while True:
             sleep(self.config["ui_refresh_period_seconds"])
 
-            if not self.inquired:
+            if not self.inquired and not self.intervened:
                 # Handle all events.
                 for event in pygame.event.get():
                     # Tell PGU about all events.
@@ -122,6 +159,7 @@ class Game:
        
                     if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                         self.inquired = False
+                        self.intervened = False
                         self.engine.resume() 
                     # Handle quitting.
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -340,7 +378,7 @@ class Game:
             label = font.render(status, 1, (0, 0, 0))
             self.screen.blit(label, (40, y + 135))
 
-    def draw_pause_button(self):
+    def draw_inquiry_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
 
         @untestable - just draws UI so not testable.
@@ -353,6 +391,20 @@ class Game:
             self.contain.add(button, 45, self.config["menuY"] - 190)
             self.app.init(self.contain)
 
+    def draw_intervention_button(self):
+        ''' Draws the "menu" pause button over the bottom bar.
+
+        @untestable - just draws UI so not testable.
+        '''
+        if self.buttonsNeedDrawing:
+            # TODO: Real implementation for button action, currently dummy action.
+            button = gui.Button("Intervene!")
+            button.connect(gui.CLICK, self.intervene)
+
+            self.contain.add(button, 45, self.config["menuY"] - 230)
+            self.app.init(self.contain)
+
+
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
@@ -362,7 +414,7 @@ class Game:
         #This is getting complicated and we dont really need it as it 
         self.app.paint(self.screen)
 
-        if self.inquired:
+        if self.inquired or self.intervened:
             pygame.display.update((0, 280, 200, 180))
         else:
             pygame.display.flip()
@@ -384,7 +436,8 @@ class Game:
         self.draw_bottom_bar(self.font)
         self.draw_sites()
         self.draw_detailed_site_info(self.font)
-        self.draw_pause_button()
+        self.draw_inquiry_button()
+        self.draw_intervention_button()
         self.draw_info_button()
         self.refresh_screen()
         self.buttonsNeedDrawing = False
