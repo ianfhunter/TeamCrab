@@ -53,6 +53,41 @@ class Intervention:
 
         pygame.display.flip()
 
+    def button_option(self,intervention_name,activity):
+        button = gui.Button(intervention_name)
+        button.connect(gui.CLICK, self.do_intervention,activity)
+        return button
+
+
+    def perform_intervention(self,intervention_activity):
+        print intervention_activity
+        intervention_result = []
+
+        if intervention_activity == "kick_off":
+            intervention_result.append(gui.Label("All developers have travelled to the 'home' site <TO BE NAMED> at the beginning of the project."))
+
+        if intervention_activity == "ambassadors":
+            intervention_result.append(gui.Label('Cultural ambassadors have been placed at each site to help interpret the behaviour of developers at other sites.'))
+            intervention_result.append(gui.Label('Problem Rate --'))
+
+        if intervention_activity == "architects":
+            intervention_result.append(gui.Label('Deputy architects have been placed at each site who understands the product architecture and so can answer questions without incurring delay of contacting the chief architect.'))
+            intervention_result.append(gui.Label('Problem Rate --'))
+
+        if intervention_activity == "motivate_fear":
+            #far lower effeciency, less problems?
+            intervention_result.append(gui.Label('All developers have been threatened with pay cuts if they are any more delayed. '))
+            intervention_result.append(gui.Label('Problem Rate-- Effeciency-- '))
+
+        if intervention_activity == "motivate_positive":
+            #more effeciency, bulk sum paid , no time penalty - weekend, less problems
+            intervention_result.append(gui.Label('Developers are taken on a teamwork building weekend high in the Alps, where they can bond over the grueling experience. '))
+            intervention_result.append(gui.Label('Problem Rate-- Effeciency++ Lump Sum removed '))
+
+
+
+        return intervention_result
+
     def draw_intervention(self):
         '''
         Draws details of an intervention onscreen.
@@ -79,9 +114,9 @@ class Intervention:
             self.screen.blit(label, (300, y_offset - 50))
 
             y_offset += 30
+
             if self.firstOptions:
-                button = gui.Button('Send "are you on schedule?" email')
-                button.connect(gui.CLICK, self.do_intervention,"on_schedule")
+                button = self.button_option('hold a "kick-off" meeting',"kick_off")
                 self.contain.add(button, info_x, y_offset)
 
             font = pygame.font.SysFont("Helvetica", 16)
@@ -91,8 +126,7 @@ class Intervention:
 
             y_offset += 20
             if self.firstOptions:
-                button = gui.Button('Send "please report status of modules" email')
-                button.connect(gui.CLICK, self.do_intervention,"status")
+                button = self.button_option('Deploy "Cultural Ambassadors"',"ambassadors")
                 self.contain.add(button, info_x, y_offset)
 
             label = font.render("0.1 Working Days"
@@ -101,31 +135,34 @@ class Intervention:
 
             y_offset += 20
             if self.firstOptions:
-                button = gui.Button('Send "please list completed tasks" email')
-                button.connect(gui.CLICK, self.do_intervention,"list_c_tasks")
+                button = self.button_option('Deploy "Deputy Architects"',"architects")
                 self.contain.add(button, info_x, y_offset)
+
+            label = font.render("0.1 Working Days"
+                    , 1, (0, 0, 0))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
+
+
+            y_offset += 20
+            if self.firstOptions:
+                button = self.button_option('Threaten Developers',"motivate_fear")
+                self.contain.add(button, info_x, y_offset)
+
+            label = font.render("0.1 Working Days"
+                    , 1, (0, 0, 0))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
+
+            y_offset += 20
+            if self.firstOptions:
+                button = self.button_option('Developer Teamwork Weekend',"motivate_positive")
+                self.contain.add(button, info_x, y_offset)
+
+            label = font.render("0.1 Working Days"
+                    , 1, (0, 0, 0))
+            self.screen.blit(label, (info_x + 365 + 60, y_offset))
+
 
             label = font.render("0.5 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
-
-            y_offset += 20
-            if self.firstOptions:
-                button = gui.Button('Hold video conference')
-                button.connect(gui.CLICK, self.do_intervention,"video_conf")
-                self.contain.add(button, info_x, y_offset)
-
-            label = font.render("2 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
-
-            y_offset += 20
-            if self.firstOptions:
-                button = gui.Button('Make site visit')
-                button.connect(gui.CLICK, self.do_intervention,"visit")
-                self.contain.add(button, info_x, y_offset)
-
-            label = font.render("7 Working Days"
                     , 1, (0, 0, 0))
             self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
@@ -145,132 +182,7 @@ class Intervention:
                     for team in self.intervention_site.teams:
                         intervention_result.append(gui.Label("Team " + team.name))
 
-                        #Are you on Schedule?
-                        if self.intervention_type == "on_schedule":
-                            if not team.module:
-                                intervention_result.append(gui.Label("We aren't working on anything at the moment" ))
-                            else:
-                                if self.intervention_site.culture[0] == 0:
-                                    intervention_result.append(gui.Label("Yes, We are on schedule."))
-                                else:
-                                    if team.module.is_on_time:
-                                        intervention_result.append(gui.Label("Yes, We are on schedule."))
-                                    else:
-                                        intervention_result.append(gui.Label("No, We are not on schedule."))
-
-
-                        #What is your status?
-                        if self.intervention_type == "status":
-                            if not team.module:
-                                intervention_result.append(gui.Label("We aren't working on anything at the moment" ))
-                            else:
-                                team.module.actual_cost = team.module.actual_cost + 1
-                                if self.intervention_site.culture[0] == 0:
-                                    intervention_result.append(gui.Label( "We are on schedule."))
-                                else:
-                                    if team.module.is_on_time:
-                                        intervention_result.append(gui.Label("We are on schedule."))
-                                    else:
-                                        intervention_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
-
-                                        # #Problems
-                                        # intervention_result.append(gui.Label("Problems:"))
-                                        # for prob in team.module.problems_occured:
-                                        #     intervention_result.append(gui.Label(prob))
-
-                        #List your completed tasks.
-                        if self.intervention_type == "list_c_tasks":
-                            intervention_result.append(gui.Label("Completed Tasks:"))
-                            
-                            #Completed Modules.
-                            for module in team.completed_modules:                                
-                                for task in module.completed_tasks:
-                                    intervention_result.append(gui.Label(module.name + " - " + task.name))
-
-                            #Completed Tasks of the Current Module
-                            if not team.module:
-                                intervention_result.append(gui.Label("We are not working on a module at the moment."))
-                            else:
-                                team.module.actual_cost = team.module.actual_cost + 4
-
-                                if len(team.module.completed_tasks) == 0:
-                                    intervention_result.append(gui.Label("We have not completed any tasks."))
-                                else:
-                                    for task in team.module.completed_tasks:
-                                        intervention_result.append(gui.Label(team.module.name + " - " + task.name))
-
-
-                        #Host Video Conference
-                        if self.intervention_type == "video_conf":
-                            #Completed Modules
-                            intervention_result.append(gui.Label("Completed Tasks:"))
-                            for module in team.completed_modules:                                
-                                for task in module.completed_tasks:
-                                    intervention_result.append(gui.Label(module.name + " - " + task.name))
-
-                            #Completed Tasks of the Current Module
-                            if not team.module:
-                                intervention_result.append(gui.Label("We are not working on a module at the moment."))
-                            else:
-                                team.module.actual_cost = team.module.actual_cost + 16
-                                if len(team.module.completed_tasks) == 0:
-                                    intervention_result.append(gui.Label("We have not completed any tasks."))
-                                else:
-                                    for task in team.module.completed_tasks:
-                                        intervention_result.append(gui.Label(team.module.name + " - " + task.name))
-
-
-                                #Current Task & If we are on schedule for it.
-                                #Dishonest Culture
-                                if self.intervention_site.culture[0] == 0:
-                                    if random.randint(0,1) == 0:
-                                        #50% chance of continuing to lie
-                                        intervention_result.append(gui.Label("We are on schedule for the current task: " + team.module.name + " - " + team.module.tasks[0].name))
-                                    else:
-                                        if team.module.is_on_time:
-                                            intervention_result.appendd(gui.Label("We are on schedule for the current task : " + team.module.name + " - " + team.module.tasks[0].name)) 
-                                        else:
-                                            intervention_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
-                                            #Problems
-                                            intervention_result.append(gui.Label("Problems for module " + team.module.name + ":"))
-                                            for prob in team.module.problems_occured:
-                                                intervention_result.append(gui.Label(prob))
-                                #Honest Culture
-                                else:
-                                    if team.module.is_on_time:
-                                        intervention_result.append(gui.Label("We are on schedule for the current task: " + team.module.name + " - " + team.module.tasks[0].name)) 
-                                    else:
-                                        intervention_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
-                                        #Problems
-                                        intervention_result.append(gui.Label("Problems for module " + team.module.name + ":"))
-                                        for prob in team.module.problems_occured:
-                                            intervention_result.append(gui.Label(prob))
-
-
-                        if self.intervention_type == "visit":
-                            intervention_result.append(gui.Label("Completed Tasks:"))
-                            for module in team.completed_modules:                                
-                                for task in module.completed_tasks:
-                                    intervention_result.append(gui.Label(module.name + " - " + task.name))
-
-                            if not team.module:
-                                intervention_result.append(gui.Label("We are not working on a module at the moment."))
-                            else:
-                                team.module.actual_cost = team.module.actual_cost + 56
-                                if len(team.module.completed_tasks) == 0:
-                                    intervention_result.append(gui.Label("We have not completed any tasks."))
-                                else:
-                                    for task in team.module.completed_tasks:
-                                        intervention_result.append(gui.Label(team.module.name + " - " + task.name))
-
-                                if team.module.is_on_time:
-                                    intervention_result.append(gui.Label("On schedule for the current task - "  + team.module.name)) 
-                                else:
-                                    intervention_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
-                                    #Problems
-                                    intervention_result.append(gui.Label("Problems for module " + team.module.name + ":"))
-                                    for prob in team.module.problems_occured:
-                                        intervention_result.append(gui.Label(prob))
+                        intervention_result.extend( self.perform_intervention(self.intervention_type) )
 
                     for label in intervention_result:
                         label.set_font(hel_font)
