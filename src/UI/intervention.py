@@ -113,7 +113,7 @@ class Intervention:
                      , 1, (0, 0, 0))
 
             #Centering 
-            name_length = len("Interventions - {}".format(self.inquiry_site.name))
+            name_length = len("Interventions - {}".format(self.intervention_site.name))
             name_length = name_length*10
 
             self.screen.blit(label, (500 - name_length, y_offset - 50))
