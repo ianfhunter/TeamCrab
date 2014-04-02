@@ -6,6 +6,13 @@ import math
 location_coordinates = dict()
 location_coordinates['Dublin'] = (375,148)
 location_coordinates['Belarus'] = (445,138)
+location_coordinates['Rio de Janeiro'] = (285,337)
+location_coordinates['Florida'] = (192,207)
+location_coordinates['Toronto'] = (206,179)
+location_coordinates['Canberra'] = (733,369)
+location_coordinates['Tokyo'] = (704,201)
+location_coordinates['Nuuk'] = (273,68)
+location_coordinates['New Dehli'] = (570,264)
 
 class Location(object):
     '''
