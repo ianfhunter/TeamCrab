@@ -3,12 +3,16 @@ from global_config import cultures, config, global_distance
 import random
 import math
 
+location_coordinates = dict()
+location_coordinates['Dublin'] = (375,148)
+location_coordinates['Belarus'] = (445,138)
+
 class Location(object):
     '''
     A class representing a location in the simulator.
     '''
 
-    def __init__(self, name, time, culture, cap, cost, coordinates):
+    def __init__(self, name, time, culture, cap, cost):
         self.name = name
         self.time_zone = time
         self.culture = culture
@@ -17,7 +21,7 @@ class Location(object):
         self.teams = list()
         self.salary = cost
         self.specialists = list()
-        self.coordinates = coordinates
+        self.coordinates = location_coordinates[name]
 
 
     def add_team(self, team):
