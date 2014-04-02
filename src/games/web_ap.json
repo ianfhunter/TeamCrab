@@ -9,18 +9,14 @@
 			"Time Zone" : 0,
 			"Culture" : "Irish",
 			"Capacity" : 30,
-			"Salary" : 25,
-			"X-position" : 375,
-			"Y-position" : 148
+			"Salary" : 25
 		},
 		{
 			"Name" : "Belarus",
 			"Time Zone" : -2,
 			"Culture" : "Belarusian",
 			"Capacity" : 15,
-			"Salary" : 20,
-			"X-position" : 445,
-			"Y-position" : 138
+			"Salary" : 20
 		}
 	],
 	"Teams" : [
