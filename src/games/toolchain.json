@@ -1,0 +1,138 @@
+{
+	"Name" : "7 sites - Worldwide toolchain development",
+	"Budget" : 250000,
+	"Revenue Tier" : "Medium",
+	"Home location" : "Dublin",
+	"Locations" : [
+		{
+			"Name" : "Rio de Janeiro",
+			"Time Zone" : -3,
+			"Culture" : "Brazilian",
+			"Capacity" : 20,
+			"Salary" : 25
+		},
+		{
+			"Name" : "Florida",
+			"Time Zone" : -8,
+			"Culture" : "American",
+			"Capacity" : 30,
+			"Salary" : 5
+		},
+		{
+			"Name" : "Toronto",
+			"Time Zone" : -5,
+			"Culture" : "Canadian",
+			"Capacity" : 30,
+			"Salary" : 35
+		},
+		{
+			"Name" : "Dublin",
+			"Time Zone" : 0,
+			"Culture" : "Irish",
+			"Capacity" : 20,
+			"Salary" : 25
+		},
+		{
+			"Name" : "Canberra",
+			"Time Zone" : 11,
+			"Culture" : "Australian",
+			"Capacity" : 30,
+			"Salary" : 35
+		},
+		{
+			"Name" : "Tokyo",
+			"Time Zone" : 9,
+			"Culture" : "Japanese",
+			"Capacity" : 20,
+			"Salary" : 25
+		},
+		{
+			"Name" : "Nuuk",
+			"Time Zone" : -3,
+			"Culture" : "Canadian",
+			"Capacity" : 25,
+			"Salary" : 30
+		}
+	],
+	"Teams" : [
+		{
+			"Name" : "Rio de Janeiro Team",
+			"Salary" : 30,
+			"Size" : 10,
+			"Location" : "Rio de Janeiro"
+		},
+		{
+			"Name" : "Florida Team",
+			"Salary" : 35,
+			"Size" : 25,
+			"Location" : "Florida"
+		},
+		{
+			"Name" : "Toronto Team",
+			"Salary" : 15,
+			"Size" : 15,
+			"Location" : "Toronto"
+		},
+		{
+			"Name" : "Dublin Team",
+			"Salary" : 30,
+			"Size" : 10,
+			"Location" : "Dublin"
+		},
+		{
+			"Name" : "Canberra Team",
+			"Salary" : 15,
+			"Size" : 25,
+			"Location" : "Canberra"
+		},
+		{
+			"Name" : "Tokyo Team",
+			"Salary" : 15,
+			"Size" : 20,
+			"Location" : "Tokyo"
+		},
+		{
+			"Name" : "Nuuk Team",
+			"Salary" : 20,
+			"Size" : 25,
+			"Location" : "Nuuk"
+		}
+	],
+	"Modules" : [
+		{
+			"Name" : "Frontend",
+			"Cost" : 600,
+			"Assigned Team" : "Rio de Janeiro Team"
+		},
+		{
+			"Name" : "Backend",
+			"Cost" : 1200,
+			"Assigned Team" : "Florida Team"
+		},
+		{
+			"Name" : "Assembler",
+			"Cost" : 600,
+			"Assigned Team" : "Toronto Team"
+		},
+		{
+			"Name" : "Disassembler",
+			"Cost" : 800,
+			"Assigned Team" : "Dublin Team"
+		},
+		{
+			"Name" : "Linker",
+			"Cost" : 600,
+			"Assigned Team" : "Canberra Team"
+		},
+		{
+			"Name" : "Debugger",
+			"Cost" : 1000,
+			"Assigned Team" : "Tokyo Team"
+		},
+		{
+			"Name" : "VM",
+			"Cost" : 600,
+			"Assigned Team" : "Nuuk Team"
+		}
+	]
+}
