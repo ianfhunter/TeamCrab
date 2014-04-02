@@ -19,14 +19,13 @@ class Location(object):
     A class representing a location in the simulator.
     '''
 
-    def __init__(self, name, time, culture, cap, cost):
+    def __init__(self, name, time, culture, cap):
         self.name = name
         self.time_zone = time
         self.culture = culture
         self.capacity = cap
         self.current_size = 0
         self.teams = list()
-        self.salary = cost
         self.specialists = list()
         self.coordinates = location_coordinates[name]
 

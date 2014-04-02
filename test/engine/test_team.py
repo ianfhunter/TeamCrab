@@ -11,12 +11,12 @@ class TestTask(unittest.TestCase):
         pass
 
     def test_constructor(self):
-        team = Team('test_team', 25, 10)
-        self.assertTrue(team.name == 'test_team' and team.salary == 25 and team.size == 10)
+        team = Team('test_team', 10)
+        self.assertTrue(team.name == 'test_team' and team.size == 10)
 
     def test_calc_progress(self):
         current_time = datetime.datetime(2014,1,1,0,0,0)
-        team = Team('test_team', 25, 10)
+        team = Team('test_team', 10)
         module = Module('test_module', 800)
         module.calc_deadline(current_time, 10, 0)
         team.module = module

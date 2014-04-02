@@ -8,33 +8,28 @@
 			"Name" : "Dublin",
 			"Time Zone" : 0,
 			"Culture" : "Irish",
-			"Capacity" : 30,
-			"Salary" : 25
+			"Capacity" : 30
 		},
 		{
 			"Name" : "Belarus",
 			"Time Zone" : -2,
 			"Culture" : "Belarusian",
-			"Capacity" : 15,
-			"Salary" : 20
+			"Capacity" : 15
 		}
 	],
 	"Teams" : [
 		{
 			"Name" : "Dublin T1",
-			"Salary" : 35,
 			"Size" : 20,
 			"Location" : "Dublin"
 		},
 		{
 			"Name" : "Dublin T2",
-			"Salary" : 35,
 			"Size" : 10,
 			"Location" : "Dublin"
 		},
 		{
 			"Name" : "Belarus Team",
-			"Salary" : 30,
 			"Size" : 15,
 			"Location" : "Belarus"
 		}
