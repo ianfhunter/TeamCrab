@@ -241,6 +241,14 @@ to generate html documentation use
 13. Feature #39 - Daily variation
   * Each site's productivity varies hourly as specified by a master parameter.
 
+14. feature #16 - Intervention interface
+  * similar setup to the inquiry interface. Open a window by selecting the desired site and clicking the intervene button.
+  * Interventions have costs associated with them on four tiers - High, Med High, Med Low & Low
+  * They also have similar levels of impact.
+  * Excluded interventions:
+    1. 'Adopt Follow The Sun Development' as Follow the Sun Development was not an assigned feature
+    2. 'Relocate to Adjacent Time Zone' as we agreed in the meeting that moving staff around was out of scope because of the additional time pressures
+
 
 
 

@@ -25,8 +25,8 @@ class Project():
             Intervention("Support for Video Conference","Med Low","Low"),
             Intervention("Suitable select of Communication Tools","Med Low","Low"),
             #Time-Based
-            Intervention("Relocate to Adjacent Time Zone","High","High"),
-            Intervention("Adopt Follow The Sun Development","Med High","High"),
+#            Intervention("Relocate to Adjacent Time Zone","High","High"),
+#            Intervention("Adopt Follow The Sun Development","Med High","High"),
             Intervention("Create Bridging Team","Med High","Med High"),
             #Culture-Based
             Intervention("Face to Face Meeting","High","Med Low"),
