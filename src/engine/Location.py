@@ -82,7 +82,6 @@ class Location(object):
         '''
         Calculates geographic distance between a site and the home location.
         '''
-        #TODO these distances are made up and need to be adjusted based on map scale
         distance = math.sqrt(math.pow(self.coordinates[0] - loc.coordinates[0], 2)+math.pow(self.coordinates[1] - loc.coordinates[1], 2))
         if distance >= 200:
             return global_distance["high"]
