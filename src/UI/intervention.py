@@ -111,12 +111,12 @@ class Intervention:
 
             label = bellerose_font.render("Interventions - {}".format(self.intervention_site.name), 1, (0, 0, 0))
 
-            y_offset += 20
+            y_offset += 10
             #Centering
             name_length = len("Interventions - {}".format(self.intervention_site.name))
             name_length = name_length*10
 
-            self.screen.blit(label, (500 - name_length, y_offset - 50))
+            self.screen.blit(label, (500 - name_length, y_offset - 60))
 
             font = pygame.font.SysFont("Helvetica", 16)
 
@@ -143,7 +143,6 @@ class Intervention:
                     intervention_result.append(gui.Label("intervention Results:"))
                     for team in self.intervention_site.teams:
                         intervention_result.append(gui.Label("Team " + team.name))
-
                         intervention_result.extend( self.perform_intervention(self.intervention_type) )
 
                     for label in intervention_result:
