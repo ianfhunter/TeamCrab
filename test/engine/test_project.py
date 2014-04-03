@@ -1,9 +1,11 @@
 import importme
 import unittest
 from Project import Project
+from Location import Location
 from RevenueTier import LowRevenueTier, MediumRevenueTier, HighRevenueTier
 import datetime
 from global_config import config
+import sys
 
 class TestProject(unittest.TestCase):
 
@@ -91,6 +93,20 @@ class TestProject(unittest.TestCase):
         self.assertTrue(revenue == 505479.45)
 
     def test_add_intervention(self):
+        project = Project('test_project', 'Agile', 200000, LowRevenueTier())
+        project.locations =  [Location('Rio de Janeiro', "Brazilian", 30),Location('New Dehli', "Indian", 30)];
+        startng_cash = project.cash
+
+        project.add_intervention("Rio de Janeiro","Reduce interaction between teams")
+
+        #Intervention added
+        self.assertTrue(project.locations[0].intervention_list[0] == "Reduce interaction between teams")
+        #Intevention Level Raised
+        self.assertTrue(project.locations[0].intervention_level == 1)
+        #Cash removed
+        self.assertTrue(project.cash < startng_cash)
+
+
         pass
 
 if __name__ == '__main__':
