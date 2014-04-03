@@ -110,7 +110,6 @@ class Project():
             3    Med High    $125,000   +3
             4    High        $500,000   +4
 
-            TODO: Add tests. Side-Effects?
         '''
         for intervention in self.possible_interventions:
             #Get our intervention

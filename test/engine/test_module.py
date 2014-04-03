@@ -50,7 +50,7 @@ class TestModule(unittest.TestCase):
 
     def test_calculate_actual_cost(self):
         for i in range(100, 150):
-            val = calculate_actual_cost(i)
+            val = calculate_actual_cost(i,25)
             print i, val
             self.assertTrue(val >= i*0.75 and val <= i*1.25)
 
