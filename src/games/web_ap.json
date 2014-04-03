@@ -6,13 +6,11 @@
 	"Locations" : [
 		{
 			"Name" : "Dublin",
-			"Time Zone" : 0,
 			"Culture" : "Irish",
 			"Capacity" : 30
 		},
 		{
 			"Name" : "Belarus",
-			"Time Zone" : -2,
 			"Culture" : "Belarusian",
 			"Capacity" : 15
 		}

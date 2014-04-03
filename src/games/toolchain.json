@@ -6,43 +6,36 @@
 	"Locations" : [
 		{
 			"Name" : "Rio de Janeiro",
-			"Time Zone" : -3,
 			"Culture" : "Brazilian",
 			"Capacity" : 20
 		},
 		{
 			"Name" : "Florida",
-			"Time Zone" : -8,
 			"Culture" : "American",
 			"Capacity" : 30
 		},
 		{
 			"Name" : "Toronto",
-			"Time Zone" : -5,
 			"Culture" : "Canadian",
 			"Capacity" : 30
 		},
 		{
 			"Name" : "Dublin",
-			"Time Zone" : 0,
 			"Culture" : "Irish",
 			"Capacity" : 20
 		},
 		{
 			"Name" : "Canberra",
-			"Time Zone" : 11,
 			"Culture" : "Australian",
 			"Capacity" : 30
 		},
 		{
 			"Name" : "Tokyo",
-			"Time Zone" : 9,
 			"Culture" : "Japanese",
 			"Capacity" : 20
 		},
 		{
 			"Name" : "Nuuk",
-			"Time Zone" : -3,
 			"Culture" : "Canadian",
 			"Capacity" : 25
 		}

@@ -6,19 +6,16 @@
 	"Locations" : [
 		{
 			"Name" : "Dublin",
-			"Time Zone" : 0,
 			"Culture" : "Irish",
 			"Capacity" : 20
 		},
 		{
 			"Name" : "Florida",
-			"Time Zone" : -8,
 			"Culture" : "American",
 			"Capacity" : 30
 		},
 		{
 			"Name" : "New Dehli",
-			"Time Zone" : 5,
 			"Culture" : "Indian",
 			"Capacity" : 30
 		}

@@ -3,31 +3,31 @@ from global_config import cultures, config, global_distance
 import random
 import math
 
-location_coordinates = dict()
-location_coordinates['Dublin'] = (375,148)
-location_coordinates['Belarus'] = (445,138)
-location_coordinates['Rio de Janeiro'] = (285,337)
-location_coordinates['Florida'] = (192,207)
-location_coordinates['Toronto'] = (206,179)
-location_coordinates['Canberra'] = (733,369)
-location_coordinates['Tokyo'] = (704,201)
-location_coordinates['Nuuk'] = (273,68)
-location_coordinates['New Dehli'] = (570,264)
+locations_information = dict()
+locations_information['Dublin'] = {"coords" : (375,148), "timezone" : 0}
+locations_information['Belarus'] = {"coords" : (445,138), "timezone" : 3}
+locations_information['Rio de Janeiro'] = {"coords" : (285,337), "timezone" : -3}
+locations_information['Florida'] = {"coords" : (192,207), "timezone" : -5}
+locations_information['Toronto'] = {"coords" : (206,179), "timezone" : -5}
+locations_information['Canberra'] = {"coords" : (733,369), "timezone" : 11}
+locations_information['Tokyo'] = {"coords" : (704,201), "timezone" : 9}
+locations_information['Nuuk'] = {"coords" : (273,68), "timezone" : -2}
+locations_information['New Dehli'] = {"coords" : (570,264), "timezone" : 5}
 
 class Location(object):
     '''
     A class representing a location in the simulator.
     '''
 
-    def __init__(self, name, time, culture, cap):
+    def __init__(self, name, culture, cap):
         self.name = name
-        self.time_zone = time
+        self.time_zone = locations_information[name]["timezone"]
         self.culture = culture
         self.capacity = cap
         self.current_size = 0
         self.teams = list()
         self.specialists = list()
-        self.coordinates = location_coordinates[name]
+        self.coordinates = locations_information[name]["coords"]
 
 
     def add_team(self, team):

@@ -52,8 +52,7 @@ class Start_Screen:
 
         # Initialise each of the locations
         for location_data in project_data['Locations']:
-            new_location = Location(location_data['Name'], location_data['Time Zone'], location_data['Culture'], \
-                                     location_data['Capacity'])
+            new_location = Location(location_data['Name'], location_data['Culture'], location_data['Capacity'])
             project.locations.append(new_location)
 
         # Initialise each of the teams and add them to the specified locations
