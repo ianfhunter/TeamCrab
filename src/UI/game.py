@@ -242,7 +242,6 @@ class Game:
 
         @untestable - just draws UI so not testable.
         '''
-        # TODO: Info to be retrieved from backend, currently dummy data.
         bar_height = self.config["bottom_bar_height"]
         x = self.config["screenX"]
         y = self.config["screenY"]
@@ -375,7 +374,6 @@ class Game:
 
             label_y += y_inc
 
-            #TODO: Potentially change this if multiple modules at one site.
             targetIcon = pygame.image.load(self.config["target_icon_path"])
             self.screen.blit(targetIcon, (1, label_y))
             num_on_time = site.num_modules_on_schedule()
@@ -395,7 +393,6 @@ class Game:
         @untestable - just draws UI so not testable.
         '''
         if self.buttonsNeedDrawing:
-            # TODO: Real implementation for button action, currently dummy action.
             button = gui.Button("Inquire!",width=75)
             button.connect(gui.CLICK, self.inquire)
 
@@ -408,7 +405,6 @@ class Game:
         @untestable - just draws UI so not testable.
         '''
         if self.buttonsNeedDrawing:
-            # TODO: Real implementation for button action, currently dummy action.
             button = gui.Button("Intervene!")
             button.connect(gui.CLICK, self.intervene)
 
