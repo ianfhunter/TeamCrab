@@ -51,7 +51,7 @@ class Intervention:
         self.app.paint(self.screen)
         self.app.update(self.screen)
 
-        pygame.display.flip()
+        pygame.display.update()
 
     def button_option(self,intervention_name,activity):
         button = gui.Button(intervention_name)

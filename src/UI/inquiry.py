@@ -4,6 +4,8 @@ import json
 from pgu import gui
 from time import sleep
 
+import ctypes
+
 class Inquiry:
     def __init__(self, screen, config, project, site):
         self.config = config
@@ -53,7 +55,14 @@ class Inquiry:
         self.app.paint(self.screen)
         self.app.update(self.screen)
 
-        pygame.display.flip()
+        #Attempt at removing thread crashing issue
+        # try:
+        #     x11 = ctypes.cdll.LoadLibrary('libX11.so')
+        #     x11.XInitThreads()
+        #     print "XInitThreads"
+        # except:
+        #     pass
+        pygame.display.update()
 
     def draw_inquiry(self):
         '''

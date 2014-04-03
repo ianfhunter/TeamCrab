@@ -14,7 +14,6 @@ from engine.RevenueTier import LowRevenueTier, MediumRevenueTier, HighRevenueTie
 this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
 games_dir = os.path.join(root_dir, 'src/games/')
-
 class Start_Screen:
     def __init__(self, game_config,screen):
         self.config = game_config
@@ -26,6 +25,7 @@ class Start_Screen:
         # This is a dict of scenario names to their filenames
         self.scenarios = dict()
         for scenario in scenario_files:
+            print scenario
             scenario_data = json.load(open(os.path.join(games_dir, scenario)))
             self.scenarios[scenario_data['Name']] = scenario
         self.sel_val = self.load_scenario(self.scenarios.itervalues().next())
