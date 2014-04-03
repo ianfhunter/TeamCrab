@@ -61,30 +61,10 @@ class Intervention:
 
     def perform_intervention(self,intervention_activity):
         print intervention_activity
-        intervention_result = []
 
-        if intervention_activity == "kick_off":
-            intervention_result.append(gui.Label("All developers have travelled to the 'home' site <TO BE NAMED> at the beginning of the project."))
+        project.add_intervention(self.intervention_site.name, "intervention_name")
 
-        if intervention_activity == "ambassadors":
-            intervention_result.append(gui.Label('Cultural ambassadors have been placed at each site to help interpret the behaviour of developers at other sites.'))
-            intervention_result.append(gui.Label('Problem Rate --'))
-
-        if intervention_activity == "architects":
-            intervention_result.append(gui.Label('Deputy architects have been placed at each site who understands the product architecture and so can answer questions without incurring delay of contacting the chief architect.'))
-            intervention_result.append(gui.Label('Problem Rate --'))
-
-        if intervention_activity == "motivate_fear":
-            #far lower effeciency, less problems?
-            intervention_result.append(gui.Label('All developers have been threatened with pay cuts if they are any more delayed. '))
-            intervention_result.append(gui.Label('Problem Rate-- Effeciency-- '))
-
-        if intervention_activity == "motivate_positive":
-            #more effeciency, bulk sum paid , no time penalty - weekend, less problems
-            intervention_result.append(gui.Label('Developers are taken on a teamwork building weekend high in the Alps, where they can bond over the grueling experience. '))
-            intervention_result.append(gui.Label('Problem Rate-- Effeciency++ Lump Sum removed '))
-
-
+        intervention_result = [] ## gui.Label
 
         return intervention_result
 
