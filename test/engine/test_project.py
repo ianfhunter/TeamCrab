@@ -95,7 +95,7 @@ class TestProject(unittest.TestCase):
     def test_add_intervention(self):
         project = Project('test_project', 'Agile', 200000, LowRevenueTier())
         project.locations =  [Location('Rio de Janeiro', "Brazilian", 30),Location('New Dehli', "Indian", 30)];
-        startng_cash = project.cash
+        starting_cash = project.cash
 
         project.add_intervention("Rio de Janeiro","Reduce interaction between teams")
 
@@ -104,7 +104,7 @@ class TestProject(unittest.TestCase):
         #Intevention Level Raised
         self.assertTrue(project.locations[0].intervention_level == 1)
         #Cash removed
-        self.assertTrue(project.cash < startng_cash)
+        self.assertTrue(project.cash < starting_cash)
 
 
         pass

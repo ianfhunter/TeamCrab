@@ -1,5 +1,6 @@
 from Module import Module
 from Location import Location
+from Intervention import Intervention
 import datetime
 from global_config import config
 
@@ -16,6 +17,24 @@ class Project():
         self.start_time = datetime.datetime(2014,1,1,0,0,0)
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
         self.total_estimated_effort = 0
+        self.possible_interventions = [
+                         #Name             #Cost     #Impact
+            #Geo-Based
+            Intervention("Exchange Program","High","Med High"),
+            Intervention("Synchronous Communication Possibilities","Med High","Low"),
+            Intervention("Support for Video Conference","Med Low","Low"),
+            Intervention("Suitable select of Communication Tools","Med Low","Low"),
+            #Time-Based
+            Intervention("Relocate to Adjacent Time Zone","High","High"),
+            Intervention("Adopt Follow The Sun Development","Med High","High"),
+            Intervention("Create Bridging Team","Med High","Med High"),
+            #Culture-Based
+            Intervention("Face to Face Meeting","High","Med Low"),
+            Intervention("Cultural Training","Med High","Med Low"),
+            Intervention("Cultural Liason/Ambassador","Med High","Med High"),
+            Intervention("Adopt low-context communication style","Low","Low"),
+            Intervention("Reduce interaction between teams","Low","Low"),
+        ]
 
     def calc_nominal_schedule(self):
         if self.development_method == 'Agile':
@@ -93,73 +112,13 @@ class Project():
 
             TODO: Add tests. Side-Effects?
         '''
-        cost = 0
-        impact = 0
-
-        #GEO INTERVENTIONS
-        if intervention_type == "Exchange Program":
-            #High,         Medium High
-            cost = 4
-            impact = 3
-        elif intervention_type == "Synchronous Communication Possibilities":
-            #Med High,     Low
-            cost = 3
-            impact = 1
-        elif intervention_type == "Support for Video Conference":
-            #Med Low,      Low
-            cost = 2
-            impact = 1
-        elif intervention_type == "Suitable select of Communication Tools":
-            #Med Low,      Low
-            cost = 2
-            impact = 1
-
-        #TIME INTERVENTIONS
-        elif intervention_type == "Relocate to Adjacent Time Zone":
-            #High,         High
-            cost = 4
-            impact = 4
-        elif intervention_type == "Adopt Follow The Sun Development":
-            #Med High,     High
-            cost = 3
-            impact = 4
-        elif intervention_type == "Create Bridging Team":
-            #Med High,     Med High
-            cost = 3
-            impact = 3
-
-        #CULTURE INTERVENTIONS
-        elif intervention_type == "Face to Face Meeting":
-            #High,         Med Low
-            cost = 4
-            impact = 2
-        elif intervention_type == "Cultural Training":
-            #Med High,     Med Low
-            cost = 3
-            impact = 2
-        elif intervention_type == "Cultural Liason/Ambassador":
-            #Med High,     Med High
-            cost = 3
-            impact = 3
-        elif intervention_type == "Adopt low-context communication style":
-            #Low,         Low
-            cost = 1
-            impact = 1
-        elif intervention_type == "Reduce interaction between teams":
-            #Low,         Low
-            cost = 1
-            impact = 1
-
-        for location in self.locations:
-            if location.name == location_name:
-                location.intervention_add(intervention_type,impact)
-                break
-
-        if cost == 1:
-            self.cash -= 5000 
-        elif cost == 2:
-            self.cash -= 25000            
-        elif cost == 3:
-            self.cash -= 125000            
-        elif cost == 4:
-            self.cash -= 500000
+        for intervention in self.possible_interventions:
+            #Get our intervention
+            if intervention.name == intervention_type:
+                #Get our location
+                for location in self.locations:
+                    if location.name == location_name:
+                        #Add intervention to modifier & list of location
+                        location.intervention_add(intervention.name,intervention.impact)
+                        self.cash -= intervention.get_cost()
+                        return
