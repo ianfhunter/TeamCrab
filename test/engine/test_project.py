@@ -90,5 +90,8 @@ class TestProject(unittest.TestCase):
         print revenue
         self.assertTrue(revenue == 505479.45)
 
+    def test_add_intervention(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()

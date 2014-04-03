@@ -144,6 +144,9 @@ class Location(object):
             return True
         return False
 
-    def intervention_add(name,level):
+    def intervention_add(self,name,level):
+        '''
+            Not to be called directly. Please use project.py's method instead.
+        '''
         self.intervention_level += level
         self.intervention_list.append(name)

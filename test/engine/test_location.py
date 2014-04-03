@@ -221,5 +221,16 @@ class TestLocation(unittest.TestCase):
         failed = location7.calc_fail(location8)
         self.assertTrue(failed == True or failed == False)
 
+    def test_intervention_add(self):
+        location = Location('Dublin',"Irish",30)
+        location.intervention_add("Test Intervention",3)
+
+        self.assertTrue(location.intervention_level == 3)
+        self.assertTrue(location.intervention_list[0] == "Test Intervention")
+
+        location.intervention_add("Test Intervention 2",3)
+        self.assertTrue(location.intervention_level == 6)
+
+
 if __name__ == '__main__':
     unittest.main()
