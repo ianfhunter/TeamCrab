@@ -9,7 +9,6 @@ from time import sleep
 import argparse
 
 from engine import SimulationEngine
-from games import test_game as populate
 from UI import game, endgame, start_screen
 
 from global_config import config
