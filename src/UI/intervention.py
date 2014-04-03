@@ -59,13 +59,14 @@ class Intervention:
         return button
 
 
-    def perform_intervention(self,intervention_activity):
-        print intervention_activity
-
-        project.add_intervention(self.intervention_site.name, "intervention_name")
-
-        intervention_result = [] ## gui.Label
-
+    def perform_intervention(self, type):
+        site = self.intervention_site
+        self.project.add_intervention(site.name, type)
+        intervention_result = [gui.Label("Did an intervention: {}".format(type))] ## gui.Label
+        intervention_result.append(gui.Label("Site {} now has a total of {} interventions:"
+                                   .format(site.name, len(site.intervention_list))))
+        for num, name in enumerate(site.intervention_list):
+            intervention_result.append(gui.Label("{} - {}".format(num, name)))
         return intervention_result
 
     def draw_intervention(self):
