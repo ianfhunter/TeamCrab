@@ -30,6 +30,7 @@ class Location(object):
         self.coordinates = locations_information[name]["coords"]
         self.fail_rate = config["fail_rate"]
         self.intervention_level = 0
+        self.intervention_list = []
 
     def add_team(self, team):
         ''' Adds a team to this location if there is enough space for them.
@@ -143,78 +144,6 @@ class Location(object):
             return True
         return False
 
-    def add_intervention(self, intervention_type):
-        ''' 
-            Adds an intervention to a site, meaning problem rates are lowered
-            
-            Intervention Costs are subtracted from Current Cash.
-            Intervention Impact is added to intervention_level which increases the intervention_modifier when caclulating failures.
-
-            Lvl  Name        Cost       Impact
-            0    None        $0         +0
-            1    Low         $5,000     +1
-            2    Med Low     $25,000    +2
-            3    Med High    $125,000   +3
-            4    High        $500,000   +4
-
-            TODO: Add tests.
-        '''
-        cost = 0
-        impact = 0
-
-        #GEO INTERVENTIONS
-        if intervention_type == "Exchange Program":
-            #High,         Medium High
-            cost = 4
-            impact = 3
-        elif intervention_type == "Synchronous Communication Possibilities":
-            #Med High,     Low
-            cost = 3
-            impact = 1
-        elif intervention_type == "Support for Video Conference":
-            #Med Low,      Low
-            cost = 2
-            impact = 1
-        elif intervention_type == "Suitable select of Communication Tools":
-            #Med Low,      Low
-            cost = 2
-            impact = 1
-
-        #TIME INTERVENTIONS
-        elif intervention_type == "Relocate to Adjacent Time Zone":
-            #High,         High
-            cost = 4
-            impact = 4
-        elif intervention_type == "Adopt Follow The Sun Development":
-            #Med High,     High
-            cost = 3
-            impact = 4
-        elif intervention_type == "Create Bridging Team":
-            #Med High,     Med High
-            cost = 3
-            impact = 3
-
-        #CULTURE INTERVENTIONS
-        elif intervention_type == "Face to Face Meeting":
-            #High,         Med Low
-            cost = 4
-            impact = 2
-        elif intervention_type == "Cultural Training":
-            #Med High,     Med Low
-            cost = 3
-            impact = 2
-        elif intervention_type == "Cultural Liason/Ambassador":
-            #Med High,     Med High
-            cost = 3
-            impact = 3
-        elif intervention_type == "Adopt low-context communication style":
-            #Low,         Low
-            cost = 1
-            impact = 1
-        elif intervention_type == "Reduce interaction between teams":
-            #Low,         Low
-            cost = 1
-            impact = 1
-
-        self.intervention_level += impact
-        
+    def intervention_add(name,level):
+        self.intervention_level += level
+        self.intervention_list.append(name)
