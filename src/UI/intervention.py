@@ -1,6 +1,6 @@
 import pygame
 import random
-import json 
+import json
 from pgu import gui
 from time import sleep
 
@@ -13,7 +13,7 @@ class Intervention:
         self.app.connect(gui.QUIT, self.app.quit, None)
         self.contain = gui.Container(width=self.config["screenX"],
                                      height=self.config["screenY"])
-    
+
         self.intervention_site = site
         self.intervention_type = None
 
@@ -109,80 +109,37 @@ class Intervention:
             font = pygame.font.SysFont("Helvetica", 24)
             bellerose_font = pygame.font.Font(self.config["bellerose_font"], 40)
 
-            label = bellerose_font.render("Interventions - {}".format(self.intervention_site.name)
-                     , 1, (0, 0, 0))
+            label = bellerose_font.render("Interventions - {}".format(self.intervention_site.name), 1, (0, 0, 0))
 
-            #Centering 
+            y_offset += 20
+            #Centering
             name_length = len("Interventions - {}".format(self.intervention_site.name))
             name_length = name_length*10
 
             self.screen.blit(label, (500 - name_length, y_offset - 50))
 
-            y_offset += 30
-
-            if self.firstOptions:
-                button = self.button_option('hold a "kick-off" meeting',"kick_off")
-                self.contain.add(button, info_x, y_offset)
-
             font = pygame.font.SysFont("Helvetica", 16)
-            label = font.render("0 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
-            y_offset += 20
-            if self.firstOptions:
-                button = self.button_option('Deploy "Cultural Ambassadors"',"ambassadors")
-                self.contain.add(button, info_x, y_offset)
+            for name, cost in [(i.name, i.get_cost()) for i in self.project.possible_interventions]:
+                y_offset += 20
+                if self.firstOptions:
+                    button = self.button_option(name, name)
+                    self.contain.add(button, info_x, y_offset)
 
-            label = font.render("0.1 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
-
-            y_offset += 20
-            if self.firstOptions:
-                button = self.button_option('Deploy "Deputy Architects"',"architects")
-                self.contain.add(button, info_x, y_offset)
-
-            label = font.render("0.1 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
-
-
-            y_offset += 20
-            if self.firstOptions:
-                button = self.button_option('Threaten Developers',"motivate_fear")
-                self.contain.add(button, info_x, y_offset)
-
-            label = font.render("0.1 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
-
-            y_offset += 20
-            if self.firstOptions:
-                button = self.button_option('Developer Teamwork Weekend',"motivate_positive")
-                self.contain.add(button, info_x, y_offset)
-
-            label = font.render("0.1 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
-
-
-            label = font.render("0.5 Working Days"
-                    , 1, (0, 0, 0))
-            self.screen.blit(label, (info_x + 365 + 60, y_offset))
+                label = font.render("${}".format(cost), 1, (0, 0, 0))
+                self.screen.blit(label, (info_x + 365 + 60, y_offset))
 
             if self.firstOptions:
                 #make sure doesnt add next time
                 self.firstOptions = False
                 self.app.init(self.contain)
 
-
             hel_font = pygame.font.SysFont("Helvetica", 12)
             if self.intervention_type:
                 intervention_result = []
                 if self.firstScroll:
                     self.firstScroll = False
-                    my_list = gui.List(width=560,height=200,name="report_details")
+                    my_list = gui.List(width=560,height=80,name="report_details")
                     intervention_result.append(gui.Label("intervention Results:"))
                     for team in self.intervention_site.teams:
                         intervention_result.append(gui.Label("Team " + team.name))
