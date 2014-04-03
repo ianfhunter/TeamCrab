@@ -256,13 +256,14 @@ class Game:
             label = font.render("$"+str(self.project_data.cash), 1, (14, 106, 0))
         else:
             label = font.render("-$"+str(self.project_data.cash*-1), 1, (255, 0, 0))
+
         self.screen.blit(label, (10, label_pos))
         cur_time =self.project_data.current_time
         label = font.render(cur_time.strftime("%a %d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
-        self.screen.blit(label, (100, label_pos))
+        self.screen.blit(label, (160, label_pos))
         label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
                              1, (38, 0, 255))
-        self.screen.blit(label, (350, label_pos))
+        self.screen.blit(label, (470, label_pos))
 
     def draw_sites(self):
         '''
