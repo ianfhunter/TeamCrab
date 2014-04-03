@@ -23,17 +23,17 @@
 	"Teams" : [
 		{
 			"Name" : "Dublin Team",
-			"Salary" : 30,
+			"Size" : 10,
 			"Location" : "Dublin"
 		},
 		{
 			"Name" : "Florida Team",
-			"Salary" : 35,
+			"Size" : 25,
 			"Location" : "Florida"
 		},
 		{
 			"Name" : "New Dehli Team",
-			"Salary" : 15,
+			"Size" : 5,
 			"Location" : "New Dehli"
 		}
 	],

@@ -13,7 +13,7 @@ from engine.RevenueTier import LowRevenueTier, MediumRevenueTier, HighRevenueTie
 
 this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
-games_dir = os.path.join(root_dir, 'src/games/')
+games_dir = os.path.join(root_dir, 'games/')
 class Start_Screen:
     def __init__(self, game_config,screen):
         self.config = game_config

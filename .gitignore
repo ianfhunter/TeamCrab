@@ -12,7 +12,7 @@ docs
 *.json
 
 # Don't ignore scenario files
-!src/games/*.json
+!games/*.json
 
 # OS generated files 
 .DS_Store

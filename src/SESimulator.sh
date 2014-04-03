@@ -1,4 +1,4 @@
-v=RC1_rc5
+v=RC2_rc2
 
 if [[ $1 = "--simv" ]]; then
 	v=$2
