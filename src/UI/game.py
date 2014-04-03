@@ -2,7 +2,7 @@ import pygame
 import os
 from pgu import gui
 from time import sleep
-import endgame,inquiry
+import endgame,inquiry,intervention
 from global_config import cultures
 
 glob_game = None
@@ -24,6 +24,12 @@ class Game:
         self.inquired = None        #boolean
         self.inquiry_site = None
         self.inquiry_type = None
+
+        self.intervention = None         #inquiry object
+        self.intervened = None        #boolean
+        self.intervention_site = None
+        self.intervention_type = None
+
 
         self.info_legend = False
 
@@ -101,6 +107,37 @@ class Game:
                     os._exit(1)
 
 
+    def intervene(self):
+        '''
+        Draws intervention interface screen.
+
+        @untestable - just draws UI so not testable.
+        '''
+        #toggle window
+        site = self.selected_site
+
+        self.intervened = not self.intervened
+        self.intervention = intervention.Intervention(self.screen, self.config, self.project_data, site)
+        self.engine.pause()
+
+        while(self.intervened):
+
+            self.intervention.draw()
+            sleep(self.config["ui_refresh_period_seconds"])
+            # Handle all events.
+            for event in pygame.event.get():
+
+                # Tell PGU about all events.
+                self.intervention.app.event(event)
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                    self.intervened = False
+                    self.engine.resume() 
+                    break
+                # Handle quitting.
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    os._exit(1)
+
+
     def run(self):
         '''
         Handles all input events and goes to sleep.
@@ -111,7 +148,7 @@ class Game:
         while True:
             sleep(self.config["ui_refresh_period_seconds"])
 
-            if not self.inquired:
+            if not self.inquired and not self.intervened:
                 # Handle all events.
                 for event in pygame.event.get():
                     # Tell PGU about all events.
@@ -122,6 +159,7 @@ class Game:
        
                     if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                         self.inquired = False
+                        self.intervened = False
                         self.engine.resume() 
                     # Handle quitting.
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -204,7 +242,6 @@ class Game:
 
         @untestable - just draws UI so not testable.
         '''
-        # TODO: Info to be retrieved from backend, currently dummy data.
         bar_height = self.config["bottom_bar_height"]
         x = self.config["screenX"]
         y = self.config["screenY"]
@@ -219,13 +256,14 @@ class Game:
             label = font.render("$"+str(self.project_data.cash), 1, (14, 106, 0))
         else:
             label = font.render("-$"+str(self.project_data.cash*-1), 1, (255, 0, 0))
+
         self.screen.blit(label, (10, label_pos))
         cur_time =self.project_data.current_time
         label = font.render(cur_time.strftime("%a %d %B %Y - %H:00 GMT") , 1, (0, 0, 0))
-        self.screen.blit(label, (100, label_pos))
+        self.screen.blit(label, (160, label_pos))
         label = font.render("Nominal Finish Time: " + str(self.project_data.delivery_date.strftime("%d %B %Y - %H:00 GMT")),
                              1, (38, 0, 255))
-        self.screen.blit(label, (350, label_pos))
+        self.screen.blit(label, (470, label_pos))
 
     def draw_sites(self):
         '''
@@ -286,7 +324,7 @@ class Game:
 
         @untestable - just draws UI so not testable.
         '''
-        y = 300
+        y = 310
 
         # Draw plain background.
         pygame.draw.rect(self.screen, self.config["background_colour"],
@@ -299,36 +337,46 @@ class Game:
     
             site = self.selected_site
 
+            label_y = y # 5
+            y_inc = 30
+
             workerIcon = pygame.image.load(self.config["location_icon_path"])
-            self.screen.blit(workerIcon, (1, 290))
+            self.screen.blit(workerIcon, (1, label_y))
             label = font.render(site.name, 1, (0, 0, 0))
-            self.screen.blit(label, (40, y-5))
+            self.screen.blit(label, (40, label_y))
+
+            label_y += y_inc
 
             # Draw icons and accompanying text.
             workerIcon = pygame.image.load(self.config["man_icon_path"])
-            self.screen.blit(workerIcon, (1, 325))
+            self.screen.blit(workerIcon, (1, label_y))
             label = font.render(str(len(self.selected_site.teams)) +
                                 " Team(s)", 1, (0, 0, 0))
-            self.screen.blit(label, (40, y + 30))
+            self.screen.blit(label, (40, label_y))
+
+            label_y += y_inc
 
             peepIcon = pygame.image.load(self.config["peep_icon_path"])
-            self.screen.blit(peepIcon, (1, 360))
+            self.screen.blit(peepIcon, (1, label_y))
             population = 0
             for team in self.selected_site.teams:
                 population += team.size
             label = font.render(str(population) + "  People ", 1,
                                 (0, 0, 0))
-            self.screen.blit(label, (40, y + 65))
+            self.screen.blit(label, (40, label_y))
+
+            label_y += y_inc
 
             clockIcon = pygame.image.load(self.config["clock_icon_path"])
-            self.screen.blit(clockIcon, (1, 395))
+            self.screen.blit(clockIcon, (1, label_y))
             progress = int(site.total_module_progress())
             label = font.render(str(progress) + "h Effort Expended", 1, (0, 0, 0))
-            self.screen.blit(label, (40, y + 100))
+            self.screen.blit(label, (40, label_y))
 
-            #TODO: Potentially change this if multiple modules at one site.
+            label_y += y_inc
+
             targetIcon = pygame.image.load(self.config["target_icon_path"])
-            self.screen.blit(targetIcon, (1, 430))
+            self.screen.blit(targetIcon, (1, label_y))
             num_on_time = site.num_modules_on_schedule()
             num_modules = site.num_modules()
             if num_modules - num_on_time == 0:
@@ -338,20 +386,32 @@ class Game:
             else:
                 status = "Delayed"
             label = font.render(status, 1, (0, 0, 0))
-            self.screen.blit(label, (40, y + 135))
+            self.screen.blit(label, (40, label_y))
 
-    def draw_pause_button(self):
+    def draw_inquiry_button(self):
         ''' Draws the "menu" pause button over the bottom bar.
 
         @untestable - just draws UI so not testable.
         '''
         if self.buttonsNeedDrawing:
-            # TODO: Real implementation for button action, currently dummy action.
-            button = gui.Button("Make inquiry!")
+            button = gui.Button("Inquire!",width=75)
             button.connect(gui.CLICK, self.inquire)
 
-            self.contain.add(button, 45, self.config["menuY"] - 190)
+            self.contain.add(button, 4, self.config["menuY"] - 178)
             self.app.init(self.contain)
+
+    def draw_intervention_button(self):
+        ''' Draws the "menu" pause button over the bottom bar.
+
+        @untestable - just draws UI so not testable.
+        '''
+        if self.buttonsNeedDrawing:
+            button = gui.Button("Intervene!")
+            button.connect(gui.CLICK, self.intervene)
+
+            self.contain.add(button, 102, self.config["menuY"] - 178)
+            self.app.init(self.contain)
+
 
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
@@ -362,7 +422,7 @@ class Game:
         #This is getting complicated and we dont really need it as it 
         self.app.paint(self.screen)
 
-        if self.inquired:
+        if self.inquired or self.intervened:
             pygame.display.update((0, 280, 200, 180))
         else:
             pygame.display.flip()
@@ -384,7 +444,8 @@ class Game:
         self.draw_bottom_bar(self.font)
         self.draw_sites()
         self.draw_detailed_site_info(self.font)
-        self.draw_pause_button()
+        self.draw_inquiry_button()
+        self.draw_intervention_button()
         self.draw_info_button()
         self.refresh_screen()
         self.buttonsNeedDrawing = False

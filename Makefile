@@ -1,5 +1,5 @@
 .PHONY: all test clean install uninstall
-version = RC1_rc5
+version = RC2_rc2
 install_pyc_prefix = /opt
 install_sh_prefix = /usr/local/bin
 
@@ -25,8 +25,10 @@ install:
 	mkdir -p $(install_pyc_prefix)/SESimulator_v$(version)
 	mkdir -p $(install_pyc_prefix)/SESimulator_v$(version)/bin
 	mkdir -p $(install_pyc_prefix)/SESimulator_v$(version)/media
+	mkdir -p $(install_pyc_prefix)/SESimulator_v$(version)/games
 	cp -R bin/* $(install_pyc_prefix)/SESimulator_v$(version)/bin
 	cp -R media/* $(install_pyc_prefix)/SESimulator_v$(version)/media
+	cp -R games/* $(install_pyc_prefix)/SESimulator_v$(version)/games
 	cp src/SESimulator.sh $(install_sh_prefix)/SESimulator
 	@echo "#!/bin/bash \np=$(install_pyc_prefix)" | cat - $(install_sh_prefix)/SESimulator > temp && mv temp $(install_sh_prefix)/SESimulator
 	chmod +x $(install_sh_prefix)/SESimulator

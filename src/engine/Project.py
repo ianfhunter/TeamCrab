@@ -1,5 +1,6 @@
 from Module import Module
 from Location import Location
+from Intervention import Intervention
 import datetime
 from global_config import config
 
@@ -16,6 +17,24 @@ class Project():
         self.start_time = datetime.datetime(2014,1,1,0,0,0)
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
         self.total_estimated_effort = 0
+        self.possible_interventions = [
+                         #Name             #Cost     #Impact
+            #Geo-Based
+            Intervention("Exchange Program","High","Med High"),
+            Intervention("Synchronous Communication Possibilities","Med High","Low"),
+            Intervention("Support for Video Conference","Med Low","Low"),
+            Intervention("Suitable select of Communication Tools","Med Low","Low"),
+            #Time-Based
+#            Intervention("Relocate to Adjacent Time Zone","High","High"),
+#            Intervention("Adopt Follow The Sun Development","Med High","High"),
+            Intervention("Create Bridging Team","Med High","Med High"),
+            #Culture-Based
+            Intervention("Face to Face Meeting","High","Med Low"),
+            Intervention("Cultural Training","Med High","Med Low"),
+            Intervention("Cultural Liason/Ambassador","Med High","Med High"),
+            Intervention("Adopt low-context communication style","Low","Low"),
+            Intervention("Reduce interaction between teams","Low","Low"),
+        ]
 
     def calc_nominal_schedule(self):
         if self.development_method == 'Agile':
@@ -75,3 +94,30 @@ class Project():
         num_months_late = self.days_behind_schedule() * 12.0 / 365.0
         actual_revenue = (6 - num_months_late) * (self.expected_yearly_revenue / 12.0)
         return int(actual_revenue*100) / 100.0
+
+
+    def add_intervention(self,location_name, intervention_type):
+        ''' 
+            Adds an intervention to a site, meaning problem rates are lowered
+            
+            Intervention Costs are subtracted from Current Cash.
+            Intervention Impact is added to intervention_level which increases the intervention_modifier when caclulating failures.
+
+            Lvl  Name        Cost       Impact
+            0    None        $0         +0
+            1    Low         $5,000     +1
+            2    Med Low     $25,000    +2
+            3    Med High    $125,000   +3
+            4    High        $500,000   +4
+
+        '''
+        for intervention in self.possible_interventions:
+            #Get our intervention
+            if intervention.name == intervention_type:
+                #Get our location
+                for location in self.locations:
+                    if location.name == location_name:
+                        #Add intervention to modifier & list of location
+                        location.intervention_add(intervention.name,intervention.impact)
+                        self.cash -= intervention.get_cost()
+                        return

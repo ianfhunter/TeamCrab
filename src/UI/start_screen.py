@@ -1,24 +1,87 @@
 import pygame
 import os
+import json
 from pgu import gui
 from time import sleep
-from games import scenarios
+
+from engine.Project import Project
+from engine.Location import Location
+from engine.Module import Module
+from engine.Team import Team
+from engine.RevenueTier import LowRevenueTier, MediumRevenueTier, HighRevenueTier
+
 
 this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
-
+games_dir = os.path.join(root_dir, 'games/')
 class Start_Screen:
     def __init__(self, game_config,screen):
         self.config = game_config
         self.selected_site = None
         self.screen = screen
-        self.sel_val = scenarios.get_scenarios().itervalues().next()
+
+        # Get all the scenario json files from the games dir
+        scenario_files = [ f for f in os.listdir(games_dir) if os.path.isfile(os.path.join(games_dir, f)) ] # get all files in the games dir
+        # This is a dict of scenario names to their filenames
+        self.scenarios = dict()
+        for scenario in scenario_files:
+            scenario_data = json.load(open(os.path.join(games_dir, scenario)))
+            self.scenarios[scenario_data['Name']] = scenario
+        self.sel_val = self.load_scenario(self.scenarios.itervalues().next())
 
         self.app = gui.App()
         self.app.connect(gui.QUIT, self.app.quit, None)
         self.contain = gui.Container(width=self.config["screenX"],
                                      height=self.config["screenY"])
         self.font = pygame.font.SysFont("Helvetica", 15)
+
+    def load_scenario(self, scenario):
+        project_data = json.load(open(os.path.join(games_dir, scenario)))
+
+        # Get the revenue tier for the project. Assumed to be low if not specified or incorrectly specified
+        if project_data['Revenue Tier'] == 'High':
+            revenue_tier = HighRevenueTier()
+        elif project_data['Revenue Tier'] == 'Medium':
+            revenue_tier = MediumRevenueTier()
+        else:
+            revenue_tier = LowRevenueTier()
+
+        # Initialise the project
+        project = Project(project_data['Name'], 'Agile', project_data['Budget'], revenue_tier)
+
+        # Initialise each of the locations
+        for location_data in project_data['Locations']:
+            new_location = Location(location_data['Name'], location_data['Culture'], location_data['Capacity'])
+            project.locations.append(new_location)
+
+        # Initialise each of the teams and add them to the specified locations
+        for team_data in project_data['Teams']:
+            new_team = Team(team_data['Name'], team_data['Size'])
+            location = [location for location in project.locations if location.name == team_data['Location']]
+            if location:
+                location[0].add_team(new_team)
+            else:
+                print 'Unknown location', team_data['Location'], 'specified in team', team_data['Name']
+                raise Exception('Unknown location exception')
+
+        # Initialise each of the modules and add them to specified teams and to the project
+        for module_data in project_data['Modules']:
+            new_module = Module(module_data['Name'], module_data['Cost'])
+            project.modules.append(new_module)
+            for location in project.locations:
+                team = [team for team in location.teams if team.name == module_data['Assigned Team']]
+                if team:
+                    team[0].modules.append(new_module)
+                    break
+
+        # Set the home site, this is set to the first location specified if no home site is selected
+        location = location = [location for location in project.locations if location.name == project_data['Home location']]
+        if location:
+            project.home_site = location[0]
+        else:
+            project.home_site = project.locations[0]
+
+        return project
 
     def run(self):
         '''Handles all input events and goes to sleep.
@@ -50,7 +113,7 @@ class Start_Screen:
         ''' Callback for changing scenarios with PGU select element
         @untestable - UI redrawing code.
         '''
-        self.sel_val = scenarios.get_scenarios().get(selection.value)
+        self.sel_val = self.load_scenario(self.scenarios[selection.value.value])
 
 
 
@@ -103,18 +166,14 @@ class Start_Screen:
     '''
     def draw_choices(self):
         ''' Takes different scenarios and puts them in the selection gui element '''
-#        choices = ["Eastern European Teams", "Asia-Based Development", "Worldwide Development"]
-        choices =  scenarios.get_scenarios()
-
-
         bar_position = 160
         if self.contain.widgets == []:            
 
             #selection
             sel = gui.Select()
-            sel.value = scenarios.get_scenarios().keys()[0]
-            for itr,label in enumerate(choices):
-                sel.add(label, label)
+            sel.value = 0
+            for label,filename in self.scenarios.iteritems():
+                sel.add(str(label))
             sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
             self.contain.add(sel, 205, bar_position )
 

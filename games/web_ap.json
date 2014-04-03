@@ -1,0 +1,62 @@
+{
+	"Name" : "2 sites - Small webapp development",
+	"Budget" : 90000,
+	"Revenue Tier" : "Low",
+	"Home location" : "Dublin",
+	"Locations" : [
+		{
+			"Name" : "Dublin",
+			"Culture" : "Irish",
+			"Capacity" : 30
+		},
+		{
+			"Name" : "Belarus",
+			"Culture" : "Belarusian",
+			"Capacity" : 15
+		}
+	],
+	"Teams" : [
+		{
+			"Name" : "Dublin T1",
+			"Size" : 20,
+			"Location" : "Dublin"
+		},
+		{
+			"Name" : "Dublin T2",
+			"Size" : 10,
+			"Location" : "Dublin"
+		},
+		{
+			"Name" : "Belarus Team",
+			"Size" : 15,
+			"Location" : "Belarus"
+		}
+	],
+	"Modules" : [
+		{
+			"Name" : "Framework",
+			"Cost" : 600,
+			"Assigned Team" : "Belarus Team"
+		},
+		{
+			"Name" : "Database",
+			"Cost" : 400,
+			"Assigned Team" : "Dublin T2"
+		},
+		{
+			"Name" : "Front end",
+			"Cost" : 800,
+			"Assigned Team" : "Dublin T1"
+		},
+		{
+			"Name" : "API",
+			"Cost" : 200,
+			"Assigned Team" : "Belarus Team"
+		},
+		{
+			"Name" : "Documenation",
+			"Cost" : 100,
+			"Assigned Team" : "Dublin T2"
+		}
+	]
+}

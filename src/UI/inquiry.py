@@ -4,6 +4,8 @@ import json
 from pgu import gui
 from time import sleep
 
+import ctypes
+
 class Inquiry:
     def __init__(self, screen, config, project, site):
         self.config = config
@@ -53,7 +55,14 @@ class Inquiry:
         self.app.paint(self.screen)
         self.app.update(self.screen)
 
-        pygame.display.flip()
+        #Attempt at removing thread crashing issue
+        # try:
+        #     x11 = ctypes.cdll.LoadLibrary('libX11.so')
+        #     x11.XInitThreads()
+        #     print "XInitThreads"
+        # except:
+        #     pass
+        pygame.display.update()
 
     def draw_inquiry(self):
         '''
@@ -78,7 +87,11 @@ class Inquiry:
 
             label = bellerose_font.render("Inquiries - {}".format(self.inquiry_site.name)
                      , 1, (0, 0, 0))
-            self.screen.blit(label, (300, y_offset - 50))
+
+            #Centering
+            name_length = len("Inquiries - {}".format(self.inquiry_site.name))
+            name_length = name_length*10
+            self.screen.blit(label, (500 - name_length , y_offset - 50))
 
             y_offset += 30
             if self.firstOptions:
@@ -291,3 +304,4 @@ class Inquiry:
         '''
         self.draw_inquiry()
         self.refresh_screen()
+#        sleep(self.config["ui_refresh_period_seconds"])

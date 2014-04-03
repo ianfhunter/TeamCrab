@@ -3,22 +3,34 @@ from global_config import cultures, config, global_distance
 import random
 import math
 
+locations_information = dict()
+locations_information['Dublin'] = {"coords" : (375,148), "timezone" : 0}
+locations_information['Belarus'] = {"coords" : (445,138), "timezone" : 3}
+locations_information['Rio de Janeiro'] = {"coords" : (285,337), "timezone" : -3}
+locations_information['Florida'] = {"coords" : (192,207), "timezone" : -5}
+locations_information['Toronto'] = {"coords" : (206,179), "timezone" : -5}
+locations_information['Canberra'] = {"coords" : (733,369), "timezone" : 11}
+locations_information['Tokyo'] = {"coords" : (704,201), "timezone" : 9}
+locations_information['Nuuk'] = {"coords" : (273,68), "timezone" : -2}
+locations_information['New Dehli'] = {"coords" : (570,264), "timezone" : 5}
+
 class Location(object):
     '''
     A class representing a location in the simulator.
     '''
 
-    def __init__(self, name, time, culture, cap, cost, coordinates):
+    def __init__(self, name, culture, cap):
         self.name = name
-        self.time_zone = time
+        self.time_zone = locations_information[name]["timezone"]
         self.culture = culture
         self.capacity = cap
         self.current_size = 0
         self.teams = list()
-        self.salary = cost
         self.specialists = list()
-        self.coordinates = coordinates
-
+        self.coordinates = locations_information[name]["coords"]
+        self.fail_rate = config["fail_rate"]
+        self.intervention_level = 0
+        self.intervention_list = []
 
     def add_team(self, team):
         ''' Adds a team to this location if there is enough space for them.
@@ -70,7 +82,6 @@ class Location(object):
         '''
         Calculates geographic distance between a site and the home location.
         '''
-        #TODO these distances are made up and need to be adjusted based on map scale
         distance = math.sqrt(math.pow(self.coordinates[0] - loc.coordinates[0], 2)+math.pow(self.coordinates[1] - loc.coordinates[1], 2))
         if distance >= 200:
             return global_distance["high"]
@@ -125,8 +136,16 @@ class Location(object):
         Returns whether one communication between the home site and a location will fail based on "global distance".
         '''
         d_glo = self.dist_g(loc)
-        p_fail = config["fail_rate"] * (d_glo / (1 + d_glo))
+        intervention_mod = self.intervention_level / 1 + self.intervention_level
+        p_fail = self.fail_rate * (d_glo / (1 + d_glo)) * intervention_mod
+
         if random.random() <= p_fail:
             return True
         return False
 
+    def intervention_add(self,name,level):
+        '''
+            Not to be called directly. Please use project.py's method instead.
+        '''
+        self.intervention_level += level
+        self.intervention_list.append(name)

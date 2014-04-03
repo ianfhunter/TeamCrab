@@ -16,8 +16,10 @@ config = {
         "budget_mod" : 1.25,
         # Penalty to score if project goes over budget
         "cash_penalty" : 1.25,
-        # Real-life seconds per game hour
-        "game_speed" : 0.4,
+        # Real-life seconds per game hour - Recommended minimum is 0.2 as issues with thread synchronization may occur below this level
+        "game_speed" : 0.5,
+        # How much a workers out put can vary by per hour +/-
+        "hourly variation" : 25,
         # Base likelihood value that a site will encounter a "problem" caused by the problem simulator
         # Used with global distance to adjust problem rates. 0.01 = 1%
         # Note: global distances influences the actual problem rate in conjunction with this rate

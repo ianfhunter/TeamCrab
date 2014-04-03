@@ -3,9 +3,8 @@ from global_config import config
 
 
 class Team(object):
-    def __init__(self, name, salary, size):
+    def __init__(self, name, size):
         self.name = name
-        self.salary = salary
         self.size = size
         self.module = None
         self.modules = list()

@@ -1,0 +1,57 @@
+{
+	"Name" : "3 sites - Worldwide traffic monitoring system",
+	"Budget" : 230000,
+	"Revenue Tier" : "High",
+	"Home location" : "Dublin",
+	"Locations" : [
+		{
+			"Name" : "Dublin",
+			"Culture" : "Irish",
+			"Capacity" : 20
+		},
+		{
+			"Name" : "Florida",
+			"Culture" : "American",
+			"Capacity" : 30
+		},
+		{
+			"Name" : "New Dehli",
+			"Culture" : "Indian",
+			"Capacity" : 30
+		}
+	],
+	"Teams" : [
+		{
+			"Name" : "Dublin Team",
+			"Size" : 10,
+			"Location" : "Dublin"
+		},
+		{
+			"Name" : "Florida Team",
+			"Size" : 25,
+			"Location" : "Florida"
+		},
+		{
+			"Name" : "New Dehli Team",
+			"Size" : 5,
+			"Location" : "New Dehli"
+		}
+	],
+	"Modules" : [
+		{
+			"Name" : "Traffic cam",
+			"Cost" : 600,
+			"Assigned Team" : "Dublin Team"
+		},
+		{
+			"Name" : "Backend infra",
+			"Cost" : 1200,
+			"Assigned Team" : "Florida Team"
+		},
+		{
+			"Name" : "UI",
+			"Cost" : 800,
+			"Assigned Team" : "New Dehli Team"
+		}
+	]
+}

@@ -21,16 +21,16 @@ class TestModule(unittest.TestCase):
         
         # Add placeholder locations, teams, modules to project
         m1 = Module.Module("Test Mod 1", 200)
-        t1 = Team.Team("TT", 1, 1)
+        t1 = Team.Team("TT", 1)
         t1.completed_modules = [m1]
-        l1 = Location.Location("TestL", None, None, None, 1, None)
+        l1 = Location.Location("Dublin", None, None)
         l1.teams = [t1]
         p.modules.append(m1)
         
         m2 = Module.Module("Test Mod 1", 100)
-        t2 = Team.Team("TT", 1, 1)
+        t2 = Team.Team("TT", 1)
         t2.completed_modules = [m2]
-        l2 = Location.Location("TestL", None, None, None, 123, None)
+        l2 = Location.Location("Florida", None, None)
         l2.teams = [t2]
         p.modules.append(m2)
         
@@ -54,15 +54,15 @@ class TestModule(unittest.TestCase):
          
         # Add placeholder locations, teams, modules to project
         m1 = Module.Module("Test Mod 1", 200)
-        t1 = Team.Team("TT", 1, 1)
+        t1 = Team.Team("TT", 1)
         t1.completed_modules = [m1]
-        l1 = Location.Location("TestL", None, None, None, 123, None)
+        l1 = Location.Location("Dublin", None, None)
         l1.teams = [t1]
         
         m2 = Module.Module("Test Mod 1", 100)
-        t2 = Team.Team("TT", 1, 1)
+        t2 = Team.Team("TT", 1)
         t2.completed_modules = [m2]
-        l2 = Location.Location("TestL", None, None, None, 123, None)
+        l2 = Location.Location("Florida", None, None)
         l2.teams = [t2]
         
         # Add these locations to the project

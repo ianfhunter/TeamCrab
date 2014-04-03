@@ -1,0 +1,117 @@
+{
+	"Name" : "7 sites - Worldwide toolchain development",
+	"Budget" : 250000,
+	"Revenue Tier" : "Medium",
+	"Home location" : "Dublin",
+	"Locations" : [
+		{
+			"Name" : "Rio de Janeiro",
+			"Culture" : "Brazilian",
+			"Capacity" : 20
+		},
+		{
+			"Name" : "Florida",
+			"Culture" : "American",
+			"Capacity" : 30
+		},
+		{
+			"Name" : "Toronto",
+			"Culture" : "Canadian",
+			"Capacity" : 30
+		},
+		{
+			"Name" : "Dublin",
+			"Culture" : "Irish",
+			"Capacity" : 20
+		},
+		{
+			"Name" : "Canberra",
+			"Culture" : "Australian",
+			"Capacity" : 30
+		},
+		{
+			"Name" : "Tokyo",
+			"Culture" : "Japanese",
+			"Capacity" : 20
+		},
+		{
+			"Name" : "Nuuk",
+			"Culture" : "Canadian",
+			"Capacity" : 25
+		}
+	],
+	"Teams" : [
+		{
+			"Name" : "Rio Team",
+			"Size" : 10,
+			"Location" : "Rio de Janeiro"
+		},
+		{
+			"Name" : "Florida Team",
+			"Size" : 25,
+			"Location" : "Florida"
+		},
+		{
+			"Name" : "Toronto Team",
+			"Size" : 15,
+			"Location" : "Toronto"
+		},
+		{
+			"Name" : "Dublin Team",
+			"Size" : 10,
+			"Location" : "Dublin"
+		},
+		{
+			"Name" : "Canberra Team",
+			"Size" : 25,
+			"Location" : "Canberra"
+		},
+		{
+			"Name" : "Tokyo Team",
+			"Size" : 20,
+			"Location" : "Tokyo"
+		},
+		{
+			"Name" : "Nuuk Team",
+			"Size" : 25,
+			"Location" : "Nuuk"
+		}
+	],
+	"Modules" : [
+		{
+			"Name" : "Frontend",
+			"Cost" : 600,
+			"Assigned Team" : "Rio Team"
+		},
+		{
+			"Name" : "Backend",
+			"Cost" : 1200,
+			"Assigned Team" : "Florida Team"
+		},
+		{
+			"Name" : "Assembler",
+			"Cost" : 600,
+			"Assigned Team" : "Toronto Team"
+		},
+		{
+			"Name" : "Disassembler",
+			"Cost" : 800,
+			"Assigned Team" : "Dublin Team"
+		},
+		{
+			"Name" : "Linker",
+			"Cost" : 600,
+			"Assigned Team" : "Canberra Team"
+		},
+		{
+			"Name" : "Debugger",
+			"Cost" : 1000,
+			"Assigned Team" : "Tokyo Team"
+		},
+		{
+			"Name" : "VM",
+			"Cost" : 600,
+			"Assigned Team" : "Nuuk Team"
+		}
+	]
+}

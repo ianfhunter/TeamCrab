@@ -3,17 +3,17 @@ from Task import Task
 import datetime
 from global_config import config
 
-def calculate_actual_cost(expected_cost):
+def calculate_actual_cost(expected_cost, variation):
     ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
     '''
-    amount = float(random.randint(-25, 25))
+    amount = float(random.randint(-variation, variation))
     return expected_cost * (1 + (amount / 100.0))
 
 class Module(object):
     def __init__(self, name, cost):
         self.name = name
         self.expected_cost = cost
-        self.actual_cost = calculate_actual_cost(cost)
+        self.actual_cost = calculate_actual_cost(cost, 25)
         self.original_actual_cost = self.actual_cost
         self.modules = list()
         self.tasks = list()
@@ -50,7 +50,7 @@ class Module(object):
         ''' Progress the module by the specified amount. This will progress tasks as necessary
         as well. If a task has reached its deadline then self.is_on_time will be updated appropriately.
         '''
-        self.progress += calculate_actual_cost(progress)
+        self.progress += calculate_actual_cost(progress, config["hourly variation"])
         
         # If the current task has completed then progress to the next task and place this one on the completed_tasks list
         if self.tasks:
