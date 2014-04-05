@@ -28,7 +28,6 @@ class Start_Screen:
             scenario_data = json.load(open(os.path.join(games_dir, scenario)))
             self.scenarios[scenario_data['Name']] = scenario
         self.sel_val = self.load_scenario(self.scenarios.itervalues().next())
-        self.sel_val.value = "wow"
 
         self.app = gui.App()
         self.app.connect(gui.QUIT, self.app.quit, None)
