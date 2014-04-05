@@ -28,6 +28,7 @@ class Start_Screen:
             scenario_data = json.load(open(os.path.join(games_dir, scenario)))
             self.scenarios[scenario_data['Name']] = scenario
         self.sel_val = self.load_scenario(self.scenarios.itervalues().next())
+        self.sel_val.value = "wow"
 
         self.app = gui.App()
         self.app.connect(gui.QUIT, self.app.quit, None)
@@ -104,7 +105,7 @@ class Start_Screen:
     def refresh_screen(self):
         ''' Updates the screen - but only the updated portion of it so we save
         on refreshing the entire screen.
-        
+
         @untestable - UI redrawing code.
         '''
         pygame.display.flip()
@@ -127,7 +128,7 @@ class Start_Screen:
         ''' Callback for changing scenarios with PGU select element'''
         if self.contain.find("scenario_details"):
             self.contain.remove(self.contain.find("scenario_details"))
-        
+
 
         my_list = gui.List(width=700,height=275,name="scenario_details")
         my_list.add(gui.Label("Scenario Details:"))
@@ -167,13 +168,13 @@ class Start_Screen:
     def draw_choices(self):
         ''' Takes different scenarios and puts them in the selection gui element '''
         bar_position = 160
-        if self.contain.widgets == []:            
+        if self.contain.widgets == []:
 
             #selection
             sel = gui.Select()
-            sel.value = 0
+            sel.value = self.scenarios.iteritems().next()[0]
             for label,filename in self.scenarios.iteritems():
-                sel.add(str(label))
+                sel.add(str(label), str(label))
             sel.connect(gui.CHANGE,self.update_scenario_choice ,sel)
             self.contain.add(sel, 205, bar_position )
 
@@ -193,7 +194,7 @@ class Start_Screen:
 
         self.screen.blit(pygame.image.load(self.config["start_background_path"]),(0,0))
         self.screen.blit(pygame.image.load(self.config["logo_path"]),(380,0))
-        
+
 
         font = pygame.font.Font(self.config["bellerose_font"], 40)
         label = font.render("Software Engineering Simulator", 1, (0, 0, 0))
