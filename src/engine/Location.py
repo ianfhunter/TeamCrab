@@ -136,7 +136,7 @@ class Location(object):
         Returns whether one communication between the home site and a location will fail based on "global distance".
         '''
         d_glo = self.dist_g(loc)
-        intervention_mod = self.intervention_level / 1 + self.intervention_level
+        intervention_mod = self.intervention_level / (1 + self.intervention_level)
         p_fail = self.fail_rate * (d_glo / (1 + d_glo)) * intervention_mod
 
         if random.random() <= p_fail:
