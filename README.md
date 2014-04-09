@@ -50,14 +50,15 @@ directory (it will create the bin directory first if it does not already exist).
 via the command "make run".
 
 The test target will build the project as outlined above and then perform the unit tests which are in the test directory.
-All tests are contained within the test/ directory and any items that cannot be tested have been listed in NOT_TESTED.csv and have corresponding reasons for their exclusion.
+All tests are contained within the test/ directory and any items that cannot be tested have been listed in NOT_TESTED.csv 
+and have corresponding reasons for their exclusion.
 
 The clean target deletes all the files in the bin directory.
 
 The install target will first build the project (using the build target). It will then copy all the .pyc files in the 
-bin directory into /opt/SESimulator_$(version). The inclusion of the version in the directory will allow for multiple
+bin directory into /opt/SESimulator_v$(version). The inclusion of the version in the directory will allow for multiple
 versions of the game to be installed alongside one another. So, for example release RC1_rc3 of the game will install
-to the directory /opt/SESimulator\_RC1\_rc3/. Next, the script SESimulator.sh in the src directory will be copied into
+to the directory /opt/SESimulator\_vRC1\_rc3/. Next, the script SESimulator.sh in the src directory will be copied into
 /usr/local/bin/ so that users on the machine can start the simulator simply by using the command "SESimulator". Root
 access is required to add files to opt/ and /usr/local/bin.
 
@@ -92,7 +93,8 @@ is in /bin and the game files to be in /bin/SE_sim then you could run:
 
 make install install_pyc_prefix=/bin/SE_sim install_sh_prefix=/bin
 
-Here the install_pyc_prefix value is the directory into which the SESimulator_$(version) directory containing all the game pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
+Here the install_pyc_prefix value is the directory into which the SESimulator_v$(version) directory containing all 
+the game pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
 Multiple versions of the game can be installed in this way. The --simv flag mentioned above can be used to access different
 versions of the game installed into the same directory.
 
@@ -156,9 +158,9 @@ file is as follows:
 }
 
 ```
-The three arrays for Locations, Teams and Modules each contain comma separated object of the appropriate kind of object.
+The three arrays for Locations, Teams and Modules each contain an array of the appropriate kind of object (comma separated).
 So for example, to add more Locations to the example above a user can simple add in a new object containing the Name,
-Culture and Capacity fields.
+Culture and Capacity fields. They will also need to add a comma after the previous object in the array.
 
 It is important to note that the Location field in each Team object must match the name of a Location exactly. The same
 can be said about the Assigned Team field in Module objects.
