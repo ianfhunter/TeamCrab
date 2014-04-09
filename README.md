@@ -74,7 +74,13 @@ has been run for all installed versions of the game, since this target will not 
 /opt.
 
 The run target will simply call "python bin/SESimulator.pyc" in the local directory. It can be used for quickly
-running a local build.
+running a local build. If the player wishes to run the game in this way, with command line arguments then
+these arguments can be passed to the game by setting the ARGS variable when running make. So for example,
+if the player wants to run the game with the --quiet and --failrate flags then they can run:
+
+```
+make ARGS="--quiet --failrate" run
+```
 
 Finally, the docs target will generate pydocs for the all source files in the src directory and place them
 into the docs directory.
