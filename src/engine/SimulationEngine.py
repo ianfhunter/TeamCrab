@@ -44,7 +44,7 @@ class SimulationEngine():
                         self.project.budget += config["developer_hourly_cost"] * team.size
                         team.calc_progress(self.gmt_time)
                         if team.module:
-                            if location.calc_fail(self.project.home_site):
+                            if location.calc_fail(self.project.home_site, self.cmd_args["F_SHOW"]):
                                 problem = team.module.add_problem()
                                 if problem and not self.cmd_args["P_SUPPRESS"]:
                                     print "Problem occured at", location.name

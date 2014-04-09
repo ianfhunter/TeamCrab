@@ -2,6 +2,7 @@ from Team import Team
 from global_config import cultures, config, global_distance
 import random
 import math
+import argparse
 
 locations_information = dict()
 locations_information['Dublin'] = {"coords" : (375,148), "timezone" : 0}
@@ -131,7 +132,7 @@ class Location(object):
         '''
         return self.geo_distance(loc) + self.temp_distance(loc) + self.cult_distance(loc)
 
-    def calc_fail(self, loc):
+    def calc_fail(self, loc,f_enabled):
         '''
         Returns whether one communication between the home site and a location will fail based on "global distance".
         '''
@@ -139,7 +140,9 @@ class Location(object):
         intervention_mod = float(self.intervention_level)/ float((1 + self.intervention_level))
 
         p_fail = self.fail_rate * (d_glo / (1 + d_glo)) * (1 - intervention_mod)
-        print p_fail ,"% "
+
+        if f_enabled:
+            print p_fail ,"% chance of failure"
 
         if random.random() <= p_fail:
             return True

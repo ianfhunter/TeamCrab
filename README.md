@@ -184,6 +184,7 @@ to generate html documentation use
   * IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
     * This is caused by the problem simulator feature - since a problem has occurred, the site's Actual Total Effort (the total effort necessary to complete this module) is increased and therefore can be outside the initial range of 75% - 125% of the estimate.
     * Further information about the game trace can be seen below. 
+  * If you wish to supress the process simulator's output at a later stage, -q or --quiet can be used to supress the debug output.
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
   * Green represents sites that are progressing at a rate that is satisfactory (not under 75% of estimated progress)
@@ -246,10 +247,12 @@ to generate html documentation use
 14. feature #16 - Intervention interface
   * similar setup to the inquiry interface. Open a window by selecting the desired site and clicking the intervene button.
   * Interventions have costs associated with them on four tiers - High, Med High, Med Low & Low
-  * They also have similar levels of impact. The levels of impact apply a modifier of (impact/1-impact) to the problem rate at a site.
+  * They also have similar levels of impact. The levels of impact apply a modifier of [1 -(impact/1-impact)] to the problem rate at a site.
   * Excluded interventions:
     1. 'Adopt Follow The Sun Development' as Follow the Sun Development was not an assigned feature
     2. 'Relocate to Adjacent Time Zone' as we agreed in the meeting that moving staff around was out of scope because of the additional time pressures
+  * To view the fail rate of sites, add -f or --failrate to the commandline call. By viewing this, you can view the changes that any interventions you apply make.
+
 
 15. feature #38 - Scenarios from JSON
   * TODO
