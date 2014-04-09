@@ -2,7 +2,7 @@
 A class that represents an intervention for a problem in the simulator.
 '''
 class Intervention(object):
-    def __init__(self, name, cost, impact):
+    def __init__(self, name, impact, cost):
         self.name = name
 
         if cost == "High":

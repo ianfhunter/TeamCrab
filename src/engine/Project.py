@@ -18,7 +18,7 @@ class Project():
         self.current_time = datetime.datetime(2014,1,1,0,0,0)
         self.total_estimated_effort = 0
         self.possible_interventions = [
-                         #Name             #Cost     #Impact
+                         #Name             #Impact     #Cost
             #Geo-Based
             Intervention("Exchange Program","High","Med High"),
             Intervention("Synchronous Communication Possibilities","Med High","Low"),
