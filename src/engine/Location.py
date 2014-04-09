@@ -137,6 +137,9 @@ class Location(object):
         '''
         d_glo = self.dist_g(loc)
         intervention_mod = self.intervention_level / (1 + self.intervention_level)
+        #John's formula doesnt account for no interventions
+        if intervention_mod == 0:
+            intervention_mod = 1
         p_fail = self.fail_rate * (d_glo / (1 + d_glo)) * intervention_mod
 
         if random.random() <= p_fail:
