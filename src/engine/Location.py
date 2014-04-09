@@ -34,7 +34,8 @@ class Location(object):
         self.intervention_list = []
 
     def add_team(self, team):
-        ''' Adds a team to this location if there is enough space for them.
+        ''' 
+        Adds a team to this location if there is enough space for them.
         Returns true if the team was added, false otherwise.
         '''
         if team.size + self.current_size > self.capacity:
@@ -46,12 +47,14 @@ class Location(object):
 
 
     def num_teams(self):
-        ''' Returns the number of teams at this location.
+        ''' 
+        Returns the number of teams at this location.
         '''
         return len(self.teams)
 
     def total_module_progress(self):
-        ''' Returns the total progress of all modules assigned to teams in this location.
+        ''' 
+        Returns the total progress of all modules assigned to teams in this location.
         '''
         total = 0
         for team in self.teams:
@@ -60,7 +63,8 @@ class Location(object):
         return total
 
     def num_modules_on_schedule(self):
-        ''' Returns the number of modules being performed by teams at this location that are "on time".
+        ''' 
+        Returns the number of modules being performed by teams at this location that are "on time".
         '''
         total = 0
         for team in self.teams:
@@ -71,7 +75,7 @@ class Location(object):
 
     def num_modules(self):
         '''
-        Returns the number of active modules in this location.
+        Returns the number of active (currently running) modules at this location.
         '''
         total = 0
         for team in self.teams:
@@ -81,7 +85,7 @@ class Location(object):
 
     def geo_distance(self, loc):
         '''
-        Calculates geographic distance between a site and the home location.
+        Calculates geographic distance between a site and the location passed in as argument loc.
         '''
         distance = math.sqrt(math.pow(self.coordinates[0] - loc.coordinates[0], 2)+math.pow(self.coordinates[1] - loc.coordinates[1], 2))
         if distance >= 200:
@@ -94,7 +98,7 @@ class Location(object):
 
     def temp_distance(self, loc):
         '''
-        Returns the temporal distance between a location and the home location.
+        Returns the temporal distance between a location and the location passed in as argument loc.
         '''
         temporal = abs(self.time_zone - loc.time_zone)
         if temporal > 12:
@@ -109,7 +113,7 @@ class Location(object):
 
     def cult_distance(self, loc):
         '''
-        Returns the cultural distance between a location and the home location.
+        Returns the cultural distance between a location and the location passed in as argument loc.
         '''
         culture = 0.0
         if cultures[self.culture][1] != cultures[loc.culture][1]:
@@ -128,13 +132,15 @@ class Location(object):
 
     def dist_g(self, loc):
         '''
-        Global distance: the sum of the geographical, temporal and cultural difference between a location and the home site.
+        Global distance: the sum of the geographical, temporal and cultural difference between this location
+        and the location passed in as argument loc.
         '''
         return self.geo_distance(loc) + self.temp_distance(loc) + self.cult_distance(loc)
 
     def calc_fail(self, loc,f_enabled):
         '''
-        Returns whether one communication between the home site and a location will fail based on "global distance".
+        Returns whether one communication between this location and the location passed in as argument loc
+        will fail based on "global distance".
         '''
         d_glo = self.dist_g(loc)
         intervention_mod = float(self.intervention_level)/ float((1 + self.intervention_level))
@@ -150,7 +156,8 @@ class Location(object):
 
     def intervention_add(self,name,level):
         '''
-            Not to be called directly. Please use project.py's method instead.
+        *** DO NOT call this function directly. Please use project.py's method instead. ***
+        Adds an intervention with name and level to this sites list of interventions.
         '''
         self.intervention_level += level
         self.intervention_list.append(name)
