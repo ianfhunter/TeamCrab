@@ -1,5 +1,5 @@
 .PHONY: all test clean install uninstall
-version = RC2_rc2
+version = RC2_rc3
 install_pyc_prefix = /opt
 install_sh_prefix = /usr/local/bin
 
