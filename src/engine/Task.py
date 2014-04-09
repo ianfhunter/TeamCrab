@@ -1,5 +1,3 @@
-from Problem import Problem
-
 class Task(object):
     '''
     Represents a task, a sub-part of a Module (as described in the backlog).
