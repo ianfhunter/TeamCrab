@@ -113,7 +113,7 @@ class Start_Screen:
         ''' Callback for changing scenarios with PGU select element
         @untestable - UI redrawing code.
         '''
-        self.sel_val = self.load_scenario(self.scenarios[selection.value.value])
+        self.sel_val = self.load_scenario(self.scenarios[selection.value])
 
 
 
