@@ -13,8 +13,20 @@ The project uses python 2.7 to run. The following packages are required and can 
 * python-nose
 * python-pip
 
+You can install these requirements by running the following on Ubuntu:
+
+```
+sudo apt-get install python python-pygame python-nose python-pip
+```
+
 The following can be installed using pip:
 * pgu
+
+You can install this requirement by running the following on Ubuntu:
+
+```
+sudo pip install pgu
+```
 
 While it is not required for running the game, installing "timidity" through apt will remove the "No sound card" message 
 that some players receive at the start of the game.
