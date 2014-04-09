@@ -234,7 +234,8 @@ to generate html documentation use
      5.  Visit the site - All sites provide accurate list of completed, on-schedule, and late tasks
 
 11. Feature #37 - Time Penalty
-  * Make time penalty 50% of original cost
+  * Made time penalty 50% of original cost
+  * TODO: how to observe this feature in action?
 
 12. Feature #36 - Detailed site visit report
   * Problems in the Inquiry Interface now list their Module & Task on which they have occurred.
