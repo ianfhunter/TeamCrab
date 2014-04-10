@@ -10,7 +10,7 @@ class Inquiry:
     ''' Class used for drawing the Inquiry UI.
 
     @untestable - Just draws UI elements onscreen, makes no sense to test.
-    ''''
+    '''
     def __init__(self, screen, config, project, site):
         self.config = config
         self.project = project
