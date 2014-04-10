@@ -71,8 +71,13 @@ class EndGame:
         # Budget calculations
         expected_budget = report["expected_budget"]
         actual_budget= report["actual_budget"]
+        penalty = report["budget_penalty"]
         label = font.render("Budget (estimate/actual): $" + str(expected_budget) + 
             " / $" + str(actual_budget), 1, (0, 0, 0))
+        if penalty > 0:
+             label = font.render("Budget (estimate/actual): $" + str(expected_budget) + 
+                " / $" + str(actual_budget + penalty) + " (Actual spend of $" + 
+                str(actual_budget) + " + penalty $" + str(penalty) +")", 1, (0, 0, 0))
         self.screen.blit(label, (80, 180))
 
         # Revenue calculations

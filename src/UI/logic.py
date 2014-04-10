@@ -38,8 +38,11 @@ def generate_report(project):
     report["days_behind_schedule"] = project.days_behind_schedule()
     report["expected_budget"] = project.expected_budget()
     report["actual_budget"] = project.actual_budget()
-    if report["actual_budget"] < 0:
-            report["actual_budget"] *= config["cash_penalty"]
+    report["budget_penalty"] = 0
+    if report["actual_budget"] > report["expected_budget"]:
+            over = report["actual_budget"] - report["expected_budget"]
+            penalty = over * config["cash_penalty"]
+            report["budget_penalty"] = penalty - over
     report["expected_revenue"] = project.expected_revenue()
     report["actual_revenue"] = project.actual_revenue()
     report["endgame_cash"] = project.game_score()
