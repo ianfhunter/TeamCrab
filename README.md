@@ -255,7 +255,7 @@ to generate html documentation use
   * TODO
 
 16. Feature #35 - Optimistic budget calculation 
-  * TODO
+  * Estimated budget is now calculated as sum of the total estimated hours to complete each module * hourly developer rate (set in global config) * budget modifier (Also set in global config). 
 
 
 
