@@ -180,6 +180,7 @@ Locations should be selected from the following list:
   * Tokyo
   * Nuuk
   * New Dehli
+
 Cultures should be selected from the following list: 
   * Irish
   * American
@@ -189,6 +190,7 @@ Cultures should be selected from the following list:
   * Australian
   * Brazilian
   * Belarusian
+
 Additional cultures can be added in the global config. 
 
 ## Documentation
