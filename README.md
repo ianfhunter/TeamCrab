@@ -289,7 +289,11 @@ to generate html documentation use
   * Excluded interventions:
     1. 'Adopt Follow The Sun Development' as Follow the Sun Development was not an assigned feature
     2. 'Relocate to Adjacent Time Zone' as we agreed in the meeting that moving staff around was out of scope because of the additional time pressures
-  * To view the fail rate of sites, add -f or --failrate to the command line call. By viewing this, you can view the changes that any interventions you apply make.
+  * To view the fail rate of sites, add -f or --failrate to the command line call to the Python script. By viewing this, you can view the changes that any interventions you apply make.
+  * NOTE: If running the game from the repository directory with make run, you can add command-line flags to Python as follows:
+```
+make run ARGS=--failrate
+```
 
 15. feature #38 - Scenarios from JSON
   * All game scenarios live in the games directory at the root of the repository.
@@ -332,7 +336,7 @@ This is caused by the problem simulator feature and is not an error in game logi
 
 ## Untested functions
 
-Functions and classes that are untested for legitimate reasons (calls to external libraries, UI drawing functions, for example) are marked with the @untestable attribute in their documentation string. An example of this would be:
+Functions and classes that are untested for legitimate reasons (wrappers to calls to external libraries, UI drawing functions, for example) are marked with the @untestable attribute in their documentation string. An example of this would be:
 
 ```
 '''
