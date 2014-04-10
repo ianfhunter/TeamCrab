@@ -148,7 +148,7 @@ class Location(object):
         p_fail = self.fail_rate * (d_glo / (1 + d_glo)) * (1 - intervention_mod)
 
         if f_enabled:
-            print p_fail ,"% chance of failure"
+            print p_fail ,"% chance of failure at site: ", self.name
 
         if random.random() <= p_fail:
             return True
