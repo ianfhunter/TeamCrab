@@ -13,8 +13,20 @@ The project uses python 2.7 to run. The following packages are required and can 
 * python-nose
 * python-pip
 
+You can install these requirements by running the following on Ubuntu:
+
+```
+sudo apt-get install python python-pygame python-nose python-pip
+```
+
 The following can be installed using pip:
 * pgu
+
+You can install this requirement by running the following on Ubuntu:
+
+```
+sudo pip install pgu
+```
 
 While it is not required for running the game, installing "timidity" through apt will remove the "No sound card" message 
 that some players receive at the start of the game.
@@ -38,14 +50,15 @@ directory (it will create the bin directory first if it does not already exist).
 via the command "make run".
 
 The test target will build the project as outlined above and then perform the unit tests which are in the test directory.
-All tests are contained within the test/ directory and any items that cannot be tested have been listed in NOT_TESTED.csv and have corresponding reasons for their exclusion.
+All tests are contained within the test/ directory and any items that cannot be tested have been listed in NOT_TESTED.csv 
+and have corresponding reasons for their exclusion.
 
 The clean target deletes all the files in the bin directory.
 
 The install target will first build the project (using the build target). It will then copy all the .pyc files in the 
-bin directory into /opt/SESimulator_$(version). The inclusion of the version in the directory will allow for multiple
+bin directory into /opt/SESimulator_v$(version). The inclusion of the version in the directory will allow for multiple
 versions of the game to be installed alongside one another. So, for example release RC1_rc3 of the game will install
-to the directory /opt/SESimulator\_RC1\_rc3/. Next, the script SESimulator.sh in the src directory will be copied into
+to the directory /opt/SESimulator\_vRC1\_rc3/. Next, the script SESimulator.sh in the src directory will be copied into
 /usr/local/bin/ so that users on the machine can start the simulator simply by using the command "SESimulator". Root
 access is required to add files to opt/ and /usr/local/bin.
 
@@ -62,7 +75,13 @@ has been run for all installed versions of the game, since this target will not 
 /opt.
 
 The run target will simply call "python bin/SESimulator.pyc" in the local directory. It can be used for quickly
-running a local build.
+running a local build. If the player wishes to run the game in this way, with command line arguments then
+these arguments can be passed to the game by setting the ARGS variable when running make. So for example,
+if the player wants to run the game with the --quiet and --failrate flags then they can run:
+
+```
+make ARGS="--quiet --failrate" run
+```
 
 Finally, the docs target will generate pydocs for the all source files in the src directory and place them
 into the docs directory.
@@ -74,7 +93,8 @@ is in /bin and the game files to be in /bin/SE_sim then you could run:
 
 make install install_pyc_prefix=/bin/SE_sim install_sh_prefix=/bin
 
-Here the install_pyc_prefix value is the directory into which the SESimulator_$(version) directory containing all the game pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
+Here the install_pyc_prefix value is the directory into which the SESimulator_v$(version) directory containing all 
+the game pyc files will be placed. The install_sh_prefix value is the directory into which the SESimulator script will be placed.
 Multiple versions of the game can be installed in this way. The --simv flag mentioned above can be used to access different
 versions of the game installed into the same directory.
 
@@ -104,8 +124,8 @@ Each file must contain a class which inherits from unittest.TestCase as shown. T
 provided by the Python unittest framework. The setUp function must be provided to initialize any values required by each
 test in this class. Every method that is a unittest must begin with "test_"
 
-## Writing default scenarios
-All default scenarios are in the games directory in the root of the repository. New scenarios can be written by creating
+## Writing scenarios
+All scenarios are in the games directory in the root of the repository. New scenarios can be written by creating
 a new .json file. The file should contain a single JSON object representing the project as a whole. The format for the 
 file is as follows:
 ```json
@@ -138,14 +158,18 @@ file is as follows:
 }
 
 ```
-The three arrays for Locations, Teams and Modules each contain comma separated object of the appropriate kind of object.
+The three arrays for Locations, Teams and Modules each contain an array of the appropriate kind of object (comma separated).
 So for example, to add more Locations to the example above a user can simple add in a new object containing the Name,
-Culture and Capacity fields.
+Culture and Capacity fields. They will also need to add a comma after the previous object in the array.
 
 It is important to note that the Location field in each Team object must match the name of a Location exactly. The same
 can be said about the Assigned Team field in Module objects.
 
 Once a new scenario has been created, it should be available in game immediately.
+
+It should be noted that if a player is running an installed version of the game (as opposed to a locally built version in the bin directory 
+of the repository), then they will need to edit their scenario in the games directory, wherever the game has been installed. Otherwise, a 
+full re-installation of the game will be required to get at the new scenarios.
 
 ## Documentation
 Documentation is generated by Pydoc. 
@@ -184,6 +208,7 @@ to generate html documentation use
   * IMPORTANT NOTE: If a site's "Actual Total Effort" exceeds 125% of its "Expected Total Effort", this is because a PROBLEM has occurred at that site.
     * This is caused by the problem simulator feature - since a problem has occurred, the site's Actual Total Effort (the total effort necessary to complete this module) is increased and therefore can be outside the initial range of 75% - 125% of the estimate.
     * Further information about the game trace can be seen below. 
+  * If you wish to supress the process simulator's output at a later stage, -q or --quiet can be used to supress the debug output.
 3. Feature #6 - Status display
   * Once the program is launched with a selected senario, the status screen is shown.
   * Green represents sites that are progressing at a rate that is satisfactory (not under 75% of estimated progress)
@@ -246,13 +271,20 @@ to generate html documentation use
 14. feature #16 - Intervention interface
   * similar setup to the inquiry interface. Open a window by selecting the desired site and clicking the intervene button.
   * Interventions have costs associated with them on four tiers - High, Med High, Med Low & Low
-  * They also have similar levels of impact. The levels of impact apply a modifier of (impact/1-impact) to the problem rate at a site.
+  * They also have similar levels of impact. The levels of impact apply a modifier of [1 -(impact/1-impact)] to the problem rate at a site.
   * Excluded interventions:
     1. 'Adopt Follow The Sun Development' as Follow the Sun Development was not an assigned feature
     2. 'Relocate to Adjacent Time Zone' as we agreed in the meeting that moving staff around was out of scope because of the additional time pressures
+  * To view the fail rate of sites, add -f or --failrate to the commandline call. By viewing this, you can view the changes that any interventions you apply make.
+
 
 15. feature #38 - Scenarios from JSON
-  * TODO
+  * All game scenarios live in the games directory at the root of the repository.
+  * The section called "Writing scenarios" above outlines how scenarios should be written in the JSON format.
+  * Once a scenario has been written or modified, it should be available in the game as soon as the file has been saved.
+  * It should be noted that if a player is running an installed version of the game (as opposed to a locally built version in the bin directory 
+    of the repository), then they will need to edit their scenario in the games directory, wherever the game has been installed. Otherwise, a 
+    full re-installation of the game will be required to get at the new scenarios.
 
 16. Feature #35 - Optimistic budget calculation 
   * Estimated budget is now calculated as sum of the total estimated hours to complete each module * hourly developer rate (set in global config) * budget modifier (Also set in global config). 

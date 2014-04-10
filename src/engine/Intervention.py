@@ -28,6 +28,9 @@ class Intervention(object):
             self.impact = 0
 
     def get_cost(self):
+        '''
+        Returns the cost of this intervention in terms of cash
+        '''
         if self.cost == 1:
             return 5000
         if self.cost == 2:

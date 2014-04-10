@@ -5,6 +5,11 @@ import datetime
 from global_config import config
 
 class Project():
+    '''
+    This class represents a full project in the simulator engine.
+    This includes all information related to teams, locations, modules, budget, and so.
+    It is the top level object used by the simulator for representing a project.
+    '''
     def __init__(self, name, method, budget, revenue_tier):
         self.name = name
         self.development_method = method
@@ -37,6 +42,10 @@ class Project():
         ]
 
     def calc_nominal_schedule(self):
+        '''
+        Calculates the nominal schedule for this project and sets self.delivery_date to the
+        calculated date and time.
+        '''
         if self.development_method == 'Agile':
             project_deadline = self.start_time
             for location in self.locations:
@@ -50,25 +59,30 @@ class Project():
             self.delivery_date = project_deadline
 
     def days_behind_schedule(self):
-        # Returns a number of days late, divide by 30 to get number of months late
+        '''
+        Returns the number of days that this project is behind schedule.
+        '''
         delta = self.current_time - self.delivery_date
         days_late = delta.days
         return days_late 
 
     def game_score(self):
+        '''
+        Calculates the game score for this project based on the formula given in the backlog.
+        '''
         score_cash = self.cash
         if score_cash < 0:
             score_cash *= config["cash_penalty"]
         return int(score_cash + self.actual_revenue())
 
-    # From email:
-    # expected_budget =
-    #  [sum(module estimated effort) /  (avg_developer_effort_day * num_developers)] * 1.24
-    # NOTE: IMPORTANT - This calculation doesn't take into account developer wages
-    # An adjustment was made below to account for this, rounding up a day.
     def expected_budget(self):
         '''
-        Calculates expected budget.
+        Calculates the expected budget for this project.
+
+        From an email:
+            expected_budget = [sum(module estimated effort) /  (avg_developer_effort_day * num_developers)] * 1.24
+            NOTE: IMPORTANT - This calculation doesn't take into account developer wages
+            An adjustment was made below to account for this, rounding up a day.
 
         @untestable -  This relies on a value from the global config which is likely to change often so it cannot be veried properly.
         '''
@@ -81,16 +95,22 @@ class Project():
 
 
     def actual_budget(self):
+        '''
+        Returns the actual budget for this project.
+        '''
         return self.budget
 
-    # From e-mail:
-    # expected_revenue = expected_early_revenue / 2
     def expected_revenue(self):
+        '''
+        Returns the expected revenue of this project.
+        '''
         return self.expected_yearly_revenue / 2
 
-    # From e-mail:
-    # actual_revenue = (6 - num_months_late) * (expected_yearly_revenue/12)
     def actual_revenue(self):
+        '''
+        Returns the actual revenue of this project.
+        Actual revenue is calculated as a function of the expected revenue and the number of days the project is late.
+        '''
         num_months_late = self.days_behind_schedule() * 12.0 / 365.0
         actual_revenue = (6 - num_months_late) * (self.expected_yearly_revenue / 12.0)
         return int(actual_revenue*100) / 100.0
@@ -98,18 +118,17 @@ class Project():
 
     def add_intervention(self,location_name, intervention_type):
         ''' 
-            Adds an intervention to a site, meaning problem rates are lowered
-            
-            Intervention Costs are subtracted from Current Cash.
-            Intervention Impact is added to intervention_level which increases the intervention_modifier when caclulating failures.
+        Adds an intervention to a site, meaning problem rates are lowered
+        
+        Intervention Costs are subtracted from Current Cash.
+        Intervention Impact is added to intervention_level which increases the intervention_modifier when caclulating failures.
 
-            Lvl  Name        Cost       Impact
-            0    None        $0         +0
-            1    Low         $5,000     +1
-            2    Med Low     $25,000    +2
-            3    Med High    $125,000   +3
-            4    High        $500,000   +4
-
+        Lvl  Name        Cost       Impact
+        0    None        $0         +0
+        1    Low         $5,000     +1
+        2    Med Low     $25,000    +2
+        3    Med High    $125,000   +3
+        4    High        $500,000   +4
         '''
         for intervention in self.possible_interventions:
             #Get our intervention

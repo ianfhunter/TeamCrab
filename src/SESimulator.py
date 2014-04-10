@@ -58,6 +58,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Software Engineering Simulator')
     parser.add_argument('-q','--quiet', help='supress process simulator logging',action='store_true')
+    parser.add_argument('-f','--failrate', help='show fail rate of each location',action='store_true')
     args = vars(parser.parse_args())
 
     cmd_args = {}
@@ -65,6 +66,12 @@ def main():
     if args["quiet"]:
         cmd_args["P_SUPPRESS"] = True
         print "Process Simulator is being supressed. Remove -q/--quiet to show"
+
+    cmd_args["F_SHOW"] = False
+    if args["failrate"]:
+        cmd_args["F_SHOW"] = True
+        print "Fail rate of each location is being show. Remove -f/--failrate to supress"
+
 
     #create our window
     screen = pygame.display.set_mode((config["screenX"], config["screenY"]))

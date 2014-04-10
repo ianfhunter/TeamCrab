@@ -4,12 +4,16 @@ import datetime
 from global_config import config
 
 def calculate_actual_cost(expected_cost, variation):
-    ''' Returns the actual cost of a module based on a random variation between 75% and 125%.
+    '''
+    Returns the actual cost of a module based on a random variation between 75% and 125%.
     '''
     amount = float(random.randint(-variation, variation))
     return expected_cost * (1 + (amount / 100.0))
 
 class Module(object):
+    '''
+    This class represents a module (made up of tasks) in the simulator engine.
+    '''
     def __init__(self, name, cost):
         self.name = name
         self.expected_cost = cost
@@ -38,7 +42,8 @@ class Module(object):
         self.problems_occured = list() # A list of all problems that have occured for this module
 
     def get_task(self, name):
-        ''' Returns the task object which matches the name specified if it exists, None otherwise.
+        '''
+        Returns the task object which matches the name specified if it exists, None otherwise.
         '''
         tasks = [task for task in self.tasks if task.name == name]
         if tasks:
@@ -47,7 +52,8 @@ class Module(object):
             return None
 
     def progress_module(self, progress, current_time):
-        ''' Progress the module by the specified amount. This will progress tasks as necessary
+        '''
+        Progress the module by the specified amount (arguemnt called progress). This will progress tasks as necessary
         as well. If a task has reached its deadline then self.is_on_time will be updated appropriately.
         '''
         self.progress += calculate_actual_cost(progress, config["hourly variation"])
@@ -67,8 +73,9 @@ class Module(object):
                 self.is_on_time = False
         
     def calc_deadline(self, start_date, team_size, work_day_start):
-        ''' Calculates the deadline for this module and stores it in self.deadline
-        This also sets the deadlines for all tasks in this module
+        '''
+        Calculates the deadline for this module and stores it in self.deadline.
+        This also sets the deadlines for all tasks in this module.
         '''
         self.start_date = start_date
         self.assigned_team_size = team_size
@@ -85,14 +92,20 @@ class Module(object):
         self.deadline = self.tasks[-1].deadline
 
     def wall_clock_time(self):
+        '''
+        Returns the total wall clock time for this module.
+        '''
         return self.total_hours
 
     def productive_time_on_task(self):
+        '''
+        Returns the total productive time spent on this module.
+        '''
         return self.hours_taken
 
     def add_problem(self):
         '''
-        Adds a problem to this task.
+        Adds a problem to this task depending on what task is currently being worked on.
 
         @untestable - There is a random element involved which cannot be controlled and will effect the output of the function.
         '''
