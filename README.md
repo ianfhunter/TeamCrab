@@ -209,6 +209,7 @@ to generate html documentation use
     * This is caused by the problem simulator feature - since a problem has occurred, the site's Actual Total Effort (the total effort necessary to complete this module) is increased and therefore can be outside the initial range of 75% - 125% of the estimate.
     * Further information about the game trace can be seen below. 
   * If you wish to suppress the process simulator's output at a later stage, -q or --quiet can be used to suppress the debug output.
+
 3. Feature #6 - Status display
   * Once the program is launched with a selected scenario, the status screen is shown.
   * Green represents sites that are progressing at a rate that is satisfactory (not under 75% of estimated progress)
@@ -218,11 +219,13 @@ to generate html documentation use
   * Changes between colours indicate a change in status information in line with the above statuses.
   * Sites are clickable to view more detailed information about a site.
   * Clicking the ? in the top-right shows detailed information about what the colours of sites mean. you can close the window with the X in the top right corner.
+
 4. Feature #20 - Default scenarios
   * To choose a provided scenario, launch the game and select one from the drop down list.
   * To inspect a chosen scenario, press the Details button to see information about the sites, modules and more.
   * To start the game press the Select button
   * If no scenario is selected, the default scenario is the first item in the drop down list.
+
 5. Feature #14 - End of game report 
   * Start the game with any chosen game file.
   * Wait until the end of the game.
@@ -230,25 +233,31 @@ to generate html documentation use
   * Estimated Staff time is the optimum number of hours it would take to to complete 1 person to complete all modules based on the  estimated effort needed for each of them. 
   * Actual staff time is the actual number of hours it would take 1 person to complete all modules. 
   * Wall clock time is the total number of hours from the start of a module to the its completion (Note: a sum of these for each module will not match how long the project took over all as some modules can be being performed in parallel.
+  * If at the end of the game the project has gone over budget a penalty will be applied as set by cash_penalty in the global config. This penalty is only applied to the amount the project when over by (so if estimated budget was 100000 and 100100 was actually spent a penalty would be applied to the 100, by default of 25% causing a penalty of $25. This is broken down in the report showing total actual budget, How much was actually spent and the penalty. 
+
 6. Feature #5 - Nominal schedule calculator
    * The nominal deadline is the sum of all the efforts estimated for each module, divided by a default developer-period effort value.
    * This figure is calculated at the start of the game and can be seen in the bottom bar of the main game screen. It can also be seen in the end game summary so a user can compare their own time to it
    * Each scenario has its own nominal deadline
+
 7. Feature #3 - Game score calc. 
   * Play a game through until the end-game screen.
   * Your game score is shown.
   * Game score is calculated by "score = remaining_budget + [(6 - number_of_months_behind_schedule) * (yearly_revenue / 12)]".
+
 8. Feature #8 - Module Completion calc.
   * When a module is set up, its base cost is taken and modified by up to +/-25% of its base cost.
   * This is shown in the game trace as the variation between Expected Total Cost and Actual Total Cost.
   * It is also shown in the end game screen with Estimated Cost and Actual Cost.
   * NOTE: the Problem Simulator can further modify the Actual Cost resulting in a variation of greater then 25%
+
 9. Feature #11 - Problem Simulator
   * Start the game with one of the sample scenarios.
   * By its nature, this feature is difficult to inspect since it runs in the background as part of the game engine.
   * If a problem occurs, the site at which it occurs will be reported in the console trace, as well as the nature 
     of the problem. e.g. Problem occurred at Belarus Problem: Module failed to deploy properly
   * Depending on the nature of the problem, the Actual Cost of the module will be increased by the appropriate amount. 
+
 10. Feature #7 - Inquiry Interface
   * To open the inquiry interface, click the 'inquiries' button in the bottom right corner.
   * Select a site to give inquiries to by clicking on the text links
@@ -281,7 +290,6 @@ to generate html documentation use
     1. 'Adopt Follow The Sun Development' as Follow the Sun Development was not an assigned feature
     2. 'Relocate to Adjacent Time Zone' as we agreed in the meeting that moving staff around was out of scope because of the additional time pressures
   * To view the fail rate of sites, add -f or --failrate to the command line call. By viewing this, you can view the changes that any interventions you apply make.
-
 
 15. feature #38 - Scenarios from JSON
   * All game scenarios live in the games directory at the root of the repository.
