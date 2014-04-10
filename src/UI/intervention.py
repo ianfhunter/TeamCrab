@@ -5,6 +5,11 @@ from pgu import gui
 from time import sleep
 
 class Intervention:
+    '''
+    Class which draws the UI for the Interventions in the game.
+
+    @untestable - entire class just draws UI elements onscreen, no game logic here.
+    '''
     def __init__(self, screen, config, project, site):
         self.config = config
         self.project = project
@@ -23,6 +28,8 @@ class Intervention:
 
     def choose_intervention_site(self,site):
         '''
+        Selects site at which to do an intervention.
+
         @untestable - function manipulates user interface, makes no sense to test.
         '''
         self.intervention_site = site
@@ -54,12 +61,21 @@ class Intervention:
         pygame.display.update()
 
     def button_option(self,intervention_name,activity):
+        '''
+        Creates a PGU Button class, binding an activity to its CLICK event.
+
+        @untestable - Just draws UI elements onscreen, makes no sense to test.
+        '''
         button = gui.Button(intervention_name)
         button.connect(gui.CLICK, self.do_intervention,activity)
         return button
 
-
     def perform_intervention(self, type):
+        '''
+        Performs an intervention of type "type" to the site selected.
+
+        @untestable - Just draws UI elements onscreen, makes no sense to test.
+        '''
         site = self.intervention_site
         self.project.add_intervention(site.name, type)
         intervention_result = [gui.Label("Did an intervention: {}".format(type))] ## gui.Label

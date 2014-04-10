@@ -1,7 +1,10 @@
 .PHONY: all test clean install uninstall
-version = RC2_rc2
+version = RC2_rc3
 install_pyc_prefix = /opt
 install_sh_prefix = /usr/local/bin
+
+all:
+	$(MAKE) test
 
 build:
 	python -m compileall src
@@ -13,7 +16,6 @@ build:
 	chmod a+x bin/SESimulator.pyc
 	@echo Build successful!
 
-all:
 test:
 	$(MAKE) build
 	@nosetests -I ^notunit_ -I importme.py -w test engine UI; if [ $$? -eq 0 ] ; \
@@ -47,7 +49,7 @@ uninstall-script:
 	rm $(install_sh_prefix)/SESimulator
 
 run:
-	python bin/SESimulator.pyc
+	python bin/SESimulator.pyc ${ARGS}
 
 docs:
 	cd src; pydoc -w ./

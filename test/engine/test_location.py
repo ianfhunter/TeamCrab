@@ -200,25 +200,25 @@ class TestLocation(unittest.TestCase):
         location1 = Location('Dublin', "Irish", 30)
         location2 = Location('Florida', "American", 30)
 
-        failed = location1.calc_fail(location2)
+        failed = location1.calc_fail(location2,False)
         self.assertTrue(failed == True or failed == False)
 
         location3 = Location('Canberra', "Australian", 30)
         location4 = Location('Toronto', "Canadian", 30)
 
-        failed = location3.calc_fail(location4)
+        failed = location3.calc_fail(location4,False)
         self.assertTrue(failed == True or failed == False)
 
         location5 = Location('Rio de Janeiro', "Brazilian", 30)
         location6 = Location('New Dehli', "Indian", 30)
 
-        failed = location5.calc_fail(location6)
+        failed = location5.calc_fail(location6,False)
         self.assertTrue(failed == True or failed == False)
 
         location7 = Location('New Dehli', "Indian", 30)
         location8 = Location('Tokyo', "Japanese", 30)
 
-        failed = location7.calc_fail(location8)
+        failed = location7.calc_fail(location8,False)
         self.assertTrue(failed == True or failed == False)
 
     def test_intervention_add(self):

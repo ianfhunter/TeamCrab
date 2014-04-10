@@ -1,12 +1,16 @@
 import pygame
 import random
-import json 
+import json
 from pgu import gui
 from time import sleep
 
 import ctypes
 
 class Inquiry:
+    ''' Class used for drawing the Inquiry UI.
+
+    @untestable - Just draws UI elements onscreen, makes no sense to test.
+    '''
     def __init__(self, screen, config, project, site):
         self.config = config
         self.project = project
@@ -15,7 +19,7 @@ class Inquiry:
         self.app.connect(gui.QUIT, self.app.quit, None)
         self.contain = gui.Container(width=self.config["screenX"],
                                      height=self.config["screenY"])
-    
+
         self.inquiry_site = site
         self.inquiry_type = None
 
@@ -186,7 +190,7 @@ class Inquiry:
                                     if team.module.is_on_time:
                                         inquiry_result.append(gui.Label("We are on schedule."))
                                     else:
-                                        inquiry_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                        inquiry_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))
 
                                         # #Problems
                                         # inquiry_result.append(gui.Label("Problems:"))
@@ -196,9 +200,9 @@ class Inquiry:
                         #List your completed tasks.
                         if self.inquiry_type == "list_c_tasks":
                             inquiry_result.append(gui.Label("Completed Tasks:"))
-                            
+
                             #Completed Modules.
-                            for module in team.completed_modules:                                
+                            for module in team.completed_modules:
                                 for task in module.completed_tasks:
                                     inquiry_result.append(gui.Label(module.name + " - " + task.name))
 
@@ -219,7 +223,7 @@ class Inquiry:
                         if self.inquiry_type == "video_conf":
                             #Completed Modules
                             inquiry_result.append(gui.Label("Completed Tasks:"))
-                            for module in team.completed_modules:                                
+                            for module in team.completed_modules:
                                 for task in module.completed_tasks:
                                     inquiry_result.append(gui.Label(module.name + " - " + task.name))
 
@@ -243,9 +247,9 @@ class Inquiry:
                                         inquiry_result.append(gui.Label("We are on schedule for the current task: " + team.module.name + " - " + team.module.tasks[0].name))
                                     else:
                                         if team.module.is_on_time:
-                                            inquiry_result.appendd(gui.Label("We are on schedule for the current task : " + team.module.name + " - " + team.module.tasks[0].name)) 
+                                            inquiry_result.appendd(gui.Label("We are on schedule for the current task : " + team.module.name + " - " + team.module.tasks[0].name))
                                         else:
-                                            inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                            inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))
                                             #Problems
                                             inquiry_result.append(gui.Label("Problems for module " + team.module.name + ":"))
                                             for prob in team.module.problems_occured:
@@ -253,9 +257,9 @@ class Inquiry:
                                 #Honest Culture
                                 else:
                                     if team.module.is_on_time:
-                                        inquiry_result.append(gui.Label("We are on schedule for the current task: " + team.module.name + " - " + team.module.tasks[0].name)) 
+                                        inquiry_result.append(gui.Label("We are on schedule for the current task: " + team.module.name + " - " + team.module.tasks[0].name))
                                     else:
-                                        inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                        inquiry_result.append(gui.Label("We are delayed for the current task: " + team.module.name + " - " + team.module.tasks[0].name +" & experiencing " + str(len(team.module.problems_occured)) + " problems." ))
                                         #Problems
                                         inquiry_result.append(gui.Label("Problems for module " + team.module.name + ":"))
                                         for prob in team.module.problems_occured:
@@ -264,7 +268,7 @@ class Inquiry:
 
                         if self.inquiry_type == "visit":
                             inquiry_result.append(gui.Label("Completed Tasks:"))
-                            for module in team.completed_modules:                                
+                            for module in team.completed_modules:
                                 for task in module.completed_tasks:
                                     inquiry_result.append(gui.Label(module.name + " - " + task.name))
 
@@ -279,9 +283,9 @@ class Inquiry:
                                         inquiry_result.append(gui.Label(team.module.name + " - " + task.name))
 
                                 if team.module.is_on_time:
-                                    inquiry_result.append(gui.Label("On schedule for the current task - "  + team.module.name)) 
+                                    inquiry_result.append(gui.Label("On schedule for the current task - "  + team.module.name))
                                 else:
-                                    inquiry_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))                                           
+                                    inquiry_result.append(gui.Label("We are delayed & experiencing " + str(len(team.module.problems_occured)) + " problems." ))
                                     #Problems
                                     inquiry_result.append(gui.Label("Problems for module " + team.module.name + ":"))
                                     for prob in team.module.problems_occured:

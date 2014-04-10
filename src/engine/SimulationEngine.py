@@ -11,7 +11,10 @@ from UI import game
 from global_config import config
 
 class SimulationEngine():
-    ''' @untestable - Would require running an entire scenario in the game to test
+    '''
+    This is the main backend engine for the entire game.
+
+    @untestable - Would require running an entire scenario in the game to test
     '''
     def __init__(self):
         # gmt_time is represented as a list [hours, day, month, year]
@@ -21,7 +24,8 @@ class SimulationEngine():
         self.game_obj = None
 
     def all_finished(self):
-        ''' Returns True when all modules in all modules have completed, False otherwise
+        '''
+        Returns True when all tasks in all modules have completed, False otherwise
         '''
         for module in self.project.modules:
             if not module.completed:
@@ -29,7 +33,8 @@ class SimulationEngine():
         return True
 
     def calc_progress(self):
-        ''' This function calculates the progress of each module assigned to each team 
+        '''
+        This function calculates the progress of each module assigned to each team 
         if the team is currently working. A team is considered to be working from 
         9:00 for a number of hours based on "developer_daily_effort".
         '''
@@ -44,7 +49,7 @@ class SimulationEngine():
                         self.project.budget += config["developer_hourly_cost"] * team.size
                         team.calc_progress(self.gmt_time)
                         if team.module:
-                            if location.calc_fail(self.project.home_site):
+                            if location.calc_fail(self.project.home_site, self.cmd_args["F_SHOW"]):
                                 problem = team.module.add_problem()
                                 if problem and not self.cmd_args["P_SUPPRESS"]:
                                     print "Problem occured at", location.name
@@ -60,7 +65,8 @@ class SimulationEngine():
 
 
     def progress_time(self):
-        ''' This function is called every x seconds to "progress" the game by 1 hour.
+        '''
+        This function is called every x seconds to "progress" the game by 1 hour.
         '''
         self.gmt_time += datetime.timedelta(hours=1)
 
@@ -79,7 +85,8 @@ class SimulationEngine():
 
 
     def run_engine(self, game, proj,c_args):
-        ''' Runs the backend engine for the game.
+        '''
+        Runs the backend engine for the game.
         '''
         self.cmd_args = c_args
         self.project = proj
@@ -97,7 +104,13 @@ class SimulationEngine():
             sleep(1)
 
     def pause(self):
+        '''
+        Pause the game.
+        '''
         self.timer.stop()
 
     def resume(self):
+        '''
+        Resume the game after being paused.
+        '''
         self.timer.start()
