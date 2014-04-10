@@ -26,15 +26,20 @@ class EndGame:
     def refresh_screen(self):
         '''
         Refreshes the endgame screen.
+
+        @untestable - Just draws UI elements on screen.
         '''
         pygame.display.flip()
 
     def draw_endgame(self):
-        ''' Shows the user the end game stats and generates a report.'''
+        ''' Shows the user the end game stats and generates a report.
+
+        @untestable - Just draws UI elements onscreen.
+        '''
         report = logic.generate_report(self.project)
         logic.write_endgame_json(report)
 
-        font = self.font 
+        font = self.font
         monofont = self.monofont
         bellerose_font = self.bellerose_font
 
@@ -72,18 +77,18 @@ class EndGame:
         expected_budget = report["expected_budget"]
         actual_budget= report["actual_budget"]
         penalty = report["budget_penalty"]
-        label = font.render("Budget (estimate/actual): $" + str(expected_budget) + 
+        label = font.render("Budget (estimate/actual): $" + str(expected_budget) +
             " / $" + str(actual_budget), 1, (0, 0, 0))
         if penalty > 0:
-             label = font.render("Budget (estimate/actual): $" + str(expected_budget) + 
-                " / $" + str(actual_budget + penalty) + " (Actual spend of $" + 
+             label = font.render("Budget (estimate/actual): $" + str(expected_budget) +
+                " / $" + str(actual_budget + penalty) + " (Actual spend of $" +
                 str(actual_budget) + " + penalty $" + str(penalty) +")", 1, (0, 0, 0))
         self.screen.blit(label, (80, 180))
 
         # Revenue calculations
         expected_revenue = report["expected_revenue"]
         actual_revenue = report["actual_revenue"]
-        label = font.render("Revenue (estimate/actual): $" + str(expected_revenue) + 
+        label = font.render("Revenue (estimate/actual): $" + str(expected_revenue) +
             " / $" + str(actual_revenue), 1, (0, 0, 0))
         self.screen.blit(label, (80, 200))
 
@@ -99,7 +104,7 @@ class EndGame:
 
             # We need to empty the container's widgets before adding updated ones or else
             # pgu will draw the new ones over the old ones.
-            self.contain.widgets = []    
+            self.contain.widgets = []
             self.contain.add(my_list, 0, 200)
             self.app.init(self.contain)
             self.app.paint(self.screen)
@@ -111,7 +116,9 @@ class EndGame:
     def draw(self):
         '''
         Draws the endgame screen.
-        '''
+
+        @untestable - Just draws UI elements onscreen.
+         '''
         while(True):
             # Draw background
             padding = 20

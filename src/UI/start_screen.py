@@ -14,7 +14,13 @@ from engine.RevenueTier import LowRevenueTier, MediumRevenueTier, HighRevenueTie
 this_dir = os.path.dirname(__file__)
 root_dir = os.path.join(this_dir, '../..')
 games_dir = os.path.join(root_dir, 'games/')
+
 class Start_Screen:
+    '''
+    Class representing the start screen UI of a game.
+
+    @untestable - This class just draws UI elements onscreen.
+    '''
     def __init__(self, game_config,screen):
         self.config = game_config
         self.selected_site = None
@@ -36,6 +42,9 @@ class Start_Screen:
         self.font = pygame.font.SysFont("Helvetica", 15)
 
     def load_scenario(self, scenario):
+        '''
+        Loads a scenario from JSON into the game engine.
+        '''
         project_data = json.load(open(os.path.join(games_dir, scenario)))
 
         # Get the revenue tier for the project. Assumed to be low if not specified or incorrectly specified
@@ -85,7 +94,8 @@ class Start_Screen:
 
     def run(self):
         '''Handles all input events and goes to sleep.
-        @untestable
+
+        @untestable - UI code, no game logic.
         '''
         self.complete = False
         self.draw()
@@ -116,15 +126,13 @@ class Start_Screen:
         self.sel_val = self.load_scenario(self.scenarios[selection.value])
 
 
-
-    '''
-    Displays info about the selected scenario so users can make more informed choices
-    This is UI code and untestable
-
-    @untestable
-    '''
     def show_scenario(self):
-        ''' Callback for changing scenarios with PGU select element'''
+        '''
+        Displays info about the selected scenario so users can make more informed choices
+        This is UI code and untestable
+
+        @untestable
+        '''
         if self.contain.find("scenario_details"):
             self.contain.remove(self.contain.find("scenario_details"))
 
@@ -141,31 +149,23 @@ class Start_Screen:
                 for module in team.modules:
                     my_list.add(gui.Label("            Module - "+ module.name + " [" + str(module.expected_cost) + " Expected Cost (Person Hours)]"))
 
-
-
-
         self.contain.add(my_list,70,190)
         self.app.init(self.contain)
 
-
-
-    '''
-    Flags that the start screen setup is completed.
-    Simple attribute setter so not tested.
-
-    '''
     def complete_setup(self):
+        '''
+        Flags that the start screen setup is completed.
+
+        @untestable - Simple attribute setter so not tested.
+        '''
         self.complete = True
         return
 
-    '''
-    Draws the possible scenarios onscreen in a selection box.
-
-    This is UI code and untestable.
-    @untestable
-    '''
     def draw_choices(self):
-        ''' Takes different scenarios and puts them in the selection gui element '''
+        ''' Takes different scenarios and puts them in the selection gui element
+
+        @untestable - This is UI code and untestable.
+        '''
         bar_position = 160
         if self.contain.widgets == []:
 
@@ -190,10 +190,8 @@ class Start_Screen:
             #scrolls
             self.app.init(self.contain)
 
-
         self.screen.blit(pygame.image.load(self.config["start_background_path"]),(0,0))
         self.screen.blit(pygame.image.load(self.config["logo_path"]),(380,0))
-
 
         font = pygame.font.Font(self.config["bellerose_font"], 40)
         label = font.render("Software Engineering Simulator", 1, (0, 0, 0))
@@ -203,18 +201,14 @@ class Start_Screen:
         label = font.render("Scenarios:", 1, (0, 0, 0))
         self.screen.blit(label, (85, bar_position -25))
 
-
         self.app.paint(self.screen)
 
-        #select APP
 
-    '''
-    Draws the start screen onscreen.
-
-    This is UI code and untestable.
-    '''
     def draw(self):
-        ''' Redraws all of the map screen. '''
+        ''' Redraws all of the map screen.
+
+        @untestable - UI code.
+        '''
         pygame.draw.rect(self.screen, self.config["background_colour"],
                          (0, 0, self.config["screenX"],self.config["screenY"]))
         self.draw_choices()

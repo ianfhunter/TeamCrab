@@ -1,17 +1,19 @@
 import json
-import copy
-from global_config import config 
+from global_config import config
 
 
 def total_person_hours(project):
     '''
-    Calculates the total estimated and actual person hours of effort expended in a project `project'.
+    Calculates the total estimated and actual person hours of effort
+    expended in a project `project'.
     '''
     total_estimated = project.total_estimated_effort
     total_actual = project.actual_budget() / config["developer_hourly_cost"]
     return (int(total_estimated), int(total_actual))
 
-def report_table_line(team, module, size, estimate, actual, cost, wall, productive):
+
+def report_table_line(team, module, size, estimate, actual,
+                      cost, wall, productive):
     '''
     Formats a line of the endgame report dump.
     '''
@@ -25,6 +27,7 @@ def report_table_line(team, module, size, estimate, actual, cost, wall, producti
     s += str(wall) + (" " * (13 - len(str(wall))))
     s += str(productive)
     return s
+
 
 def generate_report(project):
     '''
@@ -49,8 +52,11 @@ def generate_report(project):
 
     # Generate table to compare estimated/actual effort broken down by module
     effort_table = []
-    effort_table.append(['Team', 'Module', 'Team', 'Expected Effort', 'Actual Effort  ', 'Module', 'Wall clock', 'Staff Time'])
-    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',       '(man hrs)  ',     'Cost $', 'time (hrs)', 'time (hrs)'])
+    effort_table.append(['Team', 'Module', 'Team', 'Expected Effort',
+                         'Actual Effort  ', 'Module', 'Wall clock',
+                         'Staff Time'])
+    effort_table.append(['Name', 'Name',   'Size', '(man hrs)',
+                         '(man hrs)  ', 'Cost $', 'time (hrs)', 'time (hrs)'])
     total_estimated = 0
     total_actual = 0
     for location in project.locations:
@@ -60,25 +66,27 @@ def generate_report(project):
                 actual = int(module.actual_cost)
                 wall = module.wall_clock_time()
                 productive = module.productive_time_on_task() * team.size
-                dollars = int(productive * config["developer_hourly_cost"] )
-                effort_table.append([team.name, module.name, team.size, expected, actual, dollars, wall, productive])
+                dollars = int(productive * config["developer_hourly_cost"])
+                effort_table.append([team.name, module.name, team.size,
+                                     expected, actual, dollars, wall,
+                                     productive])
                 total_estimated += expected
                 total_actual += actual
     # Add totals row
     # effort_table.append(["Total", "Total", total_estimated, total_actual])
-    
+
     report["effort_table"] = effort_table
-    
+
     return report
+
 
 def write_endgame_json(report):
     '''
     Writes the endgame report, given a report `report'
-    
-    @untestable - This function is just a call to the python standard library and thus makes no sense to test.
+
+    @untestable - This function is just a call to the python standard
+    library and thus makes no sense to test.
     '''
 
     outfile = open('report.json', 'w')
     outfile.write(json.dumps(report, indent=4))
-
-
